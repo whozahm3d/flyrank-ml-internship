@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-08-03T23:22:40.908202+00:00",
+  "dataset_rows": 30000,
+  "base_rate_down": 0.5421,
+  "top_priority_k": 6690,
+  "top_priority_missing_provider_share_any": 0.5377,
+  "top_priority_missing_provider_flag_share": 0.5311,
+  "top_priority_weak_client_share": 0.0072,
+  "avg_position_zero_share": 0.0402,
+  "ctr_gap_midposition_in_topk_rate": 0.1564,
+  "low_demand_page_in_topk_rate": 0.1288,
+  "validated_precision_at_k": 0.648,
+  "validated_precision_at_k_source": "w05/w06 held-out-client split, seed=42, K=1523",
+  "review_hours_estimate_current_policy": 495.6
+}
