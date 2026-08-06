@@ -1,6 +1,8 @@
 # Capstone Summary — AI Referral Opportunity Scoring
 
-*Working reference for ML-11 (Ship the Paper) and ML-12 (Tell the Story). Not a submitted deliverable itself — pulls together findings scattered across the capstone notebook's 7 sections into one place.*
+*Working reference for ML-11 (Ship the Paper) and ML-12 (Tell the Story). Not a submitted deliverable itself — pulls together findings scattered across the capstone notebook's 9 sections into one place.*
+
+**Notebook structure (post-renumbering):** 1. Abstract → 2. Question → 3. Data → 4. Methodology → 5. Results (vs. baseline) → 6. Limitations → 7. Ranked recommendations → 8. Artifacts / Reproducibility (includes References subsection) → 9. Acknowledgments & Data Credit. Closing cells below Section 9 hold the ML-12 deliverables (5-minute demo outline + shareable cuts).
 
 ## Question
 
@@ -37,8 +39,8 @@ Among pages with strong organic search visibility, which ones resemble pages tha
 
 - Base rate (2.20%, 3-month window) undershoots the 90-day reference (6.43%) — expected direction, not directly comparable in magnitude.
 - Train/test label-rate gap only partially resolved (2.34%/1.39% after stratification) — structural ceiling from having only 39 clients, one of which holds ~half of all positives.
-- Result not statistically distinguishable from naive baseline (see Results).
-- **Two independently-discovered client-metadata staleness issues** (both distinct from ML-04's `access_profile` anomaly): 6 of 39 clients (42,734 articles) have zero GSC signal despite passing eligibility filters; one of those six has a `gsc_data_start` value that contradicts its complete absence of GSC data.
+- **Within-client score beats naive baseline — NUANCED.** Consistent directionally across K=100–2000, but not statistically confirmed: a paired bootstrap (client-level resampling) gives a 95% CI of [-4.60pp, +3.20pp] on the win margin — includes zero, only 58.5% of resamples favored the scored approach (see Results).
+- **Two client-metadata staleness issues — NEW FINDING, not anticipated at lane-lock.** Distinct from ML-04's `access_profile` anomaly, found independently while diagnosing Section 7's (formerly Section 6's) `insufficient_data` clients: 6 of 39 eligible clients (42,734 articles) have zero GSC signal (`gsc_data_available = False`) across the entire window, despite passing Section 3's eligibility filters; one of those six also has a `gsc_data_start` value that contradicts the complete absence of GSC data.
 - 12 articles have real `sessions_ai` activity despite zero GSC impressions (4 also missing `word_count`) — direct evidence the two GSC-derived features cannot explain all AI-referral activity.
 - No causal claims possible anywhere in this work — associations only.
 - Single non-seasonal 3-month window; no trend or seasonality claims possible.
@@ -48,17 +50,17 @@ Among pages with strong organic search visibility, which ones resemble pages tha
 - 335 `high_opportunity` candidates across 35 of 39 eligible clients (capped at 10/client to prevent concentration from dominating output), exported to `work/outputs/capstone_ranked_recommendations.csv`.
 - Reason codes: `high_opportunity` (12,126 articles) / `established_ai_source` (5,839) / `insufficient_data` (42,734 — the 6 zero-GSC clients) / `low_signal` (205,476).
 - Framed explicitly as candidates for human review, not validated predictions, given the Results section's significance finding.
+- **"How to use this list" subsection** (Why/How/Expected/Measure format): (1) review `high_opportunity` candidates for restructuring — explicitly caveated as not a guaranteed lift, given the unconfirmed significance result; (2) treat `established_ai_source` pages as reference examples for that client, not action items.
 
 ## Presentation additions (not new analysis)
- 
+
 - **Chart-read captions** added under all figures in Results, Limitations, and Ranked recommendations — one line each, explaining what to look for.
 - **Finding tags** (NUANCED / NEW FINDING) applied to the two most important qualifying results: the within-client score's unconfirmed win, and the two metadata-staleness discoveries.
 - **References subsection** added to Section 8 (Artifacts/Reproducibility), linking ML-01 through ML-05 notebooks as the direct lineage this capstone builds on.
 - These were deliberately kept as style/structure only — no new datasets, features, or claims were added to match the scope of the external FlyRank portfolio report reviewed for inspiration.
 
-
 ## ML-12 Status
- 
+
 - **Demo outline + shareable cuts:** done, committed as closing markdown cells in `capstone.ipynb`.
 - **Case-study framing in Abstract:** done — added a sentence explicitly naming the real FlyRank problem (no existing tool for AI-referral content prioritization) directly in Section 1 (Abstract), not left implicit in Section 2 only.
 - **Live deployment:** blocked on ML-11 — ML-12's deliverable requires the paper's case-study framing to be *live at the deployed URL*, so full submission waits until the paper is shipped.
