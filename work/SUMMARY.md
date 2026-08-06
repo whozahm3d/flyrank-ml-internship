@@ -49,6 +49,20 @@ Among pages with strong organic search visibility, which ones resemble pages tha
 - Reason codes: `high_opportunity` (12,126 articles) / `established_ai_source` (5,839) / `insufficient_data` (42,734 — the 6 zero-GSC clients) / `low_signal` (205,476).
 - Framed explicitly as candidates for human review, not validated predictions, given the Results section's significance finding.
 
+## Presentation additions (not new analysis)
+ 
+- **Chart-read captions** added under all figures in Results, Limitations, and Ranked recommendations — one line each, explaining what to look for.
+- **Finding tags** (NUANCED / NEW FINDING) applied to the two most important qualifying results: the within-client score's unconfirmed win, and the two metadata-staleness discoveries.
+- **References subsection** added to Section 8 (Artifacts/Reproducibility), linking ML-01 through ML-05 notebooks as the direct lineage this capstone builds on.
+- These were deliberately kept as style/structure only — no new datasets, features, or claims were added to match the scope of the external FlyRank portfolio report reviewed for inspiration.
+
+
+## ML-12 Status
+ 
+- **Demo outline + shareable cuts:** done, committed as closing markdown cells in `capstone.ipynb`.
+- **Case-study framing in Abstract:** done — added a sentence explicitly naming the real FlyRank problem (no existing tool for AI-referral content prioritization) directly in Section 1 (Abstract), not left implicit in Section 2 only.
+- **Live deployment:** blocked on ML-11 — ML-12's deliverable requires the paper's case-study framing to be *live at the deployed URL*, so full submission waits until the paper is shipped.
+
 ## Key numbers for paper text (keep consistent)
 
 - Eligible articles: 266,175 | Base rate: 2.20% (5,851 positive)
