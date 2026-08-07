@@ -7,33 +7,47 @@
 <meta name="description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity, beats a naive baseline on point estimate — and an honest bootstrap test shows the win isn't yet statistically confirmed.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F1F1EA;
-    --paper-raised:#FAFAF6;
-    --ink:#1B1F1B;
-    --ink-soft:#565B52;
-    --rule:#D8D6C9;
-    --accent:#2E5580;
-    --accent-soft:#DCE6EE;
-    --flag:#A15A1D;
-    --flag-soft:#F1E2CF;
-    --max:720px;
+    --paper:#F1F0E6;
+    --paper-raised:#FAFAF3;
+    --ink:#191D19;
+    --ink-soft:#5A5F55;
+    --ink-faint:#8B9084;
+    --rule:#D6D2C0;
+    --rule-strong:#B9B6A4;
+    --accent:#1F6F5C;
+    --accent-dark:#154A3E;
+    --accent-soft:#DCEBE4;
+    --accent-line:#1F6F5C55;
+    --flag:#AA4A1F;
+    --flag-soft:#F1E0D0;
+    --gold:#9C7A22;
+    --gold-soft:#EFE6C9;
+    --max:730px;
+    --wide:900px;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
     background:var(--paper);
+    background-image:
+      linear-gradient(var(--rule) 1px, transparent 1px);
+    background-size: 100% 34px;
+    background-attachment:local;
     color:var(--ink);
     font-family:'Inter',system-ui,sans-serif;
     font-size:17px;
     line-height:1.65;
     -webkit-font-smoothing:antialiased;
   }
-  a{color:var(--accent);}
-  a:visited{color:var(--accent);}
+  /* the ruled-paper texture should only breathe behind hero, not fight body copy */
+  body{background-image:none;}
+
+  a{color:var(--accent-dark);text-underline-offset:2px;}
+  a:visited{color:var(--accent-dark);}
 
   .eyebrow{
     font-family:'IBM Plex Mono',monospace;
@@ -51,10 +65,10 @@
 
   /* ---------- layout shell ---------- */
   .shell{
-    max-width:1180px;
+    max-width:1220px;
     margin:0 auto;
     display:grid;
-    grid-template-columns:220px 1fr;
+    grid-template-columns:230px 1fr;
     gap:0;
   }
   nav.rail{
@@ -70,13 +84,23 @@
     font-family:'Fraunces',serif;
     font-weight:600;
     font-size:15px;
-    margin-bottom:28px;
+    margin-bottom:6px;
     display:block;
   }
-  nav.rail ol{list-style:none;margin:0;padding:0;}
-  nav.rail li{margin-bottom:2px;}
-  nav.rail a{
+  nav.rail .brand .q{
     display:block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:var(--accent);
+    letter-spacing:0.06em;
+    margin-top:4px;
+  }
+  nav.rail ol{list-style:none;margin:26px 0 0;padding:0;}
+  nav.rail li{margin-bottom:1px;}
+  nav.rail a{
+    display:flex;
+    gap:8px;
+    align-items:baseline;
     font-family:'IBM Plex Mono',monospace;
     font-size:12.5px;
     color:var(--ink-soft);
@@ -85,58 +109,81 @@
     border-radius:3px;
     border-left:2px solid transparent;
   }
+  nav.rail a .n{color:var(--ink-faint);font-size:11px;}
   nav.rail a:hover, nav.rail a.active{
     color:var(--ink);
     border-left:2px solid var(--accent);
     background:var(--paper-raised);
   }
-  main{padding:0 40px 100px;min-width:0;}
+  nav.rail a.active .n{color:var(--accent);}
+  main{padding:0 44px 100px;min-width:0;}
 
   .mobile-nav{display:none;}
 
   /* ---------- hero ---------- */
   .hero{
-    padding:64px 0 40px;
+    padding:60px 0 36px;
     border-bottom:1px solid var(--rule);
-    max-width:var(--max);
+    max-width:var(--wide);
+    position:relative;
   }
-  .hero h1{font-size:38px;margin:14px 0 18px;}
+  .query-bar{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    color:var(--accent-dark);
+    background:var(--accent-soft);
+    border:1px solid var(--accent-line);
+    padding:7px 14px;
+    border-radius:20px;
+    margin-bottom:20px;
+  }
+  .query-bar::before{
+    content:"⌕";
+    font-size:14px;
+    font-weight:700;
+  }
+  .hero h1{font-size:39px;margin:0 0 18px;max-width:19ch;}
   .hero .dek{
-    font-size:19px;
+    font-size:18.5px;
     color:var(--ink-soft);
-    max-width:60ch;
-    margin:0 0 32px;
+    max-width:62ch;
+    margin:0 0 30px;
   }
   .tension{
     display:flex;
     gap:0;
-    border:1px solid var(--rule);
+    border:1px solid var(--rule-strong);
     background:var(--paper-raised);
-    border-radius:6px;
+    border-radius:8px;
     overflow:hidden;
   }
   .tension .cell{
     flex:1;
     padding:20px 22px;
+    position:relative;
   }
   .tension .cell + .cell{border-left:1px solid var(--rule);}
   .tension .num{
     font-family:'Fraunces',serif;
     font-weight:600;
-    font-size:30px;
+    font-style:italic;
+    font-size:31px;
     display:block;
     line-height:1;
   }
-  .tension .num.accent{color:var(--accent);}
-  .tension .num.flag{color:var(--flag);}
+  .tension .num.accent{color:var(--accent-dark);}
+  .tension .num.flag{color:var(--flag);font-style:normal;font-size:22px;}
   .tension .lbl{
     font-family:'IBM Plex Mono',monospace;
     font-size:11.5px;
-    letter-spacing:0.04em;
+    letter-spacing:0.03em;
     color:var(--ink-soft);
     text-transform:uppercase;
     display:block;
-    margin-top:6px;
+    margin-top:7px;
   }
   .ci-glyph{
     font-family:'IBM Plex Mono',monospace;
@@ -146,9 +193,10 @@
   /* ---------- sections ---------- */
   section{
     max-width:var(--max);
-    padding:56px 0;
+    padding:52px 0;
     border-bottom:1px solid var(--rule);
   }
+  section.wide{max-width:var(--wide);}
   section:last-of-type{border-bottom:none;}
   section h2{
     font-size:27px;
@@ -165,7 +213,7 @@
     background:var(--paper-raised);
     border:1px solid var(--rule);
     border-left:3px solid var(--accent);
-    border-radius:4px;
+    border-radius:5px;
     padding:16px 20px;
     margin:20px 0;
     font-size:15.5px;
@@ -183,7 +231,7 @@
     vertical-align:1px;
   }
   .tag.nuanced{background:var(--flag-soft);color:var(--flag);}
-  .tag.newfind{background:var(--accent-soft);color:var(--accent);}
+  .tag.newfind{background:var(--accent-soft);color:var(--accent-dark);}
 
   figure{margin:28px 0;}
   figure img{
@@ -191,8 +239,8 @@
     display:block;
     background:var(--paper-raised);
     border:1px solid var(--rule);
-    border-radius:6px;
-    padding:8px;
+    border-radius:8px;
+    padding:10px;
   }
   figcaption{
     font-size:14px;
@@ -211,7 +259,7 @@
   }
   th,td{
     text-align:left;
-    padding:8px 10px;
+    padding:9px 10px;
     border-bottom:1px solid var(--rule);
     font-family:'IBM Plex Mono',monospace;
     font-size:13px;
@@ -226,6 +274,7 @@
   }
   tr.hl td{background:var(--accent-soft);font-weight:600;}
   td.num, th.num{text-align:right;}
+  tbody tr:hover td{background:var(--paper-raised);}
 
   .stat-row{
     display:flex;
@@ -236,7 +285,7 @@
   .stat{
     flex:1 1 140px;
     border:1px solid var(--rule);
-    border-radius:6px;
+    border-radius:8px;
     padding:14px 16px;
     background:var(--paper-raised);
   }
@@ -254,6 +303,127 @@
     letter-spacing:0.03em;
   }
 
+  /* ---------- funnel bar (reason codes, real numbers) ---------- */
+  .funnel{
+    display:flex;
+    width:100%;
+    height:38px;
+    border-radius:6px;
+    overflow:hidden;
+    border:1px solid var(--rule-strong);
+    margin:22px 0 10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+  }
+  .funnel .seg{
+    display:flex;align-items:center;justify-content:center;
+    color:var(--paper-raised);
+    white-space:nowrap;
+    overflow:hidden;
+  }
+  .funnel .seg.low{background:var(--ink-faint);}
+  .funnel .seg.insuff{background:var(--rule-strong);color:var(--ink-soft);}
+  .funnel .seg.high{background:var(--accent);}
+  .funnel .seg.est{background:var(--gold);}
+  .funnel-legend{
+    display:flex;flex-wrap:wrap;gap:16px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;color:var(--ink-soft);
+    margin-bottom:22px;
+  }
+  .funnel-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .funnel-legend i{width:9px;height:9px;border-radius:2px;display:inline-block;}
+  .funnel-legend i.low{background:var(--ink-faint);}
+  .funnel-legend i.insuff{background:var(--rule-strong);}
+  .funnel-legend i.high{background:var(--accent);}
+  .funnel-legend i.est{background:var(--gold);}
+
+  /* ---------- SERP-style ranked candidate list (signature element) ---------- */
+  .serp{
+    border:1px solid var(--rule-strong);
+    border-radius:10px;
+    background:var(--paper-raised);
+    overflow:hidden;
+    margin:24px 0;
+  }
+  .serp-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 18px;
+    background:var(--accent-soft);
+    border-bottom:1px solid var(--rule-strong);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--accent-dark);
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .serp-row{
+    display:grid;
+    grid-template-columns:34px 1fr auto;
+    gap:14px;
+    align-items:center;
+    padding:13px 18px;
+    border-bottom:1px solid var(--rule);
+  }
+  .serp-row:last-child{border-bottom:none;}
+  .serp-rank{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:19px;
+    color:var(--ink-faint);
+  }
+  .serp-main .id{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--ink);
+  }
+  .serp-main .id .client{color:var(--accent-dark);}
+  .serp-main .meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-top:3px;
+  }
+  .serp-score{
+    text-align:right;
+    min-width:96px;
+  }
+  .serp-score .bar-track{
+    width:90px;
+    height:5px;
+    background:var(--rule);
+    border-radius:3px;
+    overflow:hidden;
+    margin-bottom:5px;
+    margin-left:auto;
+  }
+  .serp-score .bar-fill{
+    height:100%;
+    background:var(--accent);
+    border-radius:3px;
+  }
+  .serp-score .val{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+
+  .brand-credit{
+    display:inline-flex;
+    align-items:center;
+    background:var(--ink);
+    border-radius:8px;
+    padding:16px 22px;
+    margin-bottom:18px;
+  }
+  .brand-credit img{
+    height:22px;
+    display:block;
+  }
+
   footer{
     max-width:var(--max);
     padding:48px 0 80px;
@@ -261,6 +431,8 @@
     font-size:14.5px;
   }
   footer a{font-weight:600;}
+
+  ::selection{background:var(--accent-soft);color:var(--accent-dark);}
 
   @media (max-width:880px){
     .shell{grid-template-columns:1fr;}
@@ -287,10 +459,17 @@
       border-radius:4px;
       color:var(--ink);
     }
-    .hero{padding:36px 0 28px;}
-    .hero h1{font-size:29px;}
+    .hero{padding:34px 0 26px;}
+    .hero h1{font-size:28px;}
     .tension{flex-direction:column;}
     .tension .cell + .cell{border-left:none;border-top:1px solid var(--rule);}
+    .serp-row{grid-template-columns:26px 1fr;}
+    .serp-score{grid-column:1/-1;text-align:left;margin-top:4px;}
+    .serp-score .bar-track{margin-left:0;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
   }
 </style>
 </head>
@@ -313,23 +492,23 @@
 
 <div class="shell">
   <nav class="rail" id="rail">
-    <span class="brand">AI Referral<br>Opportunity Scoring</span>
+    <span class="brand">AI Referral<br>Opportunity Scoring<span class="q">query: "restructure for AI referral"</span></span>
     <ol>
-      <li><a href="#abstract">1 · Abstract</a></li>
-      <li><a href="#question">2 · Problem</a></li>
-      <li><a href="#data">3 · Data</a></li>
-      <li><a href="#methodology">4 · Methodology</a></li>
-      <li><a href="#results">5 · Results</a></li>
-      <li><a href="#limitations">6 · Limitations</a></li>
-      <li><a href="#recommendations">7 · Recommendations</a></li>
-      <li><a href="#reproducibility">8 · Reproducibility</a></li>
-      <li><a href="#acknowledgments">9 · Acknowledgments</a></li>
+      <li><a href="#abstract"><span class="n">01</span>Abstract</a></li>
+      <li><a href="#question"><span class="n">02</span>Problem</a></li>
+      <li><a href="#data"><span class="n">03</span>Data</a></li>
+      <li><a href="#methodology"><span class="n">04</span>Methodology</a></li>
+      <li><a href="#results"><span class="n">05</span>Results</a></li>
+      <li><a href="#limitations"><span class="n">06</span>Limitations</a></li>
+      <li><a href="#recommendations"><span class="n">07</span>Recommendations</a></li>
+      <li><a href="#reproducibility"><span class="n">08</span>Reproducibility</a></li>
+      <li><a href="#acknowledgments"><span class="n">09</span>Acknowledgments</a></li>
     </ol>
   </nav>
 
   <main>
     <div class="hero">
-      <span class="eyebrow">FlyRank ML Internship · Capstone Research Paper</span>
+      <span class="query-bar">FlyRank ML Engineering Internship · Capstone Research Paper</span>
       <h1>Which pages are worth restructuring for AI-referral traffic?</h1>
       <p class="dek">A within-client normalized score ranks 266,175 real content pages by AI-referral opportunity — built from a production search-intelligence warehouse, evaluated against a naive baseline, and reported with an honest test of whether the win is real.</p>
 
@@ -385,6 +564,16 @@
         <li>Rows with no measured GA4 access (~31%) are excluded from any AI-session calculation, since that's structurally missing data, not a measured zero. Rows with a measured zero are kept as real zeros.</li>
       </ul>
 
+      <figure>
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w03_ga4_flag_breakdown.png" alt="GA4 data availability breakdown into three states: no access, measured zero, and real engagement">
+        <figcaption><span class="read">Chart read:</span> from the week-3 data-contract audit on this same warehouse — <code>ga4_data_available</code> is three real states, not a boolean. 30.7% have no GA4 access at all (excluded here), 65.1% have access but a measured zero AI-referral session (kept as a real zero), and 4.2% show real engagement.</figcaption>
+      </figure>
+
+      <figure>
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w03_feature_missingness.png" alt="Feature missingness across word_count, average sessions, and average position">
+        <figcaption><span class="read">Chart read:</span> also from the week-3 audit — <code>word_count</code> missingness (~34%) is the same structural gap the capstone measures at 30.75% on the full warehouse; <code>avg_position</code> is missing even more often, which is part of why position stays a diagnostic column rather than a scoring feature (see §4).</figcaption>
+      </figure>
+
       <div class="callout warn">
         <span class="tag newfind">New finding</span> A gap in the eligibility filter let <strong>6 clients (42,734 article-rows)</strong> with zero search-console signal across their entire window pass through as "eligible," despite having no usable impressions or position data. One of those six also carries a client-metadata start date that contradicts the complete absence of that data — a second, independently discovered instance of client-metadata staleness. These articles are kept in the feature table for transparency but explicitly labeled <code>insufficient_data</code> rather than scored (see §5).
       </div>
@@ -393,7 +582,7 @@
     </section>
 
     <!-- 4. METHODOLOGY -->
-    <section id="methodology">
+    <section id="methodology" class="wide">
       <span class="eyebrow">Section 4</span>
       <h2>Methodology</h2>
       <p><strong>Framing:</strong> this stays a ranking/scoring task, never a binary classifier. Even at a 3-month window, the AI-referral base rate is 2.20% — too sparse and too imbalanced for honest classification metrics. The unit of analysis is one article, scored once over the fixed window.</p>
@@ -407,17 +596,27 @@
 
       <p><strong>Label:</strong> at least one AI-referral session in the window (binary).</p>
 
+      <figure>
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w02_impressions_wordcount_scatter.png" alt="Scatter plot of impressions versus word count, colored by AI-session status">
+        <figcaption><span class="read">Chart read:</span> from the week-2 starter-sample exploration that first motivated these two features — pages with AI-referral sessions (orange) cluster at higher impressions and higher word counts than pages without (grey), with no equivalent separation by position. This is the pattern §4's within-client score is built to capture.</figcaption>
+      </figure>
+
       <p><strong>Score:</strong> a z-scored composite of impressions and word count, computed <em>within each client</em> rather than across the whole dataset. Position is computed and retained as a diagnostic column — but deliberately left out of the score, since AI-session pages don't skew toward top positions, contradicting the intuitive assumption that they would.</p>
 
       <p><strong>Baseline:</strong> a naive rule — rank purely by total search impressions.</p>
 
       <p><strong>Validation design:</strong> a grouped split by client, not a random row split. An earlier pass on the starter sample found top-ranked scores concentrated in a single client; a random split risks that client's articles leaking across train and test and inflating apparent lift. Splitting whole clients into train/test groups keeps that risk out of the evaluation honestly.</p>
 
+      <figure>
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w02_client_concentration.png" alt="Top 500 ranked pages by client, comparing a global cross-client score to the within-client score">
+        <figcaption><span class="read">Chart read:</span> the global score (left) lets one client take 483 of the top 500 slots — a random split would leak that client across train and test. The within-client score (right) spreads the top 500 across ten-plus clients, which is what makes a client-grouped split meaningful rather than a formality.</figcaption>
+      </figure>
+
       <p><strong>Leakage check:</strong> a feature derived directly from the label itself was deliberately injected into a second version of the score, to confirm the evaluation pipeline detects an artificially inflated result rather than papering over it (see §4).</p>
     </section>
 
     <!-- 5. RESULTS -->
-    <section id="results">
+    <section id="results" class="wide">
       <span class="eyebrow">Section 5</span>
       <h2>Results — model vs. baseline</h2>
       <p><strong>Evaluated on:</strong> the test split only — 40,631 articles, 8 clients, 1.39% label rate. Train was used solely to build the normalization statistics; nothing about the test set's own scores or labels informed how the score was constructed.</p>
@@ -464,7 +663,7 @@
     </section>
 
     <!-- 6. LIMITATIONS -->
-    <section id="limitations">
+    <section id="limitations" class="wide">
       <span class="eyebrow">Section 6</span>
       <h2>Limitations — what this cannot claim</h2>
 
@@ -494,22 +693,26 @@
     </section>
 
     <!-- 7. RECOMMENDATIONS -->
-    <section id="recommendations">
+    <section id="recommendations" class="wide">
       <span class="eyebrow">Section 7</span>
       <h2>Ranked recommendations</h2>
       <p>This is a <strong>candidate list for human review</strong>, not a validated prediction. Every recommendation below should be read as "worth a content strategist's attention," not "will generate AI-referral traffic."</p>
 
       <p><strong>Who this is for:</strong> a content strategist deciding where to spend limited restructuring effort. <strong>What "recommended" means:</strong> an article that ranks highly on the within-client score — high search visibility relative to its own client's typical article, similar traits to articles that already receive AI-referral sessions — but currently has zero observed AI-referral activity, i.e. visible enough to be a plausible candidate, but not yet capturing that traffic.</p>
 
-      <table>
-        <thead><tr><th>Reason code</th><th class="num">Articles</th></tr></thead>
-        <tbody>
-          <tr><td><code>low_signal</code> — not prioritized this cycle</td><td class="num">205,476</td></tr>
-          <tr><td><code>insufficient_data</code> — no usable search-console signal (§2)</td><td class="num">42,734</td></tr>
-          <tr class="hl"><td><code>high_opportunity</code> — top-decile candidate</td><td class="num">12,126</td></tr>
-          <tr><td><code>established_ai_source</code> — already receiving AI sessions</td><td class="num">5,839</td></tr>
-        </tbody>
-      </table>
+      <p><strong>Where every eligible article lands:</strong></p>
+      <div class="funnel">
+        <div class="seg low" style="width:77.19%" title="low_signal 205,476">low_signal · 77.2%</div>
+        <div class="seg insuff" style="width:16.06%" title="insufficient_data 42,734">16.1%</div>
+        <div class="seg high" style="width:4.56%" title="high_opportunity 12,126">4.6%</div>
+        <div class="seg est" style="width:2.19%" title="established_ai_source 5,839">2.2%</div>
+      </div>
+      <div class="funnel-legend">
+        <span><i class="low"></i><code>low_signal</code> — 205,476</span>
+        <span><i class="insuff"></i><code>insufficient_data</code> — 42,734</span>
+        <span><i class="high"></i><code>high_opportunity</code> — 12,126</span>
+        <span><i class="est"></i><code>established_ai_source</code> — 5,839</span>
+      </div>
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_reason_code_distribution.png" alt="Distribution of reason codes across all eligible articles">
@@ -517,6 +720,55 @@
       </figure>
 
       <p>Of the 12,126 <code>high_opportunity</code>-tagged articles, the final exported list caps at 10 per client to prevent any one client's volume from dominating the output — <strong>335 candidates across 35 clients.</strong> An earlier version of this list let zero-impression articles through on word count alone, contradicting the lane's own premise that a candidate must already have search visibility; it was fixed by requiring impressions above the client's own median before qualifying.</p>
+
+      <p><strong>Top of the exported queue</strong> — the eight highest within-client scores, straight from <code>capstone_ranked_recommendations.csv</code>. Hash keys are truncated and salted per the release's own anonymization; word count shows <code>—</code> where it's part of the 31% structurally missing.</p>
+
+      <div class="serp">
+        <div class="serp-head">
+          <span>capstone_ranked_recommendations.csv — sorted by score, desc</span>
+          <span>336 rows total</span>
+        </div>
+        <div class="serp-row">
+          <span class="serp-rank">1</span>
+          <span class="serp-main"><span class="id"><span class="client">client_3ffa763…</span> / content_1e3fe8…</span><span class="meta">2,873 impr · word count —</span></span>
+          <span class="serp-score"><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="val">score 51.08</span></span>
+        </div>
+        <div class="serp-row">
+          <span class="serp-rank">2</span>
+          <span class="serp-main"><span class="id"><span class="client">client_3ffa763…</span> / content_67ae61…</span><span class="meta">2,479 impr · word count —</span></span>
+          <span class="serp-score"><span class="bar-track"><span class="bar-fill" style="width:86%"></span></span><span class="val">score 44.07</span></span>
+        </div>
+        <div class="serp-row">
+          <span class="serp-rank">3</span>
+          <span class="serp-main"><span class="id"><span class="client">client_73cda7b…</span> / content_fec559…</span><span class="meta">118,018 impr · word count —</span></span>
+          <span class="serp-score"><span class="bar-track"><span class="bar-fill" style="width:77%"></span></span><span class="val">score 39.15</span></span>
+        </div>
+        <div class="serp-row">
+          <span class="serp-rank">4</span>
+          <span class="serp-main"><span class="id"><span class="client">client_f623b01…</span> / content_b5bef9…</span><span class="meta">22,438 impr · 1,108 words</span></span>
+          <span class="serp-score"><span class="bar-track"><span class="bar-fill" style="width:50%"></span></span><span class="val">score 25.53</span></span>
+        </div>
+        <div class="serp-row">
+          <span class="serp-rank">5</span>
+          <span class="serp-main"><span class="id"><span class="client">client_3ffa763…</span> / content_025a92…</span><span class="meta">1,393 impr · word count —</span></span>
+          <span class="serp-score"><span class="bar-track"><span class="bar-fill" style="width:48%"></span></span><span class="val">score 24.72</span></span>
+        </div>
+        <div class="serp-row">
+          <span class="serp-rank">6</span>
+          <span class="serp-main"><span class="id"><span class="client">client_62f4a7e…</span> / content_acbcc8…</span><span class="meta">202,211 impr · word count —</span></span>
+          <span class="serp-score"><span class="bar-track"><span class="bar-fill" style="width:47%"></span></span><span class="val">score 23.98</span></span>
+        </div>
+        <div class="serp-row">
+          <span class="serp-rank">7</span>
+          <span class="serp-main"><span class="id"><span class="client">client_cd12bcf…</span> / content_99fc64…</span><span class="meta">5,084 impr · 3,338 words</span></span>
+          <span class="serp-score"><span class="bar-track"><span class="bar-fill" style="width:46%"></span></span><span class="val">score 23.74</span></span>
+        </div>
+        <div class="serp-row">
+          <span class="serp-rank">8</span>
+          <span class="serp-main"><span class="id"><span class="client">client_73cda7b…</span> / content_8e1334…</span><span class="meta">71,863 impr · word count —</span></span>
+          <span class="serp-score"><span class="bar-track"><span class="bar-fill" style="width:46%"></span></span><span class="val">score 23.70</span></span>
+        </div>
+      </div>
 
       <p><strong>How to use this list:</strong></p>
       <ul>
@@ -536,8 +788,59 @@
         <li><strong>Capstone notebook:</strong> <a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/notebooks/capstone.ipynb" target="_blank" rel="noopener">work/notebooks/capstone.ipynb</a></li>
         <li><strong>Full repository:</strong> <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">github.com/whozahm3d/flyrank-ml-internship</a></li>
         <li><strong>Consolidated findings reference:</strong> <a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/SUMMARY.md" target="_blank" rel="noopener">work/SUMMARY.md</a></li>
-        <li><strong>Ranked recommendations export:</strong> <span class="mono">work/outputs/capstone_ranked_recommendations.csv</span></li>
       </ul>
+
+      <p><strong>Every raw output cited in this paper</strong>, linked to the number or chart it backs — all in <a href="https://github.com/whozahm3d/flyrank-ml-internship/tree/main/work/outputs" target="_blank" rel="noopener">work/outputs/</a>:</p>
+      <table>
+        <thead><tr><th>File</th><th>Backs</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/capstone_ranked_recommendations.csv" target="_blank" rel="noopener">capstone_ranked_recommendations.csv</a></td>
+            <td>§7 — the 336-row ranked queue and its top-8 excerpt</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/reason_code_distribution.csv" target="_blank" rel="noopener">reason_code_distribution.csv</a></td>
+            <td>§7 — the funnel bar and chart (205,476 / 42,734 / 12,126 / 5,839)</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/results_lift_precision.csv" target="_blank" rel="noopener">results_lift_precision.csv</a></td>
+            <td>§5 — the precision@500 / lift@500 comparison table</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/results_lift_robustness.csv" target="_blank" rel="noopener">results_lift_robustness.csv</a></td>
+            <td>§5 — lift across K=100 to K=2,000</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/results_summary_stats.csv" target="_blank" rel="noopener">results_summary_stats.csv</a></td>
+            <td>§5 — the bootstrap CI [−4.60pp, +3.20pp] and the 58.5% win-rate figure</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/bootstrap_paired_resamples.csv" target="_blank" rel="noopener">bootstrap_paired_resamples.csv</a></td>
+            <td>§5 — the underlying 1,000 paired client-level resamples behind that CI</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/client_access_representativeness.csv" target="_blank" rel="noopener">client_access_representativeness.csv</a></td>
+            <td>§6 — the 39/104-client representativeness chart</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/client_stats.csv" target="_blank" rel="noopener">client_stats.csv</a></td>
+            <td>§6 — per-client article counts and label rates behind the representativeness and dominant-client findings</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/zero_gsc_clients.csv" target="_blank" rel="noopener">zero_gsc_clients.csv</a></td>
+            <td>§3 — the 6-client, 42,734-row eligibility-filter gap (New finding callout)</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/ai_sessions_without_gsc_signal.csv" target="_blank" rel="noopener">ai_sessions_without_gsc_signal.csv</a></td>
+            <td>§6 — the 12 articles with real AI-referral activity despite zero measured impressions</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/summary_verdicts.csv" target="_blank" rel="noopener">summary_verdicts.csv</a></td>
+            <td>Week-4 signal audit verdicts that shaped which features made it into the score (background context, not directly cited above)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="color:var(--ink-soft);font-size:14.5px;">Three more files in that folder — <code>w07_baseline_history.jsonl</code>, <code>w07_baseline_snapshot.json</code>, <code>w07_export_manifest.json</code> — belong to the separate content-decline lane described below, not this capstone.</p>
 
       <p><strong>This capstone builds directly on five earlier notebooks in the same repository</strong> — lane definition and starter-sample findings, the original opportunity-score composite, the warehouse data contract (including the first client-metadata staleness finding), and a dedicated leakage-detection pass.</p>
 
@@ -548,12 +851,15 @@
     <section id="acknowledgments">
       <span class="eyebrow">Section 9</span>
       <h2>Acknowledgments &amp; data credit</h2>
+      <a href="https://flyrank.ai" target="_blank" rel="noopener" class="brand-credit">
+        <img src="https://flyrank.ai/api/cdn/logos/flyrank-wordmark-onDark.svg" alt="FlyRank">
+      </a>
       <p>Built on the <a href="https://flyrank.ai" target="_blank" rel="noopener"><strong>FlyRank ML Internship dataset</strong></a>.</p>
       <p>Thanks to the FlyRank ML track curriculum for structuring this work week by week, and to the internship warehouse release for making a real, large-scale search-intelligence dataset available for hands-on learning.</p>
     </section>
 
     <footer>
-      Ali Ahmad · AI Referral Opportunity Scoring · FlyRank ML Internship, ML track capstone.
+      Ali Ahmad · AI Referral Opportunity Scoring · FlyRank ML Engineering Internship, ML track capstone.
     </footer>
   </main>
 </div>
