@@ -1,0 +1,2 @@
+within_client_precision_at_500,within_client_ci_low,within_client_ci_high,naive_precision_at_500,naive_ci_low,naive_ci_high,diff_mean,diff_ci_low,diff_ci_high,pct_resamples_within_wins,without_dominant_client_precision
+0.122,0.045950000000000005,0.16,0.1,0.046,0.2,0.003362,-0.04600000000000001,0.032,0.585,0.076

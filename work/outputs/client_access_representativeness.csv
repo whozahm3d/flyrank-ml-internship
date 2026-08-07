@@ -1,0 +1,6 @@
+access_profile,n_total,n_in_fact
+gsc_and_ga4,53,42.0
+no_search_or_analytics_access,26,3.0
+gsc_only,14,10.0
+source_only_missing_client_dimension,10,4.0
+ga4_only,1,0.0
