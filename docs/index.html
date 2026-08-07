@@ -433,14 +433,14 @@
       </table>
 
       <figure>
-        <img src="paper-assets/capstone_lift_at_k.png" alt="Lift at K chart comparing naive baseline, raw composite, and within-client scores">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_at_k.png" alt="Lift at K chart comparing naive baseline, raw composite, and within-client scores">
         <figcaption><span class="read">Chart read:</span> all three scores lead the impressions-only floor, but the within-client score leads the other two at K=500.</figcaption>
       </figure>
 
       <p>The within-client lead holds directionally across a wide range of K, from 100 to 2,000 — largest at low K (12.2× vs. naive's 7.9× at K=100) and narrowing steadily, effectively tying by K=2000.</p>
 
       <figure>
-        <img src="paper-assets/capstone_lift_robustness.png" alt="Lift robustness across K from 100 to 2000">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_robustness.png" alt="Lift robustness across K from 100 to 2000">
         <figcaption><span class="read">Chart read:</span> within-client leads naive at every K from 100 to 2,000, with the largest gap at low K — the shape expected of a genuinely informative score.</figcaption>
       </figure>
 
@@ -449,14 +449,14 @@
       </div>
 
       <figure>
-        <img src="paper-assets/capstone_precision_ci_comparison.png" alt="Precision at 500 with 95 percent confidence intervals for within-client and naive scores, showing heavy overlap">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_precision_ci_comparison.png" alt="Precision at 500 with 95 percent confidence intervals for within-client and naive scores, showing heavy overlap">
         <figcaption><span class="read">Chart read:</span> the two error bars overlap heavily — that overlap is the finding. A confirmed difference would show separated intervals; this doesn't, yet.</figcaption>
       </figure>
 
       <p>Removing the single most-represented client from the test set drops within-client precision below the naive baseline entirely — a reminder that this result rests on a thin client base (8 clients), not a fragile method.</p>
 
       <figure>
-        <img src="paper-assets/capstone_dominant_client_effect.png" alt="Precision at 500 with and without the dominant client removed">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_dominant_client_effect.png" alt="Precision at 500 with and without the dominant client removed">
         <figcaption><span class="read">Chart read:</span> the orange bar (dominant client removed) falls below the naive baseline line — the win depends heavily on one client's volume.</figcaption>
       </figure>
 
@@ -471,7 +471,7 @@
       <p><strong>Representativeness.</strong> Only 39 of 104 total clients (37.5%) are represented in the eligible feature set, and only 8 landed in the test split. Any finding here describes this 39-client subset, not FlyRank's client base as a whole.</p>
 
       <figure>
-        <img src="paper-assets/capstone_client_representativeness.png" alt="Clients reaching the eligible feature set by access profile, out of 104 total">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_client_representativeness.png" alt="Clients reaching the eligible feature set by access profile, out of 104 total">
         <figcaption><span class="read">Chart read:</span> green segments are clients that reach the eligible feature set; red segments are excluded — most exclusion happens before any modeling choice, by access profile alone.</figcaption>
       </figure>
 
@@ -512,7 +512,7 @@
       </table>
 
       <figure>
-        <img src="paper-assets/capstone_reason_code_distribution.png" alt="Distribution of reason codes across all eligible articles">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_reason_code_distribution.png" alt="Distribution of reason codes across all eligible articles">
         <figcaption><span class="read">Chart read:</span> <code>low_signal</code> dominates by design — most articles simply aren't standout candidates in any given window.</figcaption>
       </figure>
 
