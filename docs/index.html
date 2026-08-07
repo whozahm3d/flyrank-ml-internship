@@ -299,15 +299,15 @@
 <div class="mobile-nav">
   <select onchange="if(this.value) location.hash=this.value;">
     <option value="">Jump to section…</option>
-    <option value="#abstract">0 · Abstract</option>
-    <option value="#question">1 · Problem</option>
-    <option value="#data">2 · Data</option>
-    <option value="#methodology">3 · Methodology</option>
-    <option value="#results">4 · Results</option>
-    <option value="#limitations">5 · Limitations</option>
-    <option value="#recommendations">6 · Recommendations</option>
-    <option value="#reproducibility">7 · Reproducibility</option>
-    <option value="#acknowledgments">8 · Acknowledgments</option>
+    <option value="#abstract">1 · Abstract</option>
+    <option value="#question">2 · Problem</option>
+    <option value="#data">3 · Data</option>
+    <option value="#methodology">4 · Methodology</option>
+    <option value="#results">5 · Results</option>
+    <option value="#limitations">6 · Limitations</option>
+    <option value="#recommendations">7 · Recommendations</option>
+    <option value="#reproducibility">8 · Reproducibility</option>
+    <option value="#acknowledgments">9 · Acknowledgments</option>
   </select>
 </div>
 
@@ -315,15 +315,15 @@
   <nav class="rail" id="rail">
     <span class="brand">AI Referral<br>Opportunity Scoring</span>
     <ol>
-      <li><a href="#abstract">0 · Abstract</a></li>
-      <li><a href="#question">1 · Problem</a></li>
-      <li><a href="#data">2 · Data</a></li>
-      <li><a href="#methodology">3 · Methodology</a></li>
-      <li><a href="#results">4 · Results</a></li>
-      <li><a href="#limitations">5 · Limitations</a></li>
-      <li><a href="#recommendations">6 · Recommendations</a></li>
-      <li><a href="#reproducibility">7 · Reproducibility</a></li>
-      <li><a href="#acknowledgments">8 · Acknowledgments</a></li>
+      <li><a href="#abstract">1 · Abstract</a></li>
+      <li><a href="#question">2 · Problem</a></li>
+      <li><a href="#data">3 · Data</a></li>
+      <li><a href="#methodology">4 · Methodology</a></li>
+      <li><a href="#results">5 · Results</a></li>
+      <li><a href="#limitations">6 · Limitations</a></li>
+      <li><a href="#recommendations">7 · Recommendations</a></li>
+      <li><a href="#reproducibility">8 · Reproducibility</a></li>
+      <li><a href="#acknowledgments">9 · Acknowledgments</a></li>
     </ol>
   </nav>
 
@@ -345,17 +345,17 @@
       </div>
     </div>
 
-    <!-- 0. ABSTRACT -->
+    <!-- 1. ABSTRACT -->
     <section id="abstract">
-      <span class="eyebrow">§0</span>
+      <span class="eyebrow">Section 1</span>
       <h2>Abstract</h2>
       <p>This capstone asks which content pages, among those with strong organic search visibility, are plausible candidates for AI-referral traffic pickup — extending a lane first framed on a 30,000-row sample to FlyRank's full search-intelligence warehouse. Content teams at FlyRank have no existing tool to decide which visible pages are worth restructuring for AI-referral capture, and this is a first attempt at building one. A within-client normalized composite score, built from two search-console-derived features (search impressions and word count), ranks 266,175 eligible articles and is evaluated against a naive impressions-only baseline on a held-out, client-grouped test split.</p>
       <p>The scored approach outperforms the naive baseline at every K tested (8.76× lift at K=500 versus 7.18×), and a deliberate leakage check confirms the evaluation pipeline correctly detects an artificially inflated result. However, a paired bootstrap test shows this margin is not statistically distinguishable from chance given the small number of independent test clients available. The result is reported as directionally promising and worth further validation on a larger client population — framed throughout as decision-support for human review, not a validated predictive model.</p>
     </section>
 
-    <!-- 1. PROBLEM -->
+    <!-- 2. PROBLEM -->
     <section id="question">
-      <span class="eyebrow">§1</span>
+      <span class="eyebrow">Section 2</span>
       <h2>The problem</h2>
       <p><strong>Question:</strong> among pages that already have strong organic search visibility, which ones look like plausible candidates for AI-referral pickup based on traits shared with pages that already receive AI-referral sessions — and can those candidates be ranked in a way that beats a naive impressions-only rule?</p>
       <p>Weeks 1–4 of this internship established the shape of this problem on a 30,000-row starter sample: AI-referral sessions are rare (6.43% of pages), concentrated among higher-impression, longer-content pages, and — counterintuitively — <em>not</em> concentrated among top-position pages. This capstone moves the same question onto the full warehouse release (~79M rows), where the AI-referral signal can be aggregated over a properly windowed, leakage-safe period instead of a single fixed snapshot, and where a client-concentration issue found early on can be tested at real scale rather than assumed away.</p>
@@ -363,9 +363,9 @@
       <p><strong>The cost of a wrong call</strong> is low but not zero: a false positive costs editorial time on a page that doesn't lift. The larger risk is overclaiming — this ranks <em>opportunity</em>, not <em>causation</em>. It cannot show that any content trait causes AI pickup, only that AI-session pages and candidate pages share observable traits.</p>
     </section>
 
-    <!-- 2. DATA -->
+    <!-- 3. DATA -->
     <section id="data">
-      <span class="eyebrow">§2</span>
+      <span class="eyebrow">Section 3</span>
       <h2>Data</h2>
       <p><strong>Release:</strong> the FlyRank ML Internship warehouse (frozen snapshot export, 2026-07-03), drawn from a daily content-performance fact table keyed on client, content, and report date, joined to a content-attributes dimension for word count.</p>
       <p><strong>Window:</strong> January–March 2026, kept strictly before a later sealed sample used elsewhere in the internship as a future outcome window — reusing it here would leak the future into training.</p>
@@ -392,9 +392,9 @@
       <p class="mono" style="color:var(--ink-soft);font-size:13.5px;">Public-safe note: no client names, domains, or raw query strings are retained past this stage — all identifiers used downstream are salted hash keys already provided by the release.</p>
     </section>
 
-    <!-- 3. METHODOLOGY -->
+    <!-- 4. METHODOLOGY -->
     <section id="methodology">
-      <span class="eyebrow">§3</span>
+      <span class="eyebrow">Section 4</span>
       <h2>Methodology</h2>
       <p><strong>Framing:</strong> this stays a ranking/scoring task, never a binary classifier. Even at a 3-month window, the AI-referral base rate is 2.20% — too sparse and too imbalanced for honest classification metrics. The unit of analysis is one article, scored once over the fixed window.</p>
 
@@ -416,9 +416,9 @@
       <p><strong>Leakage check:</strong> a feature derived directly from the label itself was deliberately injected into a second version of the score, to confirm the evaluation pipeline detects an artificially inflated result rather than papering over it (see §4).</p>
     </section>
 
-    <!-- 4. RESULTS -->
+    <!-- 5. RESULTS -->
     <section id="results">
-      <span class="eyebrow">§4</span>
+      <span class="eyebrow">Section 5</span>
       <h2>Results — model vs. baseline</h2>
       <p><strong>Evaluated on:</strong> the test split only — 40,631 articles, 8 clients, 1.39% label rate. Train was used solely to build the normalization statistics; nothing about the test set's own scores or labels informed how the score was constructed.</p>
 
@@ -463,9 +463,9 @@
       <p><strong>Leakage check:</strong> injecting a feature derived from the label itself produced a 66.47× lift — 7.6× inflated versus the honest 8.76×. That gap confirms the evaluation pipeline correctly detects an obvious leak rather than silently accepting an inflated result, which is part of why the honest 8.76× figure above can be trusted.</p>
     </section>
 
-    <!-- 5. LIMITATIONS -->
+    <!-- 6. LIMITATIONS -->
     <section id="limitations">
-      <span class="eyebrow">§5</span>
+      <span class="eyebrow">Section 6</span>
       <h2>Limitations — what this cannot claim</h2>
 
       <p><strong>Representativeness.</strong> Only 39 of 104 total clients (37.5%) are represented in the eligible feature set, and only 8 landed in the test split. Any finding here describes this 39-client subset, not FlyRank's client base as a whole.</p>
@@ -493,9 +493,9 @@
       <p style="color:var(--ink-soft);font-size:15px;">None of this is a reason to discard the work. The leakage check in §4 shows the evaluation pipeline correctly distinguishes a real signal from an artificially inflated one, and the within-client score is directionally promising and mechanistically sound — it fixes a real concentration problem, and it happens to also lead on precision. What it lacks is statistical confirmation at this sample size, which is itself a legitimate, reportable finding, not a failure of the method.</p>
     </section>
 
-    <!-- 6. RECOMMENDATIONS -->
+    <!-- 7. RECOMMENDATIONS -->
     <section id="recommendations">
-      <span class="eyebrow">§6</span>
+      <span class="eyebrow">Section 7</span>
       <h2>Ranked recommendations</h2>
       <p>This is a <strong>candidate list for human review</strong>, not a validated prediction. Every recommendation below should be read as "worth a content strategist's attention," not "will generate AI-referral traffic."</p>
 
@@ -527,9 +527,9 @@
       <p style="color:var(--ink-soft);font-size:15px;">What this list explicitly does not claim: that restructuring a <code>high_opportunity</code> article will increase its AI-referral sessions. It claims only that the article resembles, on the two features measured, articles that already do receive them — an association, not a mechanism.</p>
     </section>
 
-    <!-- 7. REPRODUCIBILITY -->
+    <!-- 8. REPRODUCIBILITY -->
     <section id="reproducibility">
-      <span class="eyebrow">§7</span>
+      <span class="eyebrow">Section 8</span>
       <h2>Reproducibility</h2>
       <p>Everything above is built and verified in the capstone notebook, in the same 9-section order as this paper, in the project repository:</p>
       <ul>
@@ -544,9 +544,9 @@
       <p style="color:var(--ink-soft);font-size:15px;">A separate, unrelated curriculum track in the same repository (five additional notebooks, <span class="mono">work/notebooks/w04</span>–<span class="mono">w07</span>) developed a content-decline lane on the same 30,000-row starter dataset — a different research question, method, and label from AI-referral opportunity, with no component carried into this capstone's features, scoring, or findings.</p>
     </section>
 
-    <!-- 8. ACKNOWLEDGMENTS -->
+    <!-- 9. ACKNOWLEDGMENTS -->
     <section id="acknowledgments">
-      <span class="eyebrow">§8</span>
+      <span class="eyebrow">Section 9</span>
       <h2>Acknowledgments &amp; data credit</h2>
       <p>Built on the <a href="https://flyrank.ai" target="_blank" rel="noopener"><strong>FlyRank ML Internship dataset</strong></a>.</p>
       <p>Thanks to the FlyRank ML track curriculum for structuring this work week by week, and to the internship warehouse release for making a real, large-scale search-intelligence dataset available for hands-on learning.</p>
