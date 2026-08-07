@@ -1,0 +1,6 @@
+signal,flag_linked,verdict,reason
+staleness,refresh flags,FALSE,Outcome rate flat across buckets (0.539 / 0.546 / 0.547) — no relationship.
+ctr_vs_position,CTR-fix logic,MIXED,"Direction only holds in the middle position band (0.625 vs 0.557); reverses in the best band, flat in the worst."
+volume,quick-win,OPPOSITE,"Lowest search_volume bucket has the highest decline rate (0.590), highest volume the lowest (0.509) — inverse of hypothesis."
+position,own idea,MIXED,"Not monotonic — best band lowest (0.461) as expected, but rate peaks mid-range (0.611) then drops again at the worst band (0.517)."
+content_length,own idea,MIXED (leaning OPPOSITE),"Shortest content lowest decline rate (0.497), longest highest (0.599) — reverse of 'thin content declines more', though not fully monotonic."
