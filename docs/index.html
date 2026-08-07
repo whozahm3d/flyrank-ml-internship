@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring</title>
 <meta name="description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity, beats a naive baseline on point estimate — and an honest bootstrap test shows the win isn't yet statistically confirmed.">
+
+<!-- Open Graph / social preview card -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring">
+<meta property="og:description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity, beats a naive baseline on point estimate — and an honest bootstrap test shows the win isn't yet statistically confirmed.">
+<meta property="og:image" content="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_at_k.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring">
+<meta name="twitter:description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity, beats a naive baseline on point estimate — and an honest bootstrap test shows the win isn't yet statistically confirmed.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_at_k.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -140,10 +151,17 @@
     border-radius:20px;
     margin-bottom:20px;
   }
-  .query-bar::before{
-    content:"⌕";
-    font-size:14px;
-    font-weight:700;
+  .query-bar .logo-chip{
+    display:inline-flex;
+    align-items:center;
+    background:var(--ink);
+    border-radius:10px;
+    padding:3px 8px;
+  }
+  .query-bar .logo-chip img{
+    height:11px;
+    width:auto;
+    display:block;
   }
   .hero h1{font-size:39px;margin:0 0 18px;max-width:19ch;}
   .hero .dek{
@@ -152,6 +170,29 @@
     max-width:62ch;
     margin:0 0 30px;
   }
+
+  /* ---------- byline ---------- */
+  .byline{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    gap:4px 10px;
+    max-width:var(--wide);
+    padding:18px 0 22px;
+    border-bottom:1px solid var(--rule);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.02em;
+    color:var(--ink-soft);
+  }
+  .byline .byline-name{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0;
+    color:var(--ink);
+  }
+  .byline .byline-sep{color:var(--rule-strong);}
   .tension{
     display:flex;
     gap:0;
@@ -236,6 +277,7 @@
   figure{margin:28px 0;}
   figure img{
     width:100%;
+    height:auto;
     display:block;
     background:var(--paper-raised);
     border:1px solid var(--rule);
@@ -471,6 +513,61 @@
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
   }
+
+  /* ---------- keyboard focus ---------- */
+  a:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+    border-radius:2px;
+  }
+  nav.rail a:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:-2px;
+    color:var(--ink);
+    background:var(--paper-raised);
+  }
+  .mobile-nav select:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+  select:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+
+  /* ---------- print ---------- */
+  @media print{
+    nav.rail, .mobile-nav{display:none !important;}
+    .shell{display:block;max-width:100%;}
+    main{padding:0 !important;}
+    body{
+      background:#fff !important;
+      background-image:none !important;
+      color:#000 !important;
+    }
+    h1,h2,h3,p,li,td,th,.eyebrow,.lbl,.mono,figcaption,footer{color:#000 !important;}
+    a{color:#000 !important;text-decoration:underline;}
+    .hero, section, footer{border-color:#ccc !important;}
+    .callout, .tension, .stat, .serp, .serp-row, .funnel{
+      background:#fff !important;
+      border-color:#999 !important;
+    }
+    .query-bar{background:#fff !important;border-color:#999 !important;}
+    .query-bar .logo-chip{background:#000 !important;}
+    tr.hl td{background:#f0f0f0 !important;}
+    figure, table{
+      break-inside:avoid;
+      page-break-inside:avoid;
+    }
+    figure img{
+      max-width:100% !important;
+      width:100% !important;
+      height:auto !important;
+    }
+    .brand-credit{background:#000 !important;}
+  }
 </style>
 </head>
 <body>
@@ -508,7 +605,7 @@
 
   <main>
     <div class="hero">
-      <span class="query-bar">FlyRank ML Engineering Internship · Capstone Research Paper</span>
+      <span class="query-bar"><span class="logo-chip"><img src="https://flyrank.ai/api/cdn/logos/flyrank-wordmark-onDark.svg" width="68" height="11" alt="FlyRank"></span>FlyRank ML Engineering Internship · Capstone Research Paper</span>
       <h1>Which pages are worth restructuring for AI-referral traffic?</h1>
       <p class="dek">A within-client normalized score ranks 266,175 real content pages by AI-referral opportunity — built from a production search-intelligence warehouse, evaluated against a naive baseline, and reported with an honest test of whether the win is real.</p>
 
@@ -524,12 +621,26 @@
       </div>
     </div>
 
+    <div class="byline">
+      <span class="byline-name">Ali Ahmad</span>
+      <span class="byline-sep">·</span>
+      <span>BS Data Science, FAST NUCES Lahore</span>
+      <span class="byline-sep">·</span>
+      <span>Published Aug 8, 2026</span>
+      <span class="byline-sep">·</span>
+      <span>Last updated Aug 8, 2026</span>
+    </div>
+
     <!-- 1. ABSTRACT -->
     <section id="abstract">
       <span class="eyebrow">Section 1</span>
       <h2>Abstract</h2>
       <p>This capstone asks which content pages, among those with strong organic search visibility, are plausible candidates for AI-referral traffic pickup — extending a lane first framed on a 30,000-row sample to FlyRank's full search-intelligence warehouse. Content teams at FlyRank have no existing tool to decide which visible pages are worth restructuring for AI-referral capture, and this is a first attempt at building one. A within-client normalized composite score, built from two search-console-derived features (search impressions and word count), ranks 266,175 eligible articles and is evaluated against a naive impressions-only baseline on a held-out, client-grouped test split.</p>
       <p>The scored approach outperforms the naive baseline at every K tested (8.76× lift at K=500 versus 7.18×), and a deliberate leakage check confirms the evaluation pipeline correctly detects an artificially inflated result. However, a paired bootstrap test shows this margin is not statistically distinguishable from chance given the small number of independent test clients available. The result is reported as directionally promising and worth further validation on a larger client population — framed throughout as decision-support for human review, not a validated predictive model.</p>
+
+      <div class="callout">
+        <strong>In plain terms:</strong> we built a way to flag which existing pages are worth a content team's time to rework so they show up more often in AI chatbot answers. In an early test, the flagged pages did better than simply picking the highest-traffic pages — but we only had a handful of client accounts to test on, so the result looks promising rather than proven. Treat the list as a starting point for human review, not a guarantee.
+      </div>
     </section>
 
     <!-- 2. PROBLEM -->
@@ -565,17 +676,17 @@
       </ul>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w03_ga4_flag_breakdown.png" alt="GA4 data availability breakdown into three states: no access, measured zero, and real engagement">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w03_ga4_flag_breakdown.png" width="831" height="733" alt="GA4 data availability breakdown into three states: no access, measured zero, and real engagement">
         <figcaption><span class="read">Chart read:</span> from the week-3 data-contract audit on this same warehouse — <code>ga4_data_available</code> is three real states, not a boolean. 30.7% have no GA4 access at all (excluded here), 65.1% have access but a measured zero AI-referral session (kept as a real zero), and 4.2% show real engagement.</figcaption>
       </figure>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w03_feature_missingness.png" alt="Feature missingness across word_count, average sessions, and average position">
-        <figcaption><span class="read">Chart read:</span> also from the week-3 audit — <code>word_count</code> missingness (~34%) is the same structural gap the capstone measures at 30.75% on the full warehouse; <code>avg_position</code> is missing even more often, which is part of why position stays a diagnostic column rather than a scoring feature (see §4).</figcaption>
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w03_feature_missingness.png" width="900" height="450" alt="Feature missingness across word_count, average sessions, and average position">
+        <figcaption><span class="read">Chart read:</span> also from the week-3 audit — <code>word_count</code> missingness (~34%) is the same structural gap the capstone measures at 30.75% on the full warehouse; <code>avg_position</code> is missing even more often, which is part of why position stays a diagnostic column rather than a scoring feature (see Section 4).</figcaption>
       </figure>
 
       <div class="callout warn">
-        <span class="tag newfind">New finding</span> A gap in the eligibility filter let <strong>6 clients (42,734 article-rows)</strong> with zero search-console signal across their entire window pass through as "eligible," despite having no usable impressions or position data. One of those six also carries a client-metadata start date that contradicts the complete absence of that data — a second, independently discovered instance of client-metadata staleness. These articles are kept in the feature table for transparency but explicitly labeled <code>insufficient_data</code> rather than scored (see §5).
+        <span class="tag newfind">New finding</span> A gap in the eligibility filter let <strong>6 clients (42,734 article-rows)</strong> with zero search-console signal across their entire window pass through as "eligible," despite having no usable impressions or position data. One of those six also carries a client-metadata start date that contradicts the complete absence of that data — a second, independently discovered instance of client-metadata staleness. These articles are kept in the feature table for transparency but explicitly labeled <code>insufficient_data</code> rather than scored (see Section 5).
       </div>
 
       <p class="mono" style="color:var(--ink-soft);font-size:13.5px;">Public-safe note: no client names, domains, or raw query strings are retained past this stage — all identifiers used downstream are salted hash keys already provided by the release.</p>
@@ -597,8 +708,8 @@
       <p><strong>Label:</strong> at least one AI-referral session in the window (binary).</p>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w02_impressions_wordcount_scatter.png" alt="Scatter plot of impressions versus word count, colored by AI-session status">
-        <figcaption><span class="read">Chart read:</span> from the week-2 starter-sample exploration that first motivated these two features — pages with AI-referral sessions (orange) cluster at higher impressions and higher word counts than pages without (grey), with no equivalent separation by position. This is the pattern §4's within-client score is built to capture.</figcaption>
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w02_impressions_wordcount_scatter.png" width="1035" height="730" alt="Scatter plot of impressions versus word count, colored by AI-session status">
+        <figcaption><span class="read">Chart read:</span> from the week-2 starter-sample exploration that first motivated these two features — pages with AI-referral sessions (orange) cluster at higher impressions and higher word counts than pages without (grey), with no equivalent separation by position. This is the pattern Section 4's within-client score is built to capture.</figcaption>
       </figure>
 
       <p><strong>Score:</strong> a z-scored composite of impressions and word count, computed <em>within each client</em> rather than across the whole dataset. Position is computed and retained as a diagnostic column — but deliberately left out of the score, since AI-session pages don't skew toward top positions, contradicting the intuitive assumption that they would.</p>
@@ -608,11 +719,11 @@
       <p><strong>Validation design:</strong> a grouped split by client, not a random row split. An earlier pass on the starter sample found top-ranked scores concentrated in a single client; a random split risks that client's articles leaking across train and test and inflating apparent lift. Splitting whole clients into train/test groups keeps that risk out of the evaluation honestly.</p>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w02_client_concentration.png" alt="Top 500 ranked pages by client, comparing a global cross-client score to the within-client score">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w02_client_concentration.png" width="1629" height="583" alt="Top 500 ranked pages by client, comparing a global cross-client score to the within-client score">
         <figcaption><span class="read">Chart read:</span> the global score (left) lets one client take 483 of the top 500 slots — a random split would leak that client across train and test. The within-client score (right) spreads the top 500 across ten-plus clients, which is what makes a client-grouped split meaningful rather than a formality.</figcaption>
       </figure>
 
-      <p><strong>Leakage check:</strong> a feature derived directly from the label itself was deliberately injected into a second version of the score, to confirm the evaluation pipeline detects an artificially inflated result rather than papering over it (see §4).</p>
+      <p><strong>Leakage check:</strong> a feature derived directly from the label itself was deliberately injected into a second version of the score, to confirm the evaluation pipeline detects an artificially inflated result rather than papering over it (see Section 4).</p>
     </section>
 
     <!-- 5. RESULTS -->
@@ -632,14 +743,14 @@
       </table>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_at_k.png" alt="Lift at K chart comparing naive baseline, raw composite, and within-client scores">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_at_k.png" width="1184" height="731" alt="Lift at K chart comparing naive baseline, raw composite, and within-client scores">
         <figcaption><span class="read">Chart read:</span> all three scores lead the impressions-only floor, but the within-client score leads the other two at K=500.</figcaption>
       </figure>
 
       <p>The within-client lead holds directionally across a wide range of K, from 100 to 2,000 — largest at low K (12.2× vs. naive's 7.9× at K=100) and narrowing steadily, effectively tying by K=2000.</p>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_robustness.png" alt="Lift robustness across K from 100 to 2000">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_robustness.png" width="1184" height="731" alt="Lift robustness across K from 100 to 2000">
         <figcaption><span class="read">Chart read:</span> within-client leads naive at every K from 100 to 2,000, with the largest gap at low K — the shape expected of a genuinely informative score.</figcaption>
       </figure>
 
@@ -648,14 +759,14 @@
       </div>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_precision_ci_comparison.png" alt="Precision at 500 with 95 percent confidence intervals for within-client and naive scores, showing heavy overlap">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_precision_ci_comparison.png" width="883" height="728" alt="Precision at 500 with 95 percent confidence intervals for within-client and naive scores, showing heavy overlap">
         <figcaption><span class="read">Chart read:</span> the two error bars overlap heavily — that overlap is the finding. A confirmed difference would show separated intervals; this doesn't, yet.</figcaption>
       </figure>
 
       <p>Removing the single most-represented client from the test set drops within-client precision below the naive baseline entirely — a reminder that this result rests on a thin client base (8 clients), not a fragile method.</p>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_dominant_client_effect.png" alt="Precision at 500 with and without the dominant client removed">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_dominant_client_effect.png" width="884" height="580" alt="Precision at 500 with and without the dominant client removed">
         <figcaption><span class="read">Chart read:</span> the orange bar (dominant client removed) falls below the naive baseline line — the win depends heavily on one client's volume.</figcaption>
       </figure>
 
@@ -670,11 +781,11 @@
       <p><strong>Representativeness.</strong> Only 39 of 104 total clients (37.5%) are represented in the eligible feature set, and only 8 landed in the test split. Any finding here describes this 39-client subset, not FlyRank's client base as a whole.</p>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_client_representativeness.png" alt="Clients reaching the eligible feature set by access profile, out of 104 total">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_client_representativeness.png" width="1338" height="731" alt="Clients reaching the eligible feature set by access profile, out of 104 total">
         <figcaption><span class="read">Chart read:</span> green segments are clients that reach the eligible feature set; red segments are excluded — most exclusion happens before any modeling choice, by access profile alone.</figcaption>
       </figure>
 
-      <p><strong>The primary result is not statistically distinguishable from the naive baseline</strong> at this test-set size, for the reasons shown in §4. With only 8 test clients, this ceiling can't be resolved by further bootstrapping or tuning — it needs a larger, more balanced client population to test honestly.</p>
+      <p><strong>The primary result is not statistically distinguishable from the naive baseline</strong> at this test-set size, for the reasons shown in Section 4. With only 8 test clients, this ceiling can't be resolved by further bootstrapping or tuning — it needs a larger, more balanced client population to test honestly. Concretely: the win margin's point estimate is +2.2pp (12.2% vs. 10.0% precision@500) against a lower CI bound of −4.60pp, a gap of 6.8pp that would need to shrink roughly 3× to clear zero, and since bootstrap CI width scales with 1/√(independent clients), closing that gap would take on the order of 3²×8 ≈ 75 test clients — nearly ten times today's 8 — before the result could move from "not confirmed" to "confirmed."</p>
 
       <p><strong>The raw (non-within-client) composite actually underperforms the naive baseline</strong> — cross-client z-scoring lets high-volume clients dominate the ranking. That's a finding in its own right: raw composite scoring shouldn't be recommended without the within-client correction.</p>
 
@@ -689,7 +800,7 @@
         <li>12 articles show real AI-referral activity despite zero measured search impressions — direct evidence the two search-derived features can't explain all AI-referral activity on their own.</li>
       </ul>
 
-      <p style="color:var(--ink-soft);font-size:15px;">None of this is a reason to discard the work. The leakage check in §4 shows the evaluation pipeline correctly distinguishes a real signal from an artificially inflated one, and the within-client score is directionally promising and mechanistically sound — it fixes a real concentration problem, and it happens to also lead on precision. What it lacks is statistical confirmation at this sample size, which is itself a legitimate, reportable finding, not a failure of the method.</p>
+      <p style="color:var(--ink-soft);font-size:15px;">None of this is a reason to discard the work. The leakage check in Section 4 shows the evaluation pipeline correctly distinguishes a real signal from an artificially inflated one, and the within-client score is directionally promising and mechanistically sound — it fixes a real concentration problem, and it happens to also lead on precision. What it lacks is statistical confirmation at this sample size, which is itself a legitimate, reportable finding, not a failure of the method.</p>
     </section>
 
     <!-- 7. RECOMMENDATIONS -->
@@ -715,7 +826,7 @@
       </div>
 
       <figure>
-        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_reason_code_distribution.png" alt="Distribution of reason codes across all eligible articles">
+        <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_reason_code_distribution.png" width="884" height="582" alt="Distribution of reason codes across all eligible articles">
         <figcaption><span class="read">Chart read:</span> <code>low_signal</code> dominates by design — most articles simply aren't standout candidates in any given window.</figcaption>
       </figure>
 
@@ -772,7 +883,7 @@
 
       <p><strong>How to use this list:</strong></p>
       <ul>
-        <li>Review <code>high_opportunity</code> candidates for restructuring — clearer definitions, more explicit answer framing — treating each as worth a look, not a guaranteed lift, given §5's significance finding.</li>
+        <li>Review <code>high_opportunity</code> candidates for restructuring — clearer definitions, more explicit answer framing — treating each as worth a look, not a guaranteed lift, given Section 5's significance finding.</li>
         <li>Treat <code>established_ai_source</code> pages as reference examples of what "already working" looks like for that client, not action items.</li>
       </ul>
 
@@ -790,49 +901,51 @@
         <li><strong>Consolidated findings reference:</strong> <a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/SUMMARY.md" target="_blank" rel="noopener">work/SUMMARY.md</a></li>
       </ul>
 
+      <p><strong>Randomness &amp; environment:</strong> the client-grouped train/test split and every bootstrap resample in Section 5 use a fixed random seed of <code>42</code> (<code>numpy.random.default_rng(42)</code>), so the split and the reported confidence intervals reproduce exactly on re-run. The notebook was run against <code>pandas&gt;=2.2</code>, <code>numpy&gt;=1.26</code>, and <code>scikit-learn&gt;=1.4</code>, per the repository's <a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/requirements.txt" target="_blank" rel="noopener">requirements.txt</a>.</p>
+
       <p><strong>Every raw output cited in this paper</strong>, linked to the number or chart it backs — all in <a href="https://github.com/whozahm3d/flyrank-ml-internship/tree/main/work/outputs" target="_blank" rel="noopener">work/outputs/</a>:</p>
       <table>
         <thead><tr><th>File</th><th>Backs</th></tr></thead>
         <tbody>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/capstone_ranked_recommendations.csv" target="_blank" rel="noopener">capstone_ranked_recommendations.csv</a></td>
-            <td>§7 — the 336-row ranked queue and its top-8 excerpt</td>
+            <td>Section 7 — the 336-row ranked queue and its top-8 excerpt</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/reason_code_distribution.csv" target="_blank" rel="noopener">reason_code_distribution.csv</a></td>
-            <td>§7 — the funnel bar and chart (205,476 / 42,734 / 12,126 / 5,839)</td>
+            <td>Section 7 — the funnel bar and chart (205,476 / 42,734 / 12,126 / 5,839)</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/results_lift_precision.csv" target="_blank" rel="noopener">results_lift_precision.csv</a></td>
-            <td>§5 — the precision@500 / lift@500 comparison table</td>
+            <td>Section 5 — the precision@500 / lift@500 comparison table</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/results_lift_robustness.csv" target="_blank" rel="noopener">results_lift_robustness.csv</a></td>
-            <td>§5 — lift across K=100 to K=2,000</td>
+            <td>Section 5 — lift across K=100 to K=2,000</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/results_summary_stats.csv" target="_blank" rel="noopener">results_summary_stats.csv</a></td>
-            <td>§5 — the bootstrap CI [−4.60pp, +3.20pp] and the 58.5% win-rate figure</td>
+            <td>Section 5 — the bootstrap CI [−4.60pp, +3.20pp] and the 58.5% win-rate figure</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/bootstrap_paired_resamples.csv" target="_blank" rel="noopener">bootstrap_paired_resamples.csv</a></td>
-            <td>§5 — the underlying 1,000 paired client-level resamples behind that CI</td>
+            <td>Section 5 — the underlying 1,000 paired client-level resamples behind that CI</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/client_access_representativeness.csv" target="_blank" rel="noopener">client_access_representativeness.csv</a></td>
-            <td>§6 — the 39/104-client representativeness chart</td>
+            <td>Section 6 — the 39/104-client representativeness chart</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/client_stats.csv" target="_blank" rel="noopener">client_stats.csv</a></td>
-            <td>§6 — per-client article counts and label rates behind the representativeness and dominant-client findings</td>
+            <td>Section 6 — per-client article counts and label rates behind the representativeness and dominant-client findings</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/zero_gsc_clients.csv" target="_blank" rel="noopener">zero_gsc_clients.csv</a></td>
-            <td>§3 — the 6-client, 42,734-row eligibility-filter gap (New finding callout)</td>
+            <td>Section 3 — the 6-client, 42,734-row eligibility-filter gap (New finding callout)</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/ai_sessions_without_gsc_signal.csv" target="_blank" rel="noopener">ai_sessions_without_gsc_signal.csv</a></td>
-            <td>§6 — the 12 articles with real AI-referral activity despite zero measured impressions</td>
+            <td>Section 6 — the 12 articles with real AI-referral activity despite zero measured impressions</td>
           </tr>
           <tr>
             <td><a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/outputs/summary_verdicts.csv" target="_blank" rel="noopener">summary_verdicts.csv</a></td>
@@ -852,7 +965,7 @@
       <span class="eyebrow">Section 9</span>
       <h2>Acknowledgments &amp; data credit</h2>
       <a href="https://flyrank.ai" target="_blank" rel="noopener" class="brand-credit">
-        <img src="https://flyrank.ai/api/cdn/logos/flyrank-wordmark-onDark.svg" alt="FlyRank">
+        <img src="https://flyrank.ai/api/cdn/logos/flyrank-wordmark-onDark.svg" width="100" height="22" alt="FlyRank">
       </a>
       <p>Built on the <a href="https://flyrank.ai" target="_blank" rel="noopener"><strong>FlyRank ML Internship dataset</strong></a>.</p>
       <p>Thanks to the FlyRank ML track curriculum for structuring this work week by week, and to the internship warehouse release for making a real, large-scale search-intelligence dataset available for hands-on learning.</p>
