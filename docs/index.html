@@ -62,7 +62,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#F1F0E6;
@@ -127,6 +127,18 @@
   em.lead-word{
     font-size:1.15em;
     margin-right:2px;
+  }
+  /* Instrument Serif italic is a display face — thin strokes, built for a word
+     or two at large sizes. For sentence-length emphasis (callouts, longer
+     asides) it gets hard to read, so those spans use a text-optimized
+     italic instead. Short accent words/phrases keep the em default above. */
+  em.italic-body{
+    font-family:'Source Serif 4','Lora',serif;
+    font-style:italic;
+    font-weight:500;
+    line-height:1.55;
+    letter-spacing:0;
+    color:var(--accent-dark);
   }
 
   /* ---------- layout shell ---------- */
@@ -257,7 +269,8 @@
     max-width:var(--wide);
     padding:10px 0 24px;
     font-family:'IBM Plex Mono',monospace;
-    font-size:12px;
+    font-size:13.5px;
+    line-height:1.6;
     color:var(--ink-soft);
   }
   .byline-meta a{text-underline-offset:2px;}
@@ -480,7 +493,8 @@
   /* ---------- changelog line ---------- */
   .changelog{
     font-family:'IBM Plex Mono',monospace;
-    font-size:12px;
+    font-size:13.5px;
+    line-height:1.6;
     color:var(--ink-soft);
     margin:6px 0 0;
   }
@@ -557,30 +571,30 @@
   }
   .callout.warn{border-left-color:var(--flag);}
 
-  /* ---------- pull quote (distinct from evidence callouts) ---------- */
+  /* ---------- pull quote (now a bordered block, matching .callout) ---------- */
   .pull-quote{
     position:relative;
-    background:none;
-    border:none;
-    border-top:1px solid var(--rule);
-    border-bottom:1px solid var(--rule);
-    padding:28px 8px 28px 54px;
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    border-left:3px solid var(--accent);
+    border-radius:5px;
+    padding:24px 22px 24px 60px;
     margin:32px 0;
   }
   .pull-quote .quote-glyph{
     position:absolute;
-    left:0;
-    top:14px;
+    left:18px;
+    top:16px;
     font-family:'Instrument Serif',serif;
     font-style:italic;
-    font-size:64px;
+    font-size:52px;
     line-height:1;
     color:var(--accent);
     opacity:0.55;
     user-select:none;
   }
   .pull-quote p{
-    font-size:18px;
+    font-size:17px;
     line-height:1.6;
     color:var(--ink);
     margin:0;
@@ -613,12 +627,12 @@
     font-size:0.88em;
   }
 
-  figure{margin:28px 0;}
+  figure{margin:28px 0;text-align:center;}
   figure img{
-    width:92%;
-    max-width:92%;
+    width:68%;
+    max-width:560px;
     height:auto;
-    display:block;
+    display:inline-block;
     margin:0 auto;
     background:var(--paper-raised);
     border:1px solid var(--rule);
@@ -861,6 +875,7 @@
     }
     .hero{padding:34px 0 26px;}
     .hero h1{font-size:28px;}
+    figure img{width:88%;max-width:100%;}
     .tension{flex-direction:column;}
     .tension .cell + .cell{border-left:none;border-top:1px solid var(--rule);}
     .serp-row{grid-template-columns:26px 1fr;}
@@ -1236,7 +1251,7 @@
       </figure>
 
       <div class="callout warn">
-        <span class="tag newfind">New finding</span> <em>A gap in the eligibility filter let <strong>6 clients (42,734 article-rows)</strong> with zero search-console signal across their entire window pass through as "eligible," despite having no usable impressions or position data.</em> One of those six also carries a client-metadata start date that contradicts the complete absence of that data — a second, independently discovered instance of client-metadata staleness. These articles are kept in the feature table for transparency but explicitly labeled <code>insufficient_data</code> rather than scored (see Section 5).
+        <span class="tag newfind">New finding</span> <em class="italic-body">A gap in the eligibility filter let <strong>6 clients (42,734 article-rows)</strong> with zero search-console signal across their entire window pass through as "eligible," despite having no usable impressions or position data.</em> One of those six also carries a client-metadata start date that contradicts the complete absence of that data — a second, independently discovered instance of client-metadata staleness. These articles are kept in the feature table for transparency but explicitly labeled <code>insufficient_data</code> rather than scored (see Section 5).
       </div>
 
       <table>
@@ -1365,7 +1380,7 @@
       <p><em class="lead-word">Recommendation:</em> size any editorial rollout to where the signal is actually strongest — use the within-client score to prioritize the first 100–500 candidates in the exported queue (Section 7), where the lift over a simple impressions sort is largest and most consistent, rather than working deep into the queue where the score's advantage evaporates. Do not use the raw cross-client composite in any editorial workflow; Table 3 shows it underperforming the naive baseline outside the very top of the list.</p>
 
       <div class="callout warn">
-        <span class="tag nuanced">Nuanced</span> <em>A paired bootstrap test — client-level resampling, the correct unit of independence with only 8 test clients — gives a 95% CI on the within-client win margin of <strong>[−4.60pp, +3.20pp]</strong>.</em> That range includes zero. Only <strong>58.5%</strong> of resamples showed the within-client score actually beating naive.
+        <span class="tag nuanced">Nuanced</span> <em class="italic-body">A paired bootstrap test — client-level resampling, the correct unit of independence with only 8 test clients — gives a 95% CI on the within-client win margin of <strong>[−4.60pp, +3.20pp]</strong>.</em> That range includes zero. Only <strong>58.5%</strong> of resamples showed the within-client score actually beating naive.
       </div>
 
       <figure>
@@ -1574,7 +1589,7 @@
       <p><span class="tag todo">Fill in</span> <strong>Cost framing, for a business reader.</strong> Reviewing all 335 exported candidates costs real editorial time before any lift is realized. At a rough <span class="fill-in">[fill in — e.g. 15 min/article]</span> per manual review, that's approximately <span class="fill-in">[fill in — recompute: 335 × your-per-article-minutes ÷ 60]</span> hours of content-team time just to triage the list, before any restructuring work begins. Given Section 6's finding that the win margin isn't yet statistically confirmed, that cost should be weighed against the fact that a positive outcome is plausible but not guaranteed — this argues for reviewing the top 100 (where the lift is largest and most consistent, per Table 3) before committing to the full 335, not for skipping review entirely.</p>
 
       <div class="callout">
-        <span class="tag todo">Future work</span> <em>Distinct from the five operational recommendations above — this is where the method itself should go next, not what FlyRank should do with today's output.</em>
+        <span class="tag todo">Future work</span> <em class="italic-body">Distinct from the five operational recommendations above — this is where the method itself should go next, not what FlyRank should do with today's output.</em>
         <p style="margin-top:10px;">Three directions matter most: (1) a <strong>GA4-native feature</strong> — e.g. a rolling AI-session count or engagement signal — motivated directly by the 12 GSC-blind, AI-active articles in Section 6, since the current two features structurally can't score them; (2) a <strong>live, quarter-long control-group validation</strong> — restructure a sample of <code>high_opportunity</code> pages, hold out a matched control group, and measure actual AI-session lift, which is a fundamentally stronger test than any retrospective split on this same dataset can provide; and (3) expanding beyond <code>word_count</code>/<code>impressions</code> into <strong>content-structure features</strong> — heading structure, schema markup presence, answer-first framing — which are closer to what an AEO/GEO practitioner would actually manipulate, versus the two passive attributes scored here.</p>
       </div>
     </section>
