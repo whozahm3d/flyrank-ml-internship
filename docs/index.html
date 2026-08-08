@@ -117,10 +117,11 @@
     line-height:1.15;
     letter-spacing:-0.01em;
   }
-  h2{letter-spacing:0.005em;}
+  h2{letter-spacing:0.005em;font-weight:700;}
   em, .italic-accent{
     font-family:'Instrument Serif',serif;
     font-style:italic;
+    font-weight:600;
     color:var(--accent-dark);
   }
   em.lead-word{
@@ -489,6 +490,56 @@
     color:var(--accent-dark);
     font-size:1.2em;
   }
+  .repo-badge{
+    display:block;
+    margin:14px 0 22px;
+    line-height:0;
+  }
+  .repo-badge img{
+    display:block;
+    border-radius:3px;
+    min-height:20px;
+  }
+
+  /* ---------- glossary hover terms ---------- */
+  .gloss-term{
+    position:relative;
+    border-bottom:1px dotted var(--ink-faint);
+    cursor:help;
+  }
+  .gloss-term .gloss-tip{
+    position:absolute;
+    bottom:calc(100% + 10px);
+    left:0;
+    width:260px;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    font-style:normal;
+    font-size:12.5px;
+    line-height:1.5;
+    padding:11px 13px;
+    border-radius:7px;
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(4px);
+    transition:opacity .15s ease, transform .15s ease;
+    z-index:15;
+  }
+  .gloss-term .gloss-tip::after{
+    content:'';
+    position:absolute;
+    top:100%;
+    left:16px;
+    border:5px solid transparent;
+    border-top-color:var(--ink);
+  }
+  .gloss-term:hover .gloss-tip,
+  .gloss-term:focus-visible .gloss-tip{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateY(0);
+  }
   p{margin:0 0 16px;}
   ul, ol.list{margin:0 0 16px;padding-left:22px;}
   li{margin-bottom:6px;}
@@ -505,6 +556,39 @@
     font-size:15.5px;
   }
   .callout.warn{border-left-color:var(--flag);}
+
+  /* ---------- pull quote (distinct from evidence callouts) ---------- */
+  .pull-quote{
+    position:relative;
+    background:none;
+    border:none;
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    padding:28px 8px 28px 54px;
+    margin:32px 0;
+  }
+  .pull-quote .quote-glyph{
+    position:absolute;
+    left:0;
+    top:14px;
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-size:64px;
+    line-height:1;
+    color:var(--accent);
+    opacity:0.55;
+    user-select:none;
+  }
+  .pull-quote p{
+    font-size:18px;
+    line-height:1.6;
+    color:var(--ink);
+    margin:0;
+    max-width:62ch;
+  }
+  .pull-quote em.lead-word{
+    font-size:1.1em;
+  }
   .tag{
     display:inline-block;
     font-family:'IBM Plex Mono',monospace;
@@ -801,7 +885,17 @@
     outline-offset:2px;
   }
 
-  /* ---------- skip link ---------- */
+  /* ---------- reading progress bar ---------- */
+  .progress-bar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:3px;
+    width:0%;
+    background:var(--accent);
+    z-index:200;
+    transition:width .08s linear;
+  }
   .skip-link{
     position:absolute;
     top:-48px;
@@ -840,6 +934,81 @@
     padding:4px 10px;
     border-radius:20px;
   }
+
+  /* ---------- key takeaways box ---------- */
+  .takeaways{
+    background:var(--paper-raised);
+    border:1px solid var(--rule-strong);
+    border-radius:10px;
+    padding:22px 26px 24px;
+    margin:36px 0 0;
+  }
+  .takeaways-eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:0.07em;
+    text-transform:uppercase;
+    color:var(--accent-dark);
+    display:block;
+    margin-bottom:12px;
+  }
+  .takeaways ul{
+    margin:0;
+    padding-left:0;
+    list-style:none;
+  }
+  .takeaways li{
+    font-size:14.5px;
+    line-height:1.55;
+    padding-left:20px;
+    position:relative;
+    margin-bottom:10px;
+  }
+  .takeaways li:last-child{margin-bottom:0;}
+  .takeaways li::before{
+    content:'→';
+    position:absolute;
+    left:0;
+    color:var(--accent);
+  }
+  .action-roundup{margin-top:44px;}
+  .action-roundup li a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+    text-decoration:none;
+    margin-left:4px;
+  }
+  .action-roundup li a:hover{color:var(--accent-dark);text-decoration:underline;}
+
+  /* ---------- at-a-glance summary (limitations) ---------- */
+  .at-a-glance{
+    background:var(--flag-soft);
+    border:1px solid var(--flag);
+    border-radius:10px;
+    padding:20px 24px 22px;
+    margin:8px 0 28px;
+  }
+  .at-a-glance-eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:0.07em;
+    text-transform:uppercase;
+    color:var(--flag);
+    display:block;
+    margin-bottom:12px;
+  }
+  .at-a-glance ul{
+    margin:0;
+    padding-left:0;
+    list-style:none;
+  }
+  .at-a-glance li{
+    font-size:14.5px;
+    line-height:1.55;
+    margin-bottom:9px;
+  }
+  .at-a-glance li:last-child{margin-bottom:0;}
 
   /* ---------- table captions ---------- */
   table caption{
@@ -881,6 +1050,9 @@
     .skip-link{display:none !important;}
     .back-to-top{display:none !important;}
     .copy-link-btn{display:none !important;}
+    .progress-bar{display:none !important;}
+    .repo-badge{display:none !important;}
+    .gloss-term{border-bottom:none !important;}
     tr.hl td{background:#f0f0f0 !important;}
     figure, table{
       break-inside:avoid;
@@ -896,6 +1068,8 @@
 </style>
 </head>
 <body>
+
+<div class="progress-bar" id="progressBar"></div>
 
 <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -970,6 +1144,10 @@
 
     <p class="changelog"><em>Aug 8:</em> added PDF export, table captions, structured data, favicon set, and italic-accent typography pass.</p>
 
+    <a class="repo-badge" href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">
+      <img src="https://img.shields.io/github/last-commit/whozahm3d/flyrank-ml-internship?style=flat-square&amp;color=1F6F5C&amp;label=last%20commit&amp;labelColor=191D19" alt="GitHub last commit" width="150" height="20">
+    </a>
+
     <div class="tools-strip">
       <span class="tool-tag">Python</span>
       <span class="tool-tag">pandas</span>
@@ -979,15 +1157,26 @@
       <span class="tool-tag">Matplotlib</span>
     </div>
 
+    <div class="takeaways">
+      <span class="takeaways-eyebrow">Key takeaways — 15 seconds</span>
+      <ul>
+        <li><strong>Built:</strong> a within-client normalized score that ranks 266,175 pages by AI-referral opportunity, without training a classifier.</li>
+        <li><strong>Found:</strong> the score beats a naive baseline on point estimate — 8.76× lift@500 vs. 7.18× — and a leakage check confirms the evaluation pipeline is trustworthy.</li>
+        <li><strong>Not yet proven:</strong> a client-level bootstrap test shows that margin isn't statistically distinguishable from chance at only 8 test clients — reported honestly, not buried.</li>
+        <li><strong>Next step:</strong> use the ranked queue as decision-support for human review now; treat any performance claim as unconfirmed until tested on a larger client population.</li>
+      </ul>
+    </div>
+
     <!-- 1. ABSTRACT -->
     <section id="abstract">
       <span class="eyebrow">Section 1</span>
       <h2>Abstract</h2>
-      <p>This capstone asks which content pages, among those with strong organic search visibility, are plausible candidates for AI-referral traffic pickup — extending a lane first framed on a 30,000-row sample to FlyRank's full search-intelligence warehouse. Content teams at FlyRank have no existing tool to decide which visible pages are worth restructuring for AI-referral capture, and this is a first attempt at building one. A within-client normalized composite score, built from two search-console-derived features (search impressions and word count), ranks 266,175 eligible articles and is evaluated against a naive impressions-only baseline on a held-out, client-grouped test split.</p>
-      <p>The scored approach outperforms the naive baseline at every K tested (8.76× lift at K=500 versus 7.18×), and a deliberate leakage check confirms the evaluation pipeline correctly detects an artificially inflated result. However, a paired bootstrap test shows this margin is not statistically distinguishable from chance given the small number of independent test clients available. The result is reported as directionally promising and worth further validation on a larger client population — framed throughout as decision-support for human review, not a validated predictive model.</p>
+      <p>This capstone asks which content pages, among those with strong organic search visibility, are plausible candidates for AI-referral traffic pickup — extending a lane first framed on a 30,000-row sample to FlyRank's full search-intelligence warehouse. Content teams at FlyRank have no existing tool to decide which visible pages are worth restructuring for AI-referral capture, and this is a first attempt at building one. A <span class="gloss-term" tabindex="0">within-client normalized composite score<span class="gloss-tip">Scoring each article relative to its own client's typical article, instead of comparing raw values across clients of very different size.</span></span>, built from two search-console-derived features (search impressions and word count), ranks 266,175 eligible articles and is evaluated against a naive impressions-only baseline on a <span class="gloss-term" tabindex="0">held-out, client-grouped test split<span class="gloss-tip">The test set is split by whole client accounts, not individual articles — so no client appears in both training and test data at once.</span></span>.</p>
+      <p>The scored approach outperforms the naive baseline at every K tested (8.76× lift at K=500 versus 7.18×), and a deliberate <span class="gloss-term" tabindex="0">leakage check<span class="gloss-tip">A deliberately injected label-derived feature used to confirm the evaluation pipeline correctly detects an artificially inflated result, rather than trusting it blindly.</span></span> confirms the evaluation pipeline correctly detects an artificially inflated result. However, a <span class="gloss-term" tabindex="0">paired bootstrap test<span class="gloss-tip">A confidence interval built by resampling the data thousands of times and taking the spread of results, rather than assuming a textbook distribution.</span></span> shows this margin is not statistically distinguishable from chance given the small number of independent test clients available. The result is reported as directionally promising and worth further validation on a larger client population — framed throughout as decision-support for human review, not a validated predictive model.</p>
 
-      <div class="callout">
-        <em class="lead-word">In plain terms:</em> we built a way to flag which existing pages are worth a content team's time to rework so they show up more often in AI chatbot answers. In an early test, the flagged pages did better than simply picking the highest-traffic pages — but we only had a handful of client accounts to test on, so the result looks promising rather than proven. Treat the list as a starting point for human review, not a guarantee.
+      <div class="pull-quote">
+        <span class="quote-glyph" aria-hidden="true">&ldquo;</span>
+        <p><em class="lead-word">In plain terms:</em> we built a way to flag which existing pages are worth a content team's time to rework so they show up more often in AI chatbot answers. In an early test, the flagged pages did better than simply picking the highest-traffic pages — but we only had a handful of client accounts to test on, so the result looks promising rather than proven. Treat the list as a starting point for human review, not a guarantee.</p>
       </div>
     </section>
 
@@ -1078,7 +1267,7 @@
         <figcaption><span class="fig-num">Figure 3 —</span> <span class="read">Chart read:</span> from the week-2 starter-sample exploration that first motivated these two features — pages with AI-referral sessions (orange) cluster at higher impressions and higher word counts than pages without (grey), with no equivalent separation by position. This is the pattern Section 4's within-client score is built to capture.</figcaption>
       </figure>
 
-      <p><strong>Score:</strong> a z-scored composite of impressions and word count, computed <em>within each client</em> rather than across the whole dataset. Position is computed and retained as a diagnostic column — but deliberately left out of the score, since AI-session pages don't skew toward top positions, contradicting the intuitive assumption that they would.</p>
+      <p><strong>Score:</strong> a <span class="gloss-term" tabindex="0">z-scored composite<span class="gloss-tip">Each raw value is converted to "how many standard deviations from this client's own average" before combining — puts impressions and word count on the same comparable scale.</span></span> of impressions and word count, computed <em>within each client</em> rather than across the whole dataset. Position is computed and retained as a diagnostic column — but deliberately left out of the score, since AI-session pages don't skew toward top positions, contradicting the intuitive assumption that they would.</p>
 
       <p><strong>Baseline:</strong> a naive rule — rank purely by total search impressions.</p>
 
@@ -1181,6 +1370,16 @@
     <section id="limitations" class="wide">
       <span class="eyebrow">Section 6</span>
       <h2>Limitations — what this cannot claim</h2>
+
+      <div class="at-a-glance">
+        <span class="at-a-glance-eyebrow">Limitations at a glance</span>
+        <ul>
+          <li><strong>Coverage:</strong> only 39 of 104 clients (37.5%) are represented; findings describe this subset, not FlyRank's full client base.</li>
+          <li><strong>Statistical confirmation:</strong> the 8.76× vs. 7.18× lift is a point estimate only — the 95% bootstrap CI on the win margin includes zero.</li>
+          <li><strong>Client concentration:</strong> one client holds roughly half of all positive articles dataset-wide, capping how far the train/test label-rate gap can close.</li>
+          <li><strong>Feature blind spot:</strong> 12 articles have real, measured AI-referral sessions but no GSC signal to score them on — the two features here can't be the whole story.</li>
+        </ul>
+      </div>
 
       <p><strong>Representativeness.</strong> Only 39 of 104 total clients (37.5%) are represented in the eligible feature set, and only 8 landed in the test split. Any finding here describes this 39-client subset, not FlyRank's client base as a whole.</p>
 
@@ -1335,6 +1534,17 @@
       <p style="color:var(--ink-soft);font-size:15px;">What this list explicitly does not claim: that restructuring a <code>high_opportunity</code> article will increase its AI-referral sessions. It claims only that the article resembles, on the two features measured, articles that already do receive them — an association, not a mechanism.</p>
     </section>
 
+    <div class="takeaways action-roundup">
+      <span class="takeaways-eyebrow">If you read nothing else — five action items, in one place</span>
+      <ul>
+        <li><strong>Data team:</strong> confirm whether the 6 zero-GSC clients are a genuine business state or a pipeline failure — fix the two largest first. <a href="#data">(Section 3)</a></li>
+        <li><strong>Editorial rollout:</strong> prioritize the first 100–500 candidates in the exported queue; don't use the raw cross-client composite in any workflow. <a href="#results">(Section 5)</a></li>
+        <li><strong>External claims:</strong> don't report 8.76× lift or 12.2% precision as a confirmed win — treat as internal ranking-logic improvement pending a larger test population. <a href="#results">(Section 5)</a></li>
+        <li><strong>Data quality:</strong> the 23-client gap in <code>no_search_or_analytics_access</code> is the single largest lever to grow the eligible client base. <a href="#limitations">(Section 6)</a></li>
+        <li><strong>Model iteration:</strong> add a GA4-native feature — the 12 GSC-blind, AI-active articles are the strongest evidence the current two features aren't the whole story. <a href="#limitations">(Section 6)</a></li>
+      </ul>
+    </div>
+
     <!-- 8. REPRODUCIBILITY -->
     <section id="reproducibility">
       <span class="eyebrow">Section 8</span>
@@ -1478,6 +1688,18 @@
 </button>
 
 <script>
+  // Reading progress bar
+  const progressBar = document.getElementById('progressBar');
+  function onScrollProgress(){
+    const doc = document.documentElement;
+    const scrollable = doc.scrollHeight - doc.clientHeight;
+    const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  }
+  document.addEventListener('scroll', onScrollProgress, {passive:true});
+  window.addEventListener('resize', onScrollProgress);
+  onScrollProgress();
+
   // Highlight active section in the sticky rail as the reader scrolls.
   const links = document.querySelectorAll('nav.rail a');
   const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
