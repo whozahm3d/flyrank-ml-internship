@@ -602,6 +602,16 @@
   }
   .tag.nuanced{background:var(--flag-soft);color:var(--flag);}
   .tag.newfind{background:var(--accent-soft);color:var(--accent-dark);}
+  .tag.todo{background:var(--gold-soft);color:var(--gold);}
+  .fill-in{
+    background:var(--gold-soft);
+    color:var(--gold-dark, #6b5417);
+    border:1px dashed var(--gold);
+    border-radius:4px;
+    padding:1px 6px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.88em;
+  }
 
   figure{margin:28px 0;}
   figure img{
@@ -1141,6 +1151,7 @@
       <span class="byline-sep">·</span>
       <a href="https://whozahm3d.github.io/flyrank-ml-internship/ai-referral-opportunity-scoring.pdf" target="_blank" rel="noopener">Download PDF</a>
     </div>
+    <p class="changelog">Effort: <span class="fill-in">[fill in — e.g. "~6 weeks, roughly 10–12 hrs/week"]</span>, building on the week 1–4 starter-sample notebooks referenced in Section 2.</p>
 
     <p class="changelog"><em>Aug 8:</em> added PDF export, table captions, structured data, favicon set, and italic-accent typography pass.</p>
 
@@ -1188,6 +1199,8 @@
       <p>Weeks 1–4 of this internship established the shape of this problem on a 30,000-row starter sample: AI-referral sessions are rare (6.43% of pages), concentrated among higher-impression, longer-content pages, and — counterintuitively — <em>not</em> concentrated among top-position pages. This capstone moves the same question onto the full warehouse release (~79M rows), where the AI-referral signal can be aggregated over a properly windowed, leakage-safe period instead of a single fixed snapshot, and where a client-concentration issue found early on can be tested at real scale rather than assumed away.</p>
       <p><strong>The decision this supports:</strong> which pages a content team should prioritize when trying to grow AI-tool referral traffic — a prioritization problem with no existing tooling at FlyRank today. Given a ranked, reason-coded list of candidate pages, a strategist would restructure those pages first — clearer definitions, more explicit answer framing — and monitor for AI-session lift afterward.</p>
       <p><strong>The cost of a wrong call</strong> is low but not zero: a false positive costs editorial time on a page that doesn't lift. The larger risk is overclaiming — this ranks <em>opportunity</em>, not <em>causation</em>. It cannot show that any content trait causes AI pickup, only that AI-session pages and candidate pages share observable traits.</p>
+
+      <p><strong>Where this sits relative to existing practice.</strong> Traditional SEO prioritization tooling ranks by organic-search signals alone — impressions, clicks, position, keyword gap — because that's what search engines expose and what search traffic responds to. A small but growing "AEO/GEO" (answer-engine / generative-engine optimization) practice has emerged specifically to address AI-referral traffic, but as of this writing it consists mostly of qualitative guidance (structuring content for extractability, schema markup, answer-first framing) rather than a scored, data-driven prioritization layer built on a client's own historical AI-referral outcomes. <span class="fill-in">[fill in — name any specific competing tools/vendors you're aware of, or FlyRank's own existing scoring products if any exist, so this isn't just an assertion]</span>. This capstone's contribution is narrow: not a new SEO framework, but a first attempt at asking the AEO/GEO question in FlyRank's own data rather than by generic content-structure heuristics.</p>
     </section>
 
     <!-- 3. DATA -->
@@ -1279,6 +1292,15 @@
       </figure>
 
       <p><strong>Leakage check:</strong> a feature derived directly from the label itself was deliberately injected into a second version of the score, to confirm the evaluation pipeline detects an artificially inflated result rather than papering over it (see Section 4).</p>
+
+      <p><strong>Assumptions this methodology rests on, made explicit:</strong></p>
+      <ul>
+        <li>GA4 session counts attributed to AI referral are assumed accurate — i.e. that GA4's channel-attribution logic correctly identifies AI-chatbot referrals rather than misclassifying some other traffic source. This is untested here.</li>
+        <li>AI-referral opportunity is assumed roughly stable across the 3-month window — that a page's traits in Jan–Mar 2026 say something about its opportunity going forward, not just about that specific quarter's AI-crawler behavior.</li>
+        <li>Impressions and word count are treated as informative correlates of AI-referral fit, not claimed as causal — the score is explicitly a ranking of association, not a causal model (see "cost of a wrong call" in Section 2).</li>
+        <li>Within-client normalization assumes each client's own historical average is a meaningful baseline for that client — this breaks down for clients with very few articles or highly volatile traffic, which the eligibility filters only partially screen out.</li>
+        <li>Missing GSC data is assumed to mean "no signal available," not "zero opportunity" — hence the <code>insufficient_data</code> label in Section 3 rather than scoring these rows as low-opportunity.</li>
+      </ul>
     </section>
 
     <!-- 5. RESULTS -->
@@ -1304,6 +1326,20 @@
       </figure>
 
       <p>The within-client lead holds directionally across a wide range of K, from 100 to 2,000 — largest at low K (12.2× vs. naive's 7.9× at K=100) and narrowing steadily, effectively tying by K=2000.</p>
+
+      <p><span class="tag todo">Fill in</span> <strong>Feature ablation.</strong> The composite combines two features — <code>gsc_impressions_sum</code> and <code>word_count</code> — but the results above don't show what each contributes on its own. Before this paper is treated as settled, run the within-client score with each feature isolated and report lift@500 for all three configurations:</p>
+
+      <table>
+        <caption>Table 2b. <span class="tbl-desc">Feature ablation — single-feature vs. combined within-client score, lift@500. Values below are placeholders — run the ablation and replace them.</span></caption>
+        <thead><tr><th>Configuration</th><th class="num">Precision@500</th><th class="num">Lift@500</th></tr></thead>
+        <tbody>
+          <tr><td>Impressions only (within-client z-score)</td><td class="num"><span class="fill-in">[fill in]</span></td><td class="num"><span class="fill-in">[fill in]</span></td></tr>
+          <tr><td>Word count only (within-client z-score)</td><td class="num"><span class="fill-in">[fill in]</span></td><td class="num"><span class="fill-in">[fill in]</span></td></tr>
+          <tr class="hl"><td>Combined (reported score)</td><td class="num">12.2%</td><td class="num">8.76×</td></tr>
+        </tbody>
+      </table>
+
+      <p style="color:var(--ink-soft);font-size:15px;"><strong>Why this matters before anything else on this page:</strong> if impressions alone gets close to 8.76×, the word-count feature is decoration and the "composite score" framing overstates what's actually driving the ranking. If word count alone is doing real work independent of impressions, that's a more interesting and defensible result. Right now this paper asserts a 2-feature composite without showing the composite beats its best single component — that's the first question a technical reviewer will ask, and as written there's no answer in the text.</p>
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_robustness.png" width="1184" height="731" alt="Lift robustness across K from 100 to 2000">
@@ -1444,6 +1480,8 @@
 
       <p><em class="lead-word">Recommendation:</em> don't score these 12 articles with the current within-client formula — there's no GSC-derived signal to score them on, and forcing a value would misrepresent confidence. Instead, flag them explicitly as a distinct "GSC-blind but AI-active" watchlist for manual review, and treat their existence as the strongest single argument in this paper for adding a GA4-native feature (e.g. a rolling AI-session count) in a future iteration, rather than continuing to score opportunity purely from search-console signals as done here.</p>
 
+      <p><strong>Threats to validity — confounding, not just sample size.</strong> Everything above concerns statistical power. A separate, untested concern is confounding: <code>word_count</code> and <code>gsc_impressions_sum</code> may both be downstream proxies for how much editorial investment a client already puts into a given page, rather than independent signals of genuine AI-referral fit. A client that writes longer, more thorough pages likely also promotes and internally links those same pages more, driving both higher impressions and higher word count together — in which case the score could simply be re-ranking by "which pages this client already cares about," which would still correlate with AI-referral pickup without the score capturing anything about <em>what makes a page AI-friendly</em>. This is not ruled out by anything in Section 4 or 5, and it's a materially different story from the one the score's framing implies. <span class="fill-in">[fill in once tested — e.g. control for page age or internal-link count and see whether the lift survives]</span>.</p>
+
       <p style="color:var(--ink-soft);font-size:15px;">None of this is a reason to discard the work. The leakage check in Section 4 shows the evaluation pipeline correctly distinguishes a real signal from an artificially inflated one, and the within-client score is directionally promising and mechanistically sound — it fixes a real concentration problem, and it happens to also lead on precision. What it lacks is statistical confirmation at this sample size, which is itself a legitimate, reportable finding, not a failure of the method.</p>
     </section>
 
@@ -1532,6 +1570,13 @@
       </ul>
 
       <p style="color:var(--ink-soft);font-size:15px;">What this list explicitly does not claim: that restructuring a <code>high_opportunity</code> article will increase its AI-referral sessions. It claims only that the article resembles, on the two features measured, articles that already do receive them — an association, not a mechanism.</p>
+
+      <p><span class="tag todo">Fill in</span> <strong>Cost framing, for a business reader.</strong> Reviewing all 335 exported candidates costs real editorial time before any lift is realized. At a rough <span class="fill-in">[fill in — e.g. 15 min/article]</span> per manual review, that's approximately <span class="fill-in">[fill in — recompute: 335 × your-per-article-minutes ÷ 60]</span> hours of content-team time just to triage the list, before any restructuring work begins. Given Section 6's finding that the win margin isn't yet statistically confirmed, that cost should be weighed against the fact that a positive outcome is plausible but not guaranteed — this argues for reviewing the top 100 (where the lift is largest and most consistent, per Table 3) before committing to the full 335, not for skipping review entirely.</p>
+
+      <div class="callout">
+        <span class="tag todo">Future work</span> <em>Distinct from the five operational recommendations above — this is where the method itself should go next, not what FlyRank should do with today's output.</em>
+        <p style="margin-top:10px;">Three directions matter most: (1) a <strong>GA4-native feature</strong> — e.g. a rolling AI-session count or engagement signal — motivated directly by the 12 GSC-blind, AI-active articles in Section 6, since the current two features structurally can't score them; (2) a <strong>live, quarter-long control-group validation</strong> — restructure a sample of <code>high_opportunity</code> pages, hold out a matched control group, and measure actual AI-session lift, which is a fundamentally stronger test than any retrospective split on this same dataset can provide; and (3) expanding beyond <code>word_count</code>/<code>impressions</code> into <strong>content-structure features</strong> — heading structure, schema markup presence, answer-first framing — which are closer to what an AEO/GEO practitioner would actually manipulate, versus the two passive attributes scored here.</p>
+      </div>
     </section>
 
     <div class="takeaways action-roundup">
@@ -1651,6 +1696,8 @@
       <span class="eyebrow">Section 10</span>
       <h2>Contacts</h2>
       <p>Questions, corrections, or collaboration inquiries about this paper are welcome through any of the channels below.</p>
+
+      <p style="color:var(--ink-soft);"><span class="fill-in">[fill in — 2–3 sentences: who you are beyond the byline, e.g. what you're studying, what kind of roles you're pursuing, and one line on what draws you to this kind of applied ML/measurement work]</span></p>
 
       <div class="contact-grid">
         <a class="contact-chip" href="mailto:whozahm3d@gmail.com" aria-label="Email: whozahm3d@gmail.com">
