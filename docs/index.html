@@ -208,6 +208,83 @@
   .byline-meta a{text-underline-offset:2px;}
   .byline-meta .scope-note{font-style:italic;}
   .byline-meta .byline-sep{color:var(--rule-strong);}
+
+  /* ---------- contact chips ---------- */
+  .contact-grid{
+    display:flex;
+    flex-wrap:nowrap;
+    gap:16px;
+    margin:24px 0 6px;
+  }
+  .contact-chip{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:52px;
+    height:52px;
+    flex:none;
+    border-radius:50%;
+    background:var(--ink);
+    color:var(--paper);
+    text-decoration:none;
+    overflow:hidden;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .contact-chip:hover{
+    transform:translateY(-3px) scale(1.07);
+    background:var(--accent-dark);
+    box-shadow:0 8px 18px rgba(20,30,25,.22);
+  }
+  .contact-chip:active{transform:translateY(-1px) scale(.92);}
+  .contact-chip svg{width:22px;height:22px;fill:currentColor;position:relative;z-index:1;}
+  .contact-chip::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:var(--accent-soft);
+    opacity:0;
+    transform:scale(0);
+    pointer-events:none;
+  }
+  .contact-chip.clicked::after{animation:chipRipple .55s ease-out;}
+  @keyframes chipRipple{
+    0%{opacity:.6;transform:scale(0);}
+    100%{opacity:0;transform:scale(1.9);}
+  }
+  .contact-tip{
+    position:absolute;
+    bottom:calc(100% + 11px);
+    left:50%;
+    transform:translateX(-50%) translateY(4px);
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.01em;
+    white-space:nowrap;
+    padding:6px 10px;
+    border-radius:6px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .15s ease, transform .15s ease;
+    z-index:5;
+  }
+  .contact-tip::after{
+    content:'';
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%);
+    border:5px solid transparent;
+    border-top-color:var(--ink);
+  }
+  .contact-chip:hover .contact-tip,
+  .contact-chip:focus-visible .contact-tip{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
   .tension{
     display:flex;
     gap:0;
@@ -590,6 +667,8 @@
     }
     .query-bar{background:#fff !important;border-color:#999 !important;}
     .query-bar .logo-chip{background:#000 !important;}
+    .contact-chip{background:#000 !important;color:#fff !important;box-shadow:none !important;}
+    .contact-tip{display:none !important;}
     tr.hl td{background:#f0f0f0 !important;}
     figure, table{
       break-inside:avoid;
@@ -618,6 +697,7 @@
     <option value="#recommendations">7 · Recommendations</option>
     <option value="#reproducibility">8 · Reproducibility</option>
     <option value="#acknowledgments">9 · Acknowledgments</option>
+    <option value="#contacts">10 · Contacts</option>
   </select>
 </div>
 
@@ -634,6 +714,7 @@
       <li><a href="#recommendations"><span class="n">07</span>Recommendations</a></li>
       <li><a href="#reproducibility"><span class="n">08</span>Reproducibility</a></li>
       <li><a href="#acknowledgments"><span class="n">09</span>Acknowledgments</a></li>
+      <li><a href="#contacts"><span class="n">10</span>Contacts</a></li>
     </ol>
   </nav>
 
@@ -666,12 +747,6 @@
     </div>
 
     <div class="byline-meta">
-      <span><a href="mailto:whozahm3d@gmail.com">whozahm3d@gmail.com</a></span>
-      <span class="byline-sep">·</span>
-      <span><a href="https://linkedin.com/in/whozahm3d" target="_blank" rel="noopener">LinkedIn</a></span>
-      <span class="byline-sep">·</span>
-      <span><a href="https://github.com/whozahm3d" target="_blank" rel="noopener">GitHub</a></span>
-      <span class="byline-sep">·</span>
       <span class="scope-note">Independent internship capstone; not peer-reviewed; findings describe FlyRank's internal dataset only.</span>
     </div>
 
@@ -1130,7 +1205,7 @@
       <p style="color:var(--ink-soft);font-size:15px;">A separate, unrelated curriculum track in the same repository (five additional notebooks, <span class="mono">work/notebooks/w04</span>–<span class="mono">w07</span>) developed a content-decline lane on the same 30,000-row starter dataset — a different research question, method, and label from AI-referral opportunity, with no component carried into this capstone's features, scoring, or findings.</p>
 
       <div class="callout">
-        <strong>How to cite this work:</strong> Ahmad, A. (2026). <em>Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring.</em> FlyRank ML Engineering Internship Capstone Research Paper. <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">github.com/whozahm3d/flyrank-ml-internship</a>, commit <code>ca483ec</code>.
+        <strong>How to cite this work:</strong> Ahmad, Ali. (2026). <em>Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring.</em> FlyRank ML Engineering Internship Capstone Research Paper. <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">github.com/whozahm3d/flyrank-ml-internship</a>, commit <code>ca483ec</code>.
       </div>
     </section>
 
@@ -1143,6 +1218,37 @@
       </a>
       <p>Built on the <a href="https://flyrank.ai" target="_blank" rel="noopener"><strong>FlyRank ML Internship dataset</strong></a>.</p>
       <p>Thanks to the FlyRank ML track curriculum for structuring this work week by week, and to the internship warehouse release for making a real, large-scale search-intelligence dataset available for hands-on learning.</p>
+    </section>
+
+    <!-- 10. CONTACTS -->
+    <section id="contacts">
+      <span class="eyebrow">Section 10</span>
+      <h2>Contacts</h2>
+      <p>Questions, corrections, or collaboration inquiries about this paper are welcome through any of the channels below.</p>
+
+      <div class="contact-grid">
+        <a class="contact-chip" href="mailto:whozahm3d@gmail.com" aria-label="Email: whozahm3d@gmail.com">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13Zm2.2.5 7.14 5.71a1 1 0 0 0 1.25 0L19.73 6H4.2ZM20 7.68l-6.86 5.49a3 3 0 0 1-3.75 0L4 7.68V18h16V7.68Z"/></svg>
+          <span class="contact-tip">Email · whozahm3d@gmail.com</span>
+        </a>
+
+        <a class="contact-chip" href="https://linkedin.com/in/whozahm3d" target="_blank" rel="noopener" aria-label="LinkedIn: linkedin.com/in/whozahm3d">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.34 3.5a2.16 2.16 0 1 1 0 4.32 2.16 2.16 0 0 1 0-4.32ZM3.4 9.4h3.87V21H3.4V9.4Zm6.53 0h3.71v1.59h.05c.52-.94 1.78-1.93 3.66-1.93 3.92 0 4.64 2.49 4.64 5.73V21h-3.87v-5.4c0-1.29-.02-2.94-1.87-2.94-1.88 0-2.17 1.4-2.17 2.85V21H9.93V9.4Z"/></svg>
+          <span class="contact-tip">LinkedIn · linkedin.com/in/whozahm3d</span>
+        </a>
+
+        <a class="contact-chip" href="https://github.com/whozahm3d" target="_blank" rel="noopener" aria-label="GitHub: github.com/whozahm3d">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.35 4.68-4.58 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+          <span class="contact-tip">GitHub · github.com/whozahm3d</span>
+        </a>
+
+        <a class="contact-chip" href="https://x.com/whozahm3d" target="_blank" rel="noopener" aria-label="X (Twitter): x.com/whozahm3d">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.6 10.6 20.9 2h-1.9l-6.2 7.2L7.9 2H2.5l7.6 11.1L2.5 22h1.9l6.6-7.6L16.6 22h5.4l-8.4-11.4Zm-2.3 2.7-.8-1.1L4.4 3.4h2.6l4.9 7 .8 1.1 6.4 9.2h-2.6l-5.2-7.4Z"/></svg>
+          <span class="contact-tip">X · x.com/whozahm3d</span>
+        </a>
+      </div>
+
+      <p style="color:var(--ink-soft);font-size:14.5px;margin-top:18px;">Based in Sialkot, Pakistan (UTC+5). Email is the best channel for detailed questions or collaboration proposals — LinkedIn and Email work well for quicker professional notes.</p>
     </section>
 
     <footer>
@@ -1163,6 +1269,15 @@
   }
   document.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
+
+  // Contact chips: brief ripple/press animation on click before the link opens.
+  document.querySelectorAll('.contact-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chip.classList.remove('clicked');
+      void chip.offsetWidth; // restart animation on repeat clicks
+      chip.classList.add('clicked');
+    });
+  });
 </script>
 
 </body>
