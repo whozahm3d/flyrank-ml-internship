@@ -16,6 +16,41 @@
 <meta name="twitter:description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity, beats a naive baseline on point estimate — and an honest bootstrap test shows the win isn't yet statistically confirmed.">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_at_k.png">
 
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23191D19'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-weight='600' font-size='30' fill='%23F1F0E6' text-anchor='middle'%3EAA%3C/text%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring",
+  "description": "A within-client normalized score ranks 266,175 pages for AI-referral opportunity, beats a naive baseline on point estimate — and an honest bootstrap test shows the win isn't yet statistically confirmed.",
+  "author": {
+    "@type": "Person",
+    "name": "Ali Ahmad",
+    "url": "https://github.com/whozahm3d",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "FAST NUCES Lahore"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "FlyRank",
+    "url": "https://flyrank.ai"
+  },
+  "datePublished": "2026-08-07",
+  "dateModified": "2026-08-07",
+  "image": "https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_at_k.png",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://whozahm3d.github.io/flyrank-ml-internship/"
+  },
+  "keywords": "AI referral traffic, search console, content scoring, FlyRank, internship capstone, ranking evaluation",
+  "about": "AI-referral opportunity scoring for content pages using search-console signals",
+  "isAccessibleForFree": true
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -648,6 +683,62 @@
     outline-offset:2px;
   }
 
+  /* ---------- skip link ---------- */
+  .skip-link{
+    position:absolute;
+    top:-48px;
+    left:12px;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    padding:10px 16px;
+    border-radius:0 0 6px 6px;
+    z-index:100;
+    text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip-link:focus{
+    top:0;
+  }
+
+  /* ---------- read-time + tools strip ---------- */
+  .read-time{
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .tools-strip{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:0 0 24px;
+  }
+  .tools-strip .tool-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.02em;
+    color:var(--ink-soft);
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    padding:4px 10px;
+    border-radius:20px;
+  }
+
+  /* ---------- table captions ---------- */
+  table caption{
+    caption-side:top;
+    text-align:left;
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    color:var(--accent-dark);
+    margin:20px 0 -6px;
+    padding:0;
+  }
+  table caption .tbl-desc{
+    font-weight:400;
+    color:var(--ink-soft);
+  }
+
   /* ---------- print ---------- */
   @media print{
     nav.rail, .mobile-nav{display:none !important;}
@@ -669,6 +760,7 @@
     .query-bar .logo-chip{background:#000 !important;}
     .contact-chip{background:#000 !important;color:#fff !important;box-shadow:none !important;}
     .contact-tip{display:none !important;}
+    .skip-link{display:none !important;}
     tr.hl td{background:#f0f0f0 !important;}
     figure, table{
       break-inside:avoid;
@@ -684,6 +776,8 @@
 </style>
 </head>
 <body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
 
 <div class="mobile-nav">
   <select onchange="if(this.value) location.hash=this.value;">
@@ -718,7 +812,7 @@
     </ol>
   </nav>
 
-  <main>
+  <main id="main-content">
     <div class="hero">
       <span class="query-bar"><span class="logo-chip"><img src="https://flyrank.ai/api/cdn/logos/flyrank-wordmark-onDark.svg" width="68" height="11" alt="FlyRank"></span>FlyRank ML Engineering Internship · Capstone Research Paper</span>
       <h1>Which pages are worth restructuring for AI-referral traffic?</h1>
@@ -744,10 +838,23 @@
       <span>Published Aug 8, 2026</span>
       <span class="byline-sep">·</span>
       <span>Last updated Aug 8, 2026</span>
+      <span class="byline-sep">·</span>
+      <span class="read-time">~14 min read</span>
     </div>
 
     <div class="byline-meta">
       <span class="scope-note">Independent internship capstone; not peer-reviewed; findings describe FlyRank's internal dataset only.</span>
+      <span class="byline-sep">·</span>
+      <a href="https://whozahm3d.github.io/flyrank-ml-internship/ai-referral-opportunity-scoring.pdf" target="_blank" rel="noopener">Download PDF</a>
+    </div>
+
+    <div class="tools-strip">
+      <span class="tool-tag">Python</span>
+      <span class="tool-tag">pandas</span>
+      <span class="tool-tag">DuckDB</span>
+      <span class="tool-tag">scikit-learn</span>
+      <span class="tool-tag">NumPy bootstrap CI</span>
+      <span class="tool-tag">Matplotlib</span>
     </div>
 
     <!-- 1. ABSTRACT -->
@@ -808,10 +915,8 @@
         <span class="tag newfind">New finding</span> A gap in the eligibility filter let <strong>6 clients (42,734 article-rows)</strong> with zero search-console signal across their entire window pass through as "eligible," despite having no usable impressions or position data. One of those six also carries a client-metadata start date that contradicts the complete absence of that data — a second, independently discovered instance of client-metadata staleness. These articles are kept in the feature table for transparency but explicitly labeled <code>insufficient_data</code> rather than scored (see Section 5).
       </div>
 
-      <p class="tbl-cap">Table 1. <span class="tbl-desc">Zero-GSC clients — row counts by client, three-month window.</span></p>
-
-
       <table>
+        <caption>Table 1. <span class="tbl-desc">Zero-GSC clients — row counts by client, three-month window.</span></caption>
         <thead><tr><th>Client</th><th class="num">Total impressions</th><th class="num">Rows w/ position data</th><th class="num">Rows in 3-mo. window</th></tr></thead>
         <tbody>
           <tr><td>client_625b643…</td><td class="num">0</td><td class="num">0</td><td class="num">2,869,830</td></tr>
@@ -872,9 +977,8 @@
       <p><strong>Evaluated on:</strong> the test split only — 40,631 articles, 8 clients, 1.39% label rate. Train was used solely to build the normalization statistics; nothing about the test set's own scores or labels informed how the score was constructed.</p>
 
       <p>Three scores compared on the same split, same K:</p>
-      <p class="tbl-cap">Table 2. <span class="tbl-desc">Precision@500 and lift@500 by scoring method, test split.</span></p>
-
       <table>
+        <caption>Table 2. <span class="tbl-desc">Precision@500 and lift@500 by scoring method, test split.</span></caption>
         <thead><tr><th>Score</th><th class="num">Precision@500</th><th class="num">Lift@500</th></tr></thead>
         <tbody>
           <tr><td>Naive baseline (impressions only)</td><td class="num">10.0%</td><td class="num">7.18×</td></tr>
@@ -895,10 +999,8 @@
         <figcaption><span class="fig-num">Figure 6 —</span> <span class="read">Chart read:</span> within-client leads naive at every K from 100 to 2,000, with the largest gap at low K — the shape expected of a genuinely informative score.</figcaption>
       </figure>
 
-      <p class="tbl-cap">Table 3. <span class="tbl-desc">Lift by K (100–2,000), all three scoring methods.</span></p>
-
-
       <table>
+        <caption>Table 3. <span class="tbl-desc">Lift by K (100–2,000), all three scoring methods.</span></caption>
         <thead><tr><th>K</th><th class="num">Naive baseline</th><th class="num">Raw composite</th><th class="num">Within-client</th></tr></thead>
         <tbody>
           <tr><td>100</td><td class="num">7.90×</td><td class="num">10.77×</td><td class="num">12.20×</td></tr>
@@ -931,10 +1033,8 @@
         <figcaption><span class="fig-num">Figure 8 —</span> <span class="read">Chart read:</span> the orange bar (dominant client removed) falls below the naive baseline line — the win depends heavily on one client's volume.</figcaption>
       </figure>
 
-      <p class="tbl-cap">Table 4. <span class="tbl-desc">Bootstrap summary — precision, confidence intervals, and win margin.</span></p>
-
-
       <table>
+        <caption>Table 4. <span class="tbl-desc">Bootstrap summary — precision, confidence intervals, and win margin.</span></caption>
         <thead><tr><th>Metric</th><th class="num">Value</th></tr></thead>
         <tbody>
           <tr><td>Within-client precision@500 (point estimate)</td><td class="num">12.2%</td></tr>
@@ -967,10 +1067,8 @@
         <figcaption><span class="fig-num">Figure 9 —</span> <span class="read">Chart read:</span> green segments are clients that reach the eligible feature set; red segments are excluded — most exclusion happens before any modeling choice, by access profile alone.</figcaption>
       </figure>
 
-      <p class="tbl-cap">Table 5. <span class="tbl-desc">Client representativeness by access profile.</span></p>
-
-
       <table>
+        <caption>Table 5. <span class="tbl-desc">Client representativeness by access profile.</span></caption>
         <thead><tr><th>Access profile</th><th class="num">Clients (of 104)</th><th class="num">Reaching fact table</th></tr></thead>
         <tbody>
           <tr class="hl"><td>gsc_and_ga4</td><td class="num">53</td><td class="num">42</td></tr>
@@ -1001,10 +1099,8 @@
         <li>12 articles show real AI-referral activity despite zero measured search impressions — direct evidence the two search-derived features can't explain all AI-referral activity on their own.</li>
       </ul>
 
-      <p class="tbl-cap">Table 6. <span class="tbl-desc">Articles with AI-referral activity despite zero GSC signal.</span></p>
-
-
       <table>
+        <caption>Table 6. <span class="tbl-desc">Articles with AI-referral activity despite zero GSC signal.</span></caption>
         <thead><tr><th>Content</th><th>Client</th><th class="num">AI sessions</th><th class="num">Word count</th></tr></thead>
         <tbody>
           <tr><td>content_abaa1fe…</td><td>client_4a18d17…</td><td class="num">1</td><td class="num">1,746</td></tr>
@@ -1126,9 +1222,8 @@
         <li><strong>Capstone notebook:</strong> <a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/notebooks/capstone.ipynb" target="_blank" rel="noopener">work/notebooks/capstone.ipynb</a></li>
         <li><strong>Full repository:</strong> <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">github.com/whozahm3d/flyrank-ml-internship</a></li>
         <li><strong>Consolidated findings reference:</strong> <a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/SUMMARY.md" target="_blank" rel="noopener">work/SUMMARY.md</a></li>
+        <li><strong>PDF version of this paper:</strong> <a href="https://whozahm3d.github.io/flyrank-ml-internship/ai-referral-opportunity-scoring.pdf" target="_blank" rel="noopener">ai-referral-opportunity-scoring.pdf</a></li>
       </ul>
-
-      <p class="mono" style="color:var(--ink-soft);font-size:13px;"><strong style="color:var(--ink);">Version pin:</strong> every number and chart in this report reflects commit <code>ca483ec</code> of the repository above, as of Aug 8, 2026 — later commits may extend the analysis but shouldn't change any figure cited here.</p>
 
       <p><strong>Randomness &amp; environment:</strong> the client-grouped train/test split and every bootstrap resample in Section 5 use a fixed random seed of <code>42</code> (<code>numpy.random.default_rng(42)</code>), so the split and the reported confidence intervals reproduce exactly on re-run. The notebook was run against <code>pandas&gt;=2.2</code>, <code>numpy&gt;=1.26</code>, and <code>scikit-learn&gt;=1.4</code>, per the repository's <a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/requirements.txt" target="_blank" rel="noopener">requirements.txt</a>.</p>
 
@@ -1147,9 +1242,8 @@
       </table>
 
       <p><strong>Every raw output cited in this paper</strong>, linked to the number or chart it backs — all in <a href="https://github.com/whozahm3d/flyrank-ml-internship/tree/main/work/outputs" target="_blank" rel="noopener">work/outputs/</a>:</p>
-      <p class="tbl-cap">Table 7. <span class="tbl-desc">Reproducibility file index — each output CSV and what it backs.</span></p>
-
       <table>
+        <caption>Table 7. <span class="tbl-desc">Reproducibility file index — each output CSV and what it backs.</span></caption>
         <thead><tr><th>File</th><th>Backs</th></tr></thead>
         <tbody>
           <tr>
@@ -1205,7 +1299,7 @@
       <p style="color:var(--ink-soft);font-size:15px;">A separate, unrelated curriculum track in the same repository (five additional notebooks, <span class="mono">work/notebooks/w04</span>–<span class="mono">w07</span>) developed a content-decline lane on the same 30,000-row starter dataset — a different research question, method, and label from AI-referral opportunity, with no component carried into this capstone's features, scoring, or findings.</p>
 
       <div class="callout">
-        <strong>How to cite this work:</strong> Ahmad, Ali. (2026). <em>Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring.</em> FlyRank ML Engineering Internship Capstone Research Paper. <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">github.com/whozahm3d/flyrank-ml-internship</a>, commit <code>ca483ec</code>.
+        <strong>How to cite this work:</strong> Ahmad, Ali. (2026). <em>Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring.</em> FlyRank ML Engineering Internship Capstone Research Paper. <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">github.com/whozahm3d/flyrank-ml-internship</a>.
       </div>
     </section>
 
@@ -1248,7 +1342,7 @@
         </a>
       </div>
 
-      <p style="color:var(--ink-soft);font-size:14.5px;margin-top:18px;">Based in Sialkot, Pakistan (UTC+5). Email is the best channel for detailed questions or collaboration proposals — LinkedIn and Email work well for quicker professional notes.</p>
+      <p style="color:var(--ink-soft);font-size:14.5px;margin-top:18px;">Based in Sialkot, Pakistan (UTC+5). Email is the best channel for detailed questions or collaboration proposals — LinkedIn and X work well for quicker professional notes.</p>
     </section>
 
     <footer>
