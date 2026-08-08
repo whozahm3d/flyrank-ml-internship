@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://whozahm3d.github.io/flyrank-ml-internship/sitemap.xml
