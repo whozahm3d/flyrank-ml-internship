@@ -193,6 +193,21 @@
     color:var(--ink);
   }
   .byline .byline-sep{color:var(--rule-strong);}
+
+  .byline-meta{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    gap:4px 10px;
+    max-width:var(--wide);
+    padding:10px 0 24px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .byline-meta a{text-underline-offset:2px;}
+  .byline-meta .scope-note{font-style:italic;}
+  .byline-meta .byline-sep{color:var(--rule-strong);}
   .tension{
     display:flex;
     gap:0;
@@ -294,6 +309,23 @@
     border-left:2px solid var(--rule);
   }
   figcaption .read{font-weight:600;color:var(--ink);}
+  figcaption .fig-num{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    color:var(--accent-dark);
+    margin-right:2px;
+  }
+  .tbl-cap{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    color:var(--accent-dark);
+    margin:20px 0 -6px;
+  }
+  .tbl-cap .tbl-desc{
+    font-weight:400;
+    color:var(--ink-soft);
+  }
 
   table{
     width:100%;
@@ -633,6 +665,16 @@
       <span>Last updated Aug 8, 2026</span>
     </div>
 
+    <div class="byline-meta">
+      <span><a href="mailto:whozahm3d@gmail.com">whozahm3d@gmail.com</a></span>
+      <span class="byline-sep">·</span>
+      <span><a href="https://linkedin.com/in/whozahm3d" target="_blank" rel="noopener">LinkedIn</a></span>
+      <span class="byline-sep">·</span>
+      <span><a href="https://github.com/whozahm3d" target="_blank" rel="noopener">GitHub</a></span>
+      <span class="byline-sep">·</span>
+      <span class="scope-note">Independent internship capstone; not peer-reviewed; findings describe FlyRank's internal dataset only.</span>
+    </div>
+
     <!-- 1. ABSTRACT -->
     <section id="abstract">
       <span class="eyebrow">Section 1</span>
@@ -679,17 +721,20 @@
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w03_ga4_flag_breakdown.png" width="831" height="733" alt="GA4 data availability breakdown into three states: no access, measured zero, and real engagement">
-        <figcaption><span class="read">Chart read:</span> from the week-3 data-contract audit on this same warehouse — <code>ga4_data_available</code> is three real states, not a boolean. 30.7% have no GA4 access at all (excluded here), 65.1% have access but a measured zero AI-referral session (kept as a real zero), and 4.2% show real engagement.</figcaption>
+        <figcaption><span class="fig-num">Figure 1 —</span> <span class="read">Chart read:</span> from the week-3 data-contract audit on this same warehouse — <code>ga4_data_available</code> is three real states, not a boolean. 30.7% have no GA4 access at all (excluded here), 65.1% have access but a measured zero AI-referral session (kept as a real zero), and 4.2% show real engagement.</figcaption>
       </figure>
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w03_feature_missingness.png" width="900" height="450" alt="Feature missingness across word_count, average sessions, and average position">
-        <figcaption><span class="read">Chart read:</span> also from the week-3 audit — <code>word_count</code> missingness (~34%) is the same structural gap the capstone measures at 30.75% on the full warehouse; <code>avg_position</code> is missing even more often, which is part of why position stays a diagnostic column rather than a scoring feature (see Section 4).</figcaption>
+        <figcaption><span class="fig-num">Figure 2 —</span> <span class="read">Chart read:</span> also from the week-3 audit — <code>word_count</code> missingness (~34%) is the same structural gap the capstone measures at 30.75% on the full warehouse; <code>avg_position</code> is missing even more often, which is part of why position stays a diagnostic column rather than a scoring feature (see Section 4).</figcaption>
       </figure>
 
       <div class="callout warn">
         <span class="tag newfind">New finding</span> A gap in the eligibility filter let <strong>6 clients (42,734 article-rows)</strong> with zero search-console signal across their entire window pass through as "eligible," despite having no usable impressions or position data. One of those six also carries a client-metadata start date that contradicts the complete absence of that data — a second, independently discovered instance of client-metadata staleness. These articles are kept in the feature table for transparency but explicitly labeled <code>insufficient_data</code> rather than scored (see Section 5).
       </div>
+
+      <p class="tbl-cap">Table 1. <span class="tbl-desc">Zero-GSC clients — row counts by client, three-month window.</span></p>
+
 
       <table>
         <thead><tr><th>Client</th><th class="num">Total impressions</th><th class="num">Rows w/ position data</th><th class="num">Rows in 3-mo. window</th></tr></thead>
@@ -728,7 +773,7 @@
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w02_impressions_wordcount_scatter.png" width="1035" height="730" alt="Scatter plot of impressions versus word count, colored by AI-session status">
-        <figcaption><span class="read">Chart read:</span> from the week-2 starter-sample exploration that first motivated these two features — pages with AI-referral sessions (orange) cluster at higher impressions and higher word counts than pages without (grey), with no equivalent separation by position. This is the pattern Section 4's within-client score is built to capture.</figcaption>
+        <figcaption><span class="fig-num">Figure 3 —</span> <span class="read">Chart read:</span> from the week-2 starter-sample exploration that first motivated these two features — pages with AI-referral sessions (orange) cluster at higher impressions and higher word counts than pages without (grey), with no equivalent separation by position. This is the pattern Section 4's within-client score is built to capture.</figcaption>
       </figure>
 
       <p><strong>Score:</strong> a z-scored composite of impressions and word count, computed <em>within each client</em> rather than across the whole dataset. Position is computed and retained as a diagnostic column — but deliberately left out of the score, since AI-session pages don't skew toward top positions, contradicting the intuitive assumption that they would.</p>
@@ -739,7 +784,7 @@
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/w02_client_concentration.png" width="1629" height="583" alt="Top 500 ranked pages by client, comparing a global cross-client score to the within-client score">
-        <figcaption><span class="read">Chart read:</span> the global score (left) lets one client take 483 of the top 500 slots — a random split would leak that client across train and test. The within-client score (right) spreads the top 500 across ten-plus clients, which is what makes a client-grouped split meaningful rather than a formality.</figcaption>
+        <figcaption><span class="fig-num">Figure 4 —</span> <span class="read">Chart read:</span> the global score (left) lets one client take 483 of the top 500 slots — a random split would leak that client across train and test. The within-client score (right) spreads the top 500 across ten-plus clients, which is what makes a client-grouped split meaningful rather than a formality.</figcaption>
       </figure>
 
       <p><strong>Leakage check:</strong> a feature derived directly from the label itself was deliberately injected into a second version of the score, to confirm the evaluation pipeline detects an artificially inflated result rather than papering over it (see Section 4).</p>
@@ -752,6 +797,8 @@
       <p><strong>Evaluated on:</strong> the test split only — 40,631 articles, 8 clients, 1.39% label rate. Train was used solely to build the normalization statistics; nothing about the test set's own scores or labels informed how the score was constructed.</p>
 
       <p>Three scores compared on the same split, same K:</p>
+      <p class="tbl-cap">Table 2. <span class="tbl-desc">Precision@500 and lift@500 by scoring method, test split.</span></p>
+
       <table>
         <thead><tr><th>Score</th><th class="num">Precision@500</th><th class="num">Lift@500</th></tr></thead>
         <tbody>
@@ -763,15 +810,18 @@
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_at_k.png" width="1184" height="731" alt="Lift at K chart comparing naive baseline, raw composite, and within-client scores">
-        <figcaption><span class="read">Chart read:</span> all three scores lead the impressions-only floor, but the within-client score leads the other two at K=500.</figcaption>
+        <figcaption><span class="fig-num">Figure 5 —</span> <span class="read">Chart read:</span> all three scores lead the impressions-only floor, but the within-client score leads the other two at K=500.</figcaption>
       </figure>
 
       <p>The within-client lead holds directionally across a wide range of K, from 100 to 2,000 — largest at low K (12.2× vs. naive's 7.9× at K=100) and narrowing steadily, effectively tying by K=2000.</p>
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_robustness.png" width="1184" height="731" alt="Lift robustness across K from 100 to 2000">
-        <figcaption><span class="read">Chart read:</span> within-client leads naive at every K from 100 to 2,000, with the largest gap at low K — the shape expected of a genuinely informative score.</figcaption>
+        <figcaption><span class="fig-num">Figure 6 —</span> <span class="read">Chart read:</span> within-client leads naive at every K from 100 to 2,000, with the largest gap at low K — the shape expected of a genuinely informative score.</figcaption>
       </figure>
+
+      <p class="tbl-cap">Table 3. <span class="tbl-desc">Lift by K (100–2,000), all three scoring methods.</span></p>
+
 
       <table>
         <thead><tr><th>K</th><th class="num">Naive baseline</th><th class="num">Raw composite</th><th class="num">Within-client</th></tr></thead>
@@ -788,7 +838,7 @@
 
       <p><strong>Analysis:</strong> the within-client score leads naive at every K from 100 through 1,500, but the size of that lead collapses fast — a 4.3× gap at K=100 (12.20× vs. 7.90×) shrinks to under 1× by K=750 and effectively disappears by K=2,000, where within-client (4.45×) sits marginally below naive (4.49×), inside noise but notable given the score never wins there. The raw cross-client composite is the more erratic of the two: it beats naive at K=100 (10.77× vs. 7.90×) but underperforms it at every other K tested, the same client-concentration failure documented in Section 4 — without the within-client correction, a handful of high-volume clients dominate the ranking and drag mid-list precision down.</p>
 
-      <p><strong>Recommendation:</strong> size any editorial rollout to where the signal is actually strongest — use the within-client score to prioritize the first 100–500 candidates in the exported queue (Section 7), where the lift over a simple impressions sort is largest and most consistent, rather than working deep into the queue where the score's advantage evaporates. Do not use the raw cross-client composite in any editorial workflow; the table above shows it underperforming the naive baseline outside the very top of the list.</p>
+      <p><strong>Recommendation:</strong> size any editorial rollout to where the signal is actually strongest — use the within-client score to prioritize the first 100–500 candidates in the exported queue (Section 7), where the lift over a simple impressions sort is largest and most consistent, rather than working deep into the queue where the score's advantage evaporates. Do not use the raw cross-client composite in any editorial workflow; Table 3 shows it underperforming the naive baseline outside the very top of the list.</p>
 
       <div class="callout warn">
         <span class="tag nuanced">Nuanced</span> A paired bootstrap test — client-level resampling, the correct unit of independence with only 8 test clients — gives a 95% CI on the within-client win margin of <strong>[−4.60pp, +3.20pp]</strong>. That range includes zero. Only <strong>58.5%</strong> of resamples showed the within-client score actually beating naive.
@@ -796,15 +846,18 @@
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_precision_ci_comparison.png" width="883" height="728" alt="Precision at 500 with 95 percent confidence intervals for within-client and naive scores, showing heavy overlap">
-        <figcaption><span class="read">Chart read:</span> the two error bars overlap heavily — that overlap is the finding. A confirmed difference would show separated intervals; this doesn't, yet.</figcaption>
+        <figcaption><span class="fig-num">Figure 7 —</span> <span class="read">Chart read:</span> the two error bars overlap heavily — that overlap is the finding. A confirmed difference would show separated intervals; this doesn't, yet.</figcaption>
       </figure>
 
       <p>Removing the single most-represented client from the test set drops within-client precision below the naive baseline entirely — a reminder that this result rests on a thin client base (8 clients), not a fragile method.</p>
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_dominant_client_effect.png" width="884" height="580" alt="Precision at 500 with and without the dominant client removed">
-        <figcaption><span class="read">Chart read:</span> the orange bar (dominant client removed) falls below the naive baseline line — the win depends heavily on one client's volume.</figcaption>
+        <figcaption><span class="fig-num">Figure 8 —</span> <span class="read">Chart read:</span> the orange bar (dominant client removed) falls below the naive baseline line — the win depends heavily on one client's volume.</figcaption>
       </figure>
+
+      <p class="tbl-cap">Table 4. <span class="tbl-desc">Bootstrap summary — precision, confidence intervals, and win margin.</span></p>
+
 
       <table>
         <thead><tr><th>Metric</th><th class="num">Value</th></tr></thead>
@@ -820,7 +873,7 @@
         </tbody>
       </table>
 
-      <p><strong>Analysis:</strong> the two headline precision figures overlap heavily in their individual 95% CIs (4.6–16.0% for within-client vs. 4.6–20.0% for naive), visually confirmed by the CI-comparison chart above — but the paired bootstrap is the more informative test, since it holds the resample fixed and looks at the difference client-by-client rather than comparing two independent-looking intervals. That paired view shows the average edge is tiny: +0.34 percentage points, not the +2.2pp gap the single test-set snapshot suggests, and its own 95% CI still spans from a 4.60pp loss to a 3.20pp win. Only 58.5% of resamples favored the within-client score at all — barely better than a coin flip — and pulling the single most-represented client out of the test set drops within-client precision to 7.6%, below the naive baseline entirely. Together these numbers say the point-estimate win on the original test split likely owes more to which clients happened to land in the test group than to a robust property of the scoring method.</p>
+      <p><strong>Analysis:</strong> the two headline precision figures overlap heavily in their individual 95% CIs (4.6–16.0% for within-client vs. 4.6–20.0% for naive), visually confirmed by Figure 7's overlapping intervals — but the paired bootstrap is the more informative test, since it holds the resample fixed and looks at the difference client-by-client rather than comparing two independent-looking intervals. That paired view shows the average edge is tiny: +0.34 percentage points, not the +2.2pp gap the single test-set snapshot suggests, and its own 95% CI still spans from a 4.60pp loss to a 3.20pp win. Only 58.5% of resamples favored the within-client score at all — barely better than a coin flip — and pulling the single most-represented client out of the test set drops within-client precision to 7.6%, below the naive baseline entirely. Together these numbers say the point-estimate win on the original test split likely owes more to which clients happened to land in the test group than to a robust property of the scoring method.</p>
 
       <p><strong>Recommendation:</strong> don't report the 8.76× lift or 12.2% precision figures as a confirmed win in any external-facing claim — they're accurate as point estimates on this specific split, but the paired-resample view shows they don't survive resampling with confidence. For internal use, treat the within-client score as a legitimate improvement in ranking logic (it fixes the client-concentration problem documented in Section 4) worth keeping, but gate any performance claim behind either a larger, more balanced test population (see Section 6) or a live validation where restructured high_opportunity pages are tracked against a held-out control group over a full quarter — a stronger test than a single retrospective split can provide.</p>
 
@@ -836,8 +889,11 @@
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_client_representativeness.png" width="1338" height="731" alt="Clients reaching the eligible feature set by access profile, out of 104 total">
-        <figcaption><span class="read">Chart read:</span> green segments are clients that reach the eligible feature set; red segments are excluded — most exclusion happens before any modeling choice, by access profile alone.</figcaption>
+        <figcaption><span class="fig-num">Figure 9 —</span> <span class="read">Chart read:</span> green segments are clients that reach the eligible feature set; red segments are excluded — most exclusion happens before any modeling choice, by access profile alone.</figcaption>
       </figure>
+
+      <p class="tbl-cap">Table 5. <span class="tbl-desc">Client representativeness by access profile.</span></p>
+
 
       <table>
         <thead><tr><th>Access profile</th><th class="num">Clients (of 104)</th><th class="num">Reaching fact table</th></tr></thead>
@@ -869,6 +925,9 @@
         <li>This is a single, non-seasonal 3-month window — no finding here can speak to seasonal effects or longer-term trend.</li>
         <li>12 articles show real AI-referral activity despite zero measured search impressions — direct evidence the two search-derived features can't explain all AI-referral activity on their own.</li>
       </ul>
+
+      <p class="tbl-cap">Table 6. <span class="tbl-desc">Articles with AI-referral activity despite zero GSC signal.</span></p>
+
 
       <table>
         <thead><tr><th>Content</th><th>Client</th><th class="num">AI sessions</th><th class="num">Word count</th></tr></thead>
@@ -920,7 +979,7 @@
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_reason_code_distribution.png" width="884" height="582" alt="Distribution of reason codes across all eligible articles">
-        <figcaption><span class="read">Chart read:</span> <code>low_signal</code> dominates by design — most articles simply aren't standout candidates in any given window.</figcaption>
+        <figcaption><span class="fig-num">Figure 10 —</span> <span class="read">Chart read:</span> <code>low_signal</code> dominates by design — most articles simply aren't standout candidates in any given window.</figcaption>
       </figure>
 
       <p>Of the 12,126 <code>high_opportunity</code>-tagged articles, the final exported list caps at 10 per client to prevent any one client's volume from dominating the output — <strong>335 candidates across 35 clients.</strong> An earlier version of this list let zero-impression articles through on word count alone, contradicting the lane's own premise that a candidate must already have search visibility; it was fixed by requiring impressions above the client's own median before qualifying.</p>
@@ -994,9 +1053,27 @@
         <li><strong>Consolidated findings reference:</strong> <a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/work/SUMMARY.md" target="_blank" rel="noopener">work/SUMMARY.md</a></li>
       </ul>
 
+      <p class="mono" style="color:var(--ink-soft);font-size:13px;"><strong style="color:var(--ink);">Version pin:</strong> every number and chart in this report reflects commit <code>ca483ec</code> of the repository above, as of Aug 8, 2026 — later commits may extend the analysis but shouldn't change any figure cited here.</p>
+
       <p><strong>Randomness &amp; environment:</strong> the client-grouped train/test split and every bootstrap resample in Section 5 use a fixed random seed of <code>42</code> (<code>numpy.random.default_rng(42)</code>), so the split and the reported confidence intervals reproduce exactly on re-run. The notebook was run against <code>pandas&gt;=2.2</code>, <code>numpy&gt;=1.26</code>, and <code>scikit-learn&gt;=1.4</code>, per the repository's <a href="https://github.com/whozahm3d/flyrank-ml-internship/blob/main/requirements.txt" target="_blank" rel="noopener">requirements.txt</a>.</p>
 
+      <p><strong>Bootstrap methodology:</strong> confidence intervals in Section 5 are computed with a percentile bootstrap resampled at the <em>client</em> level, not the article level — for each of 1,000 iterations, the 8 test clients are resampled with replacement and precision@500 is recomputed across all articles belonging to the resampled clients, then the 2.5th and 97.5th percentiles of the resulting distribution form the reported 95% CI. Resampling at the client level (rather than pooling all articles and resampling individually) is what makes 8 the effective sample size driving CI width, not 40,631 — articles from the same client aren't independent observations for this purpose.</p>
+
+      <h3 style="font-family:'Fraunces',serif;font-size:19px;margin:26px 0 10px;color:var(--ink);">Glossary</h3>
+      <table>
+        <tbody>
+          <tr><td style="width:170px;"><strong>Precision@K</strong></td><td>Of the top K articles by score, the share that actually went on to receive real AI-referral sessions.</td></tr>
+          <tr><td><strong>Lift@K</strong></td><td>Precision@K divided by the dataset's overall positive rate (2.20%) — how much better than random selection the score does at that K.</td></tr>
+          <tr><td><strong>pp</strong></td><td>Percentage points — the arithmetic difference between two percentages (e.g. 12.2% − 10.0% = 2.2pp), not a relative percent change.</td></tr>
+          <tr><td><strong>Bootstrap CI</strong></td><td>A confidence interval built by resampling the data thousands of times and taking the spread of results, rather than assuming a textbook distribution — see the methodology note above for exactly how it's computed here.</td></tr>
+          <tr><td><strong>Within-client normalization</strong></td><td>Scoring each article relative to its own client's typical article, instead of comparing raw values across clients of very different size — the fix described in Section 4.</td></tr>
+          <tr><td><strong>Leakage / leakage check</strong></td><td>When information from the future or from the label itself accidentally informs a score, inflating results; the leakage check in Section 5 deliberately injects a label-derived feature to confirm the pipeline catches it.</td></tr>
+        </tbody>
+      </table>
+
       <p><strong>Every raw output cited in this paper</strong>, linked to the number or chart it backs — all in <a href="https://github.com/whozahm3d/flyrank-ml-internship/tree/main/work/outputs" target="_blank" rel="noopener">work/outputs/</a>:</p>
+      <p class="tbl-cap">Table 7. <span class="tbl-desc">Reproducibility file index — each output CSV and what it backs.</span></p>
+
       <table>
         <thead><tr><th>File</th><th>Backs</th></tr></thead>
         <tbody>
@@ -1051,6 +1128,10 @@
       <p><strong>This capstone builds directly on five earlier notebooks in the same repository</strong> — lane definition and starter-sample findings, the original opportunity-score composite, the warehouse data contract (including the first client-metadata staleness finding), and a dedicated leakage-detection pass.</p>
 
       <p style="color:var(--ink-soft);font-size:15px;">A separate, unrelated curriculum track in the same repository (five additional notebooks, <span class="mono">work/notebooks/w04</span>–<span class="mono">w07</span>) developed a content-decline lane on the same 30,000-row starter dataset — a different research question, method, and label from AI-referral opportunity, with no component carried into this capstone's features, scoring, or findings.</p>
+
+      <div class="callout">
+        <strong>How to cite this work:</strong> Ahmad, A. (2026). <em>Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring.</em> FlyRank ML Engineering Internship Capstone Research Paper. <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">github.com/whozahm3d/flyrank-ml-internship</a>, commit <code>ca483ec</code>.
+      </div>
     </section>
 
     <!-- 9. ACKNOWLEDGMENTS -->
