@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Referral Opportunity Scoring — Ali Ahmad</title>
+<meta name="description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity — evaluated honestly against a naive baseline.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Referral Opportunity Scoring — Ali Ahmad">
+<meta property="og:description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity — evaluated honestly against a naive baseline.">
+<meta property="og:image" content="https://whozahm3d.github.io/flyrank-ml-internship/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://whozahm3d.github.io/flyrank-ml-internship/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Referral Opportunity Scoring — Ali Ahmad">
+<meta name="twitter:description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity — evaluated honestly against a naive baseline.">
+<meta name="twitter:image" content="https://whozahm3d.github.io/flyrank-ml-internship/og-card.png">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600;1,9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#151D33;
+    --navy-raised:#1C2640;
+    --paper:#F3EFE4;
+    --ink-soft:#AEB6CC;
+    --ink-faint:#7480A0;
+    --accent:#D97D4A;
+    --accent-soft:#E39A6B;
+    --rule:#2C3757;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:#EDEAE0;
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 40px;}
+
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:36px 0 0;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+    letter-spacing:0.14em;
+    color:#EDEAE0;
+    text-decoration:none;
+  }
+  .brand .mark{
+    width:26px;height:26px;
+    border-radius:6px;
+    background:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-style:italic;
+    font-size:15px;
+    color:var(--navy);
+  }
+  .site-url{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    color:var(--ink-faint);
+  }
+
+  main{
+    padding:120px 0 0;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--accent-soft);
+    display:block;
+    margin-bottom:22px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:56px;
+    line-height:1.12;
+    letter-spacing:-0.01em;
+    margin:0 0 26px;
+    max-width:15ch;
+    color:#F7F4EC;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:600;
+    color:var(--accent);
+  }
+  .dek{
+    font-family:'Inter',sans-serif;
+    font-size:18px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    max-width:52ch;
+    margin:0 0 44px;
+  }
+  .dek em{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    color:var(--accent-soft);
+  }
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:16px 30px;
+    border-radius:5px;
+    text-decoration:none;
+    display:inline-block;
+    transition:transform .15s ease, opacity .15s ease;
+  }
+  .btn-solid{background:var(--accent);color:var(--navy);}
+  .btn-solid:hover{transform:translateY(-1px);opacity:0.92;}
+  .btn-outline{background:transparent;color:#EDEAE0;border:1px solid var(--rule);}
+  .btn-outline:hover{border-color:var(--accent-soft);}
+  .scroll-hint{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    color:var(--ink-faint);
+  }
+
+  /* ---- layered mockup visuals ---- */
+  .stage{
+    position:relative;
+    margin:110px 0 0;
+    padding-bottom:190px;
+  }
+  .mock{
+    position:absolute;
+    background:var(--paper);
+    border-radius:10px;
+    box-shadow:0 50px 90px -30px rgba(0,0,0,0.55);
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.08);
+  }
+  .mock-chrome{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 16px;
+    background:#EAE4D4;
+    border-bottom:1px solid #DCD3BC;
+  }
+  .dot{width:8px;height:8px;border-radius:50%;}
+  .dot.d1{background:var(--accent);}
+  .dot.d2{background:#D9A441;}
+  .dot.d3{background:#6B7F5E;}
+  .mock-path{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:0.04em;
+    color:#7A7461;
+    margin-left:4px;
+  }
+  .mock-status{
+    margin-left:auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:#7A5232;
+    background:#F0DCC5;
+    padding:3px 8px;
+    border-radius:12px;
+  }
+
+  .mock-back{
+    width:640px;
+    top:0;
+    left:0;
+    transform:rotate(-2.5deg);
+    z-index:1;
+  }
+  .mock-back .mock-body{padding:26px 30px;}
+  .mock-back h2{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:22px;
+    color:#1B2540;
+    margin:0 0 10px;
+    line-height:1.2;
+  }
+  .mock-back h2 em{color:#A04A2E;font-style:italic;}
+  .mock-back p{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    line-height:1.6;
+    color:#4A4E5E;
+    margin:0;
+    max-width:38ch;
+  }
+
+  .mock-front{
+    width:600px;
+    top:150px;
+    left:220px;
+    transform:rotate(1.5deg);
+    z-index:2;
+  }
+  .mock-front .mock-body{padding:24px 28px;display:flex;gap:20px;}
+  .stat-block{flex:1;}
+  .stat-num{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:700;
+    font-size:34px;
+    color:#A04A2E;
+    display:block;
+    line-height:1;
+  }
+  .stat-lbl{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:#7A7461;
+    display:block;
+    margin-top:8px;
+    line-height:1.5;
+  }
+  .stat-block + .stat-block{border-left:1px solid #DCD3BC;padding-left:20px;}
+
+  @media (max-width:900px){
+    h1{font-size:38px;}
+    .stage{display:none;}
+    main{padding-top:80px;}
+  }
+  @media (max-width:600px){
+    header{flex-direction:column;align-items:flex-start;gap:10px;}
+    .site-url{font-size:10.5px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <a href="home.html" class="brand">
+      <span class="mark">A</span>
+      AI REFERRAL SCORING
+    </a>
+    <span class="site-url">FLYRANK.AI/ML-INTERNSHIP</span>
+  </header>
+
+  <main>
+    <span class="eyebrow">FlyRank ML Engineering Internship · Capstone Research</span>
+    <h1>Which pages are worth <em>restructuring</em> for AI-referral traffic?</h1>
+    <p class="dek">266,175 pages ranked by AI-referral opportunity — evaluated against a naive baseline, and reported with <em>an honest test</em> of whether the win is real.</p>
+    <div class="cta-row">
+      <a href="home.html" class="btn btn-solid">Enter</a>
+      <a href="paper.html" class="btn btn-outline">Skip straight to the paper</a>
+      <span class="scroll-hint">by Ali Ahmad · Aug 2026</span>
+    </div>
+
+    <div class="stage">
+      <div class="mock mock-back">
+        <div class="mock-chrome">
+          <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+          <span class="mock-path">Section 5 · Results</span>
+        </div>
+        <div class="mock-body">
+          <h2>Impressions alone <em>beats</em> the composite.</h2>
+          <p>A feature ablation shows 8.90× lift from impressions in isolation — the two-feature score doesn't win.</p>
+        </div>
+      </div>
+      <div class="mock mock-front">
+        <div class="mock-chrome">
+          <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+          <span class="mock-path">Abstract · Key stats</span>
+          <span class="mock-status">● Synced</span>
+        </div>
+        <div class="mock-body">
+          <div class="stat-block">
+            <span class="stat-num">8.76×</span>
+            <span class="stat-lbl">Lift@500 vs.<br>7.18× baseline</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-num" style="color:#6B7F5E;font-style:normal;font-size:20px;">not confirmed</span>
+            <span class="stat-lbl">95% bootstrap CI<br>includes zero</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

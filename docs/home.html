@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Referral Opportunity Scoring — Ali Ahmad</title>
+<meta name="description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity — evaluated honestly against a naive baseline.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600;1,9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3EFE4;
+    --paper-raised:#FAF8F1;
+    --ink:#1B2540;
+    --ink-soft:#5A5F6E;
+    --ink-faint:#8890A3;
+    --rule:#DDD6C4;
+    --rule-strong:#C9C0A8;
+    --accent:#C0602E;
+    --accent-dark:#A04A2E;
+    --accent-soft:#F3DFCF;
+    --flag:#6B7F5E;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 40px;}
+
+  /* ---- nav ---- */
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:26px 0;
+    border-bottom:1px solid var(--rule);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+    letter-spacing:0.1em;
+    color:var(--ink);
+    text-decoration:none;
+  }
+  .brand .mark{
+    width:24px;height:24px;
+    border-radius:5px;
+    background:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-style:italic;
+    font-size:14px;
+    color:var(--accent-soft);
+  }
+  .nav-links{
+    display:flex;
+    gap:34px;
+    list-style:none;
+    margin:0;padding:0;
+  }
+  .nav-links a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    text-decoration:none;
+  }
+  .nav-links a:hover{color:var(--accent-dark);}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:13px 22px;
+    border-radius:5px;
+    text-decoration:none;
+    display:inline-block;
+  }
+  .btn-solid{background:var(--ink);color:var(--paper);}
+  .btn-outline{background:transparent;color:var(--ink);border:1px solid var(--rule-strong);}
+  .btn-outline:hover{border-color:var(--accent);color:var(--accent-dark);}
+
+  /* ---- hero ---- */
+  .hero{padding:90px 0 60px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent-dark);
+    font-weight:600;
+    display:block;
+    margin-bottom:20px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:52px;
+    line-height:1.14;
+    letter-spacing:-0.01em;
+    margin:0 0 26px;
+    max-width:16ch;
+  }
+  h1 em{font-style:italic;font-weight:600;color:var(--accent);}
+  .dek{
+    font-family:'Inter',sans-serif;
+    font-size:17.5px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    max-width:58ch;
+    margin:0 0 34px;
+  }
+  .dek em{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    color:var(--accent-dark);
+  }
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+  .trust-note{
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;
+    color:var(--ink-faint);
+    font-style:italic;
+  }
+
+  /* ---- stat trust bar (replaces "as seen in") ---- */
+  .stat-bar{
+    display:flex;
+    align-items:center;
+    gap:0;
+    margin-top:56px;
+    padding-top:32px;
+    border-top:1px solid var(--rule);
+    flex-wrap:wrap;
+  }
+  .stat-bar .say{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:15px;
+    color:var(--ink-soft);
+    margin-right:28px;
+  }
+  .stat-chip{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    padding:10px 22px;
+    border-left:1px solid var(--rule);
+  }
+  .stat-chip:first-of-type{border-left:none;padding-left:0;}
+  .stat-chip .num{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-style:italic;
+    font-size:20px;
+    color:var(--accent-dark);
+  }
+  .stat-chip .lbl{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+
+  /* ---- product mockup ---- */
+  .mockup{
+    margin:64px 0 90px;
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 40px 70px -30px rgba(27,37,64,0.22);
+    display:flex;
+  }
+  .mockup-chrome{
+    position:absolute;
+  }
+  .mockup-main{flex:1;padding:0;}
+  .mockup-topbar{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:14px 22px;
+    border-bottom:1px solid var(--rule);
+  }
+  .dot{width:8px;height:8px;border-radius:50%;}
+  .dot.d1{background:var(--accent);}
+  .dot.d2{background:#D9A441;}
+  .dot.d3{background:var(--flag);}
+  .mockup-path{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+    margin-left:4px;
+  }
+  .mockup-status{
+    margin-left:auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    background:var(--accent-soft);
+    color:var(--accent-dark);
+    padding:3px 10px;
+    border-radius:14px;
+  }
+  .mockup-body{padding:34px 38px;}
+  .mockup-body h2{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:22px;
+    margin:0 0 16px;
+  }
+  .mockup-body p{
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    line-height:1.7;
+    color:#3A4258;
+    margin:0 0 14px;
+  }
+  .tag-a{color:var(--accent-dark);text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px;}
+  .tag-b{color:var(--flag);text-decoration:underline;text-decoration-color:var(--flag);text-underline-offset:3px;}
+
+  .mockup-side{
+    width:280px;
+    flex:none;
+    border-left:1px solid var(--rule);
+    padding:26px 24px;
+  }
+  .side-title{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:16px;
+    margin:0 0 2px;
+  }
+  .side-sub{
+    font-family:'Inter',sans-serif;
+    font-style:italic;
+    font-size:12px;
+    color:var(--ink-faint);
+    display:block;
+    margin-bottom:16px;
+  }
+  .side-row{margin-bottom:12px;}
+  .side-row .lbl{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    display:block;
+    margin-bottom:2px;
+  }
+  .side-row .val{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:13.5px;
+    color:var(--ink);
+  }
+  .goal-box{
+    background:var(--accent-soft);
+    border-left:3px solid var(--accent);
+    border-radius:0 4px 4px 0;
+    padding:11px 14px;
+    margin-top:14px;
+  }
+  .goal-box .goal-lbl{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--accent-dark);
+    display:block;
+    margin-bottom:4px;
+  }
+  .goal-box .goal-text{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:13px;
+    color:var(--ink);
+  }
+
+  footer{
+    text-align:center;
+    padding:40px 0 60px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+  }
+
+  @media (max-width:900px){
+    h1{font-size:34px;}
+    .nav-links{display:none;}
+    .mockup{flex-direction:column;}
+    .mockup-side{width:auto;border-left:none;border-top:1px solid var(--rule);}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a href="index.html" class="brand">
+      <span class="mark">A</span>
+      AI REFERRAL SCORING
+    </a>
+    <ul class="nav-links">
+      <li><a href="paper.html#question">Problem</a></li>
+      <li><a href="paper.html#methodology">Method</a></li>
+      <li><a href="paper.html#results">Results</a></li>
+      <li><a href="paper.html#limitations">Limitations</a></li>
+      <li><a href="paper.html#reproducibility">FAQ</a></li>
+    </ul>
+    <a href="paper.html" class="btn btn-solid">Read the Paper</a>
+  </nav>
+
+  <div class="hero">
+    <span class="eyebrow">FlyRank ML Engineering Internship · Capstone Research</span>
+    <h1>Which pages are worth <em>restructuring</em> for AI-referral traffic?</h1>
+    <p class="dek">A within-client normalized score ranks 266,175 real content pages by AI-referral opportunity — evaluated against a naive baseline, and reported with <em>an honest test</em> of whether the win is real.</p>
+    <div class="cta-row">
+      <a href="paper.html" class="btn btn-solid">Read the Paper</a>
+      <a href="paper.html#results" class="btn btn-outline">See the Ablation →</a>
+    </div>
+    <p class="trust-note">Every number here is reproducible from the public dataset — see Section 8.</p>
+
+    <div class="stat-bar">
+      <span class="say">In one pass —</span>
+      <div class="stat-chip">
+        <span class="num">266,175</span>
+        <span class="lbl">Pages ranked</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num">8.76×</span>
+        <span class="lbl">Lift@500</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num">39/104</span>
+        <span class="lbl">Clients covered</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num">2026</span>
+        <span class="lbl">FlyRank ML Track</span>
+      </div>
+    </div>
+
+    <div class="mockup">
+      <div class="mockup-main">
+        <div class="mockup-topbar">
+          <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+          <span class="mockup-path">Section 5 / Results — Feature Ablation</span>
+          <span class="mockup-status">● Synced</span>
+        </div>
+        <div class="mockup-body">
+          <h2>Impressions alone beats the composite.</h2>
+          <p>Isolating each feature on the same test split, <span class="tag-a">impressions alone</span> reaches <span class="tag-a">8.90× lift</span> — edging out the <span class="tag-b">combined within-client score</span> at <span class="tag-b">8.76×</span>. Word count in isolation barely clears the 1× floor a random ranking would produce.</p>
+          <p>The honest reading: this score is functionally an impressions-based ranking. Word count's inclusion is reported as untested, not beneficial — exactly the kind of finding a naive summary would have buried.</p>
+        </div>
+      </div>
+      <div class="mockup-side">
+        <span class="side-title">Table 2b</span>
+        <span class="side-sub">Feature ablation · Section 5</span>
+        <div class="side-row"><span class="lbl">Impressions only</span><span class="val">8.90× lift</span></div>
+        <div class="side-row"><span class="lbl">Word count only</span><span class="val">1.29× lift</span></div>
+        <div class="side-row"><span class="lbl">Combined (reported)</span><span class="val">8.76× lift</span></div>
+        <div class="goal-box">
+          <span class="goal-lbl">Reading</span>
+          <span class="goal-text">The composite doesn't beat its best single component.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>Ali Ahmad · AI Referral Opportunity Scoring · FlyRank ML Engineering Internship</footer>
+
+</body>
+</html>
