@@ -5,7 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Referral Opportunity Scoring — Ali Ahmad</title>
 <meta name="description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity — evaluated honestly against a naive baseline.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Referral Opportunity Scoring — Ali Ahmad">
+<meta property="og:description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity — evaluated honestly against a naive baseline.">
+<meta property="og:image" content="https://whozahm3d.github.io/flyrank-ml-internship/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://whozahm3d.github.io/flyrank-ml-internship/home.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Referral Opportunity Scoring — Ali Ahmad">
+<meta name="twitter:description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity — evaluated honestly against a naive baseline.">
+<meta name="twitter:image" content="https://whozahm3d.github.io/flyrank-ml-internship/og-card.png">
+<link rel="canonical" href="https://whozahm3d.github.io/flyrank-ml-internship/home.html">
+
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600;1,9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -91,6 +111,24 @@
   .btn-solid{background:var(--ink);color:var(--paper);}
   .btn-outline{background:transparent;color:var(--ink);border:1px solid var(--rule-strong);}
   .btn-outline:hover{border-color:var(--accent);color:var(--accent-dark);}
+  .nav-right{display:flex;align-items:center;gap:10px;}
+  .nav-github{padding:13px 18px;}
+  .skip-link{
+    position:absolute;
+    top:-48px;
+    left:12px;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    font-weight:600;
+    padding:10px 16px;
+    border-radius:0 0 6px 6px;
+    z-index:100;
+    text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip-link:focus{top:0;}
 
   /* ---- hero ---- */
   .hero{padding:90px 0 60px;}
@@ -310,8 +348,14 @@
     .mockup-side{width:auto;border-left:none;border-top:1px solid var(--rule);}
   }
 </style>
+<!-- Privacy-friendly analytics (disabled by default) — sign up at plausible.io,
+     swap in your own domain below, and uncomment to enable:
+<script defer data-domain="whozahm3d.github.io" src="https://plausible.io/js/script.js"></script>
+-->
 </head>
 <body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
 
 <div class="wrap">
   <nav>
@@ -326,10 +370,13 @@
       <li><a href="paper.html#limitations">Limitations</a></li>
       <li><a href="paper.html#reproducibility">FAQ</a></li>
     </ul>
-    <a href="paper.html" class="btn btn-solid">Read the Paper</a>
+    <div class="nav-right">
+      <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener" class="btn btn-outline nav-github">GitHub</a>
+      <a href="paper.html" class="btn btn-solid">Read the Paper</a>
+    </div>
   </nav>
 
-  <div class="hero">
+  <div class="hero" id="main-content">
     <span class="eyebrow">FlyRank ML Engineering Internship · Capstone Research</span>
     <h1>Which pages are worth <em>restructuring</em> for AI-referral traffic?</h1>
     <p class="dek">A within-client normalized score ranks 266,175 real content pages by AI-referral opportunity — evaluated against a naive baseline, and reported with <em>an honest test</em> of whether the win is real.</p>
@@ -337,7 +384,7 @@
       <a href="paper.html" class="btn btn-solid">Read the Paper</a>
       <a href="paper.html#results" class="btn btn-outline">See the Ablation →</a>
     </div>
-    <p class="trust-note">Every number here is reproducible from the public dataset — see Section 8.</p>
+    <p class="trust-note">~14 min read · Every number here is reproducible from the public dataset — see Section 8.</p>
 
     <div class="stat-bar">
       <span class="say">In one pass —</span>
@@ -362,7 +409,7 @@
     <div class="mockup">
       <div class="mockup-main">
         <div class="mockup-topbar">
-          <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+          <span class="dot d1" aria-hidden="true"></span><span class="dot d2" aria-hidden="true"></span><span class="dot d3" aria-hidden="true"></span>
           <span class="mockup-path">Section 5 / Results — Feature Ablation</span>
           <span class="mockup-status">● Synced</span>
         </div>

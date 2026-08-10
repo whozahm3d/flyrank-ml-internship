@@ -17,8 +17,15 @@
 <meta name="twitter:title" content="AI Referral Opportunity Scoring — Ali Ahmad">
 <meta name="twitter:description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity — evaluated honestly against a naive baseline.">
 <meta name="twitter:image" content="https://whozahm3d.github.io/flyrank-ml-internship/og-card.png">
+<link rel="canonical" href="https://whozahm3d.github.io/flyrank-ml-internship/">
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600;1,9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,7 +35,7 @@
     --navy-raised:#1C2640;
     --paper:#F3EFE4;
     --ink-soft:#AEB6CC;
-    --ink-faint:#7480A0;
+    --ink-faint:#8994B8;
     --accent:#D97D4A;
     --accent-soft:#E39A6B;
     --rule:#2C3757;
@@ -142,6 +149,22 @@
     letter-spacing:0.08em;
     color:var(--ink-faint);
   }
+  .skip-link{
+    position:absolute;
+    top:-48px;
+    left:12px;
+    background:var(--accent);
+    color:var(--navy);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    font-weight:600;
+    padding:10px 16px;
+    border-radius:0 0 6px 6px;
+    z-index:100;
+    text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip-link:focus{top:0;}
 
   /* ---- layered mockup visuals ---- */
   .stage{
@@ -254,8 +277,14 @@
     .site-url{font-size:10.5px;}
   }
 </style>
+<!-- Privacy-friendly analytics (disabled by default) — sign up at plausible.io,
+     swap in your own domain below, and uncomment to enable:
+<script defer data-domain="whozahm3d.github.io" src="https://plausible.io/js/script.js"></script>
+-->
 </head>
 <body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
 
 <div class="wrap">
   <header>
@@ -266,20 +295,20 @@
     <span class="site-url">FLYRANK.AI/ML-INTERNSHIP</span>
   </header>
 
-  <main>
+  <main id="main-content">
     <span class="eyebrow">FlyRank ML Engineering Internship · Capstone Research</span>
     <h1>Which pages are worth <em>restructuring</em> for AI-referral traffic?</h1>
     <p class="dek">266,175 pages ranked by AI-referral opportunity — evaluated against a naive baseline, and reported with <em>an honest test</em> of whether the win is real.</p>
     <div class="cta-row">
       <a href="home.html" class="btn btn-solid">Enter</a>
       <a href="paper.html" class="btn btn-outline">Skip straight to the paper</a>
-      <span class="scroll-hint">by Ali Ahmad · Aug 2026</span>
+      <span class="scroll-hint">~14 min read · by Ali Ahmad · Aug 2026</span>
     </div>
 
     <div class="stage">
       <div class="mock mock-back">
         <div class="mock-chrome">
-          <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+          <span class="dot d1" aria-hidden="true"></span><span class="dot d2" aria-hidden="true"></span><span class="dot d3" aria-hidden="true"></span>
           <span class="mock-path">Section 5 · Results</span>
         </div>
         <div class="mock-body">
@@ -289,7 +318,7 @@
       </div>
       <div class="mock mock-front">
         <div class="mock-chrome">
-          <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+          <span class="dot d1" aria-hidden="true"></span><span class="dot d2" aria-hidden="true"></span><span class="dot d3" aria-hidden="true"></span>
           <span class="mock-path">Abstract · Key stats</span>
           <span class="mock-status">● Synced</span>
         </div>

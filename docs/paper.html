@@ -18,6 +18,7 @@
 <meta name="twitter:title" content="Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring">
 <meta name="twitter:description" content="A within-client normalized score ranks 266,175 pages for AI-referral opportunity, beats a naive baseline on point estimate — and an honest bootstrap test shows the win isn't yet statistically confirmed.">
 <meta name="twitter:image" content="https://whozahm3d.github.io/flyrank-ml-internship/og-card.png">
+<link rel="canonical" href="https://whozahm3d.github.io/flyrank-ml-internship/paper.html">
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -159,12 +160,19 @@
     padding:40px 20px 40px 32px;
     border-right:1px solid var(--rule);
   }
+  nav.rail .brand-link{
+    text-decoration:none;
+    color:inherit;
+    display:block;
+  }
+  nav.rail .brand-link:hover .brand{color:var(--accent-dark);}
   nav.rail .brand{
     font-family:'Fraunces',serif;
     font-weight:400;
     font-size:17px;
     margin-bottom:6px;
     display:block;
+    transition:color .15s ease;
   }
   nav.rail .brand .q{
     display:block;
@@ -174,6 +182,18 @@
     letter-spacing:0.06em;
     margin-top:4px;
   }
+  nav.rail .rail-back{
+    display:block;
+    margin-bottom:20px;
+  }
+  nav.rail .rail-back a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.04em;
+    color:var(--ink-faint);
+    text-decoration:none;
+  }
+  nav.rail .rail-back a:hover{color:var(--accent-dark);}
   nav.rail ol{list-style:none;margin:26px 0 0;padding:0;}
   nav.rail li{margin-bottom:1px;}
   nav.rail a{
@@ -1265,6 +1285,10 @@
     .brand-credit{background:#000 !important;}
   }
 </style>
+<!-- Privacy-friendly analytics (disabled by default) — sign up at plausible.io,
+     swap in your own domain below, and uncomment to enable:
+<script defer data-domain="whozahm3d.github.io" src="https://plausible.io/js/script.js"></script>
+-->
 </head>
 <body>
 
@@ -1290,7 +1314,9 @@
 
 <div class="shell">
   <nav class="rail" id="rail">
-    <span class="brand">AI Referral<br>Opportunity Scoring<span class="q">query: "restructure for AI referral"</span></span>
+    <a href="home.html" class="brand-link" aria-label="Back to overview">
+      <span class="brand">AI Referral<br>Opportunity Scoring<span class="q">query: "restructure for AI referral"</span></span>
+    </a>
     <ol>
       <li><a href="#abstract"><span class="n">01</span>Abstract</a></li>
       <li><a href="#question"><span class="n">02</span>Problem</a></li>
@@ -1307,7 +1333,7 @@
 
   <main id="main-content">
     <div class="hero">
-      <span class="query-bar"><span class="chrome-dots"><i></i><i></i><i></i></span><span class="logo-chip"><img src="https://flyrank.ai/api/cdn/logos/flyrank-wordmark-onDark.svg" width="68" height="11" alt="FlyRank"></span>FlyRank ML Engineering Internship · Capstone Research Paper</span>
+      <span class="query-bar"><span class="chrome-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="logo-chip"><img src="https://flyrank.ai/api/cdn/logos/flyrank-wordmark-onDark.svg" width="68" height="11" alt="FlyRank"></span>FlyRank ML Engineering Internship · Capstone Research Paper</span>
       <h1>Which pages are worth <em>restructuring</em> for AI-referral traffic?</h1>
       <p class="dek">A within-client normalized score ranks 266,175 real content pages by AI-referral opportunity — built from a production search-intelligence warehouse, evaluated against a naive baseline, and reported with <em>an honest test</em> of whether the win is real.</p>
 
