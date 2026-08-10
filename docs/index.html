@@ -170,7 +170,7 @@
   .stage{
     position:relative;
     margin:110px 0 0;
-    padding-bottom:190px;
+    padding-bottom:300px;
   }
   .mock{
     position:absolute;
@@ -267,6 +267,21 @@
   }
   .stat-block + .stat-block{border-left:1px solid #DCD3BC;padding-left:20px;}
 
+  /* ---- scroll-in reveal ---- */
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  .reveal-delay-1{transition-delay:.12s;}
+  .reveal-delay-2{transition-delay:.24s;}
+  .reveal-delay-3{transition-delay:.36s;}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
+  }
+
   @media (max-width:900px){
     h1{font-size:38px;}
     .stage{display:none;}
@@ -296,17 +311,17 @@
   </header>
 
   <main id="main-content">
-    <span class="eyebrow">FlyRank ML Engineering Internship · Capstone Research</span>
-    <h1>Which pages are worth <em>restructuring</em> for AI-referral traffic?</h1>
-    <p class="dek">266,175 pages ranked by AI-referral opportunity — evaluated against a naive baseline, and reported with <em>an honest test</em> of whether the win is real.</p>
-    <div class="cta-row">
+    <span class="eyebrow reveal">FlyRank ML Engineering Internship · Capstone Research</span>
+    <h1 class="reveal reveal-delay-1">Which pages are worth <em>restructuring</em> for AI-referral traffic?</h1>
+    <p class="dek reveal reveal-delay-2">266,175 pages ranked by AI-referral opportunity — evaluated against a naive baseline, and reported with <em>an honest test</em> of whether the win is real.</p>
+    <div class="cta-row reveal reveal-delay-3">
       <a href="home.html" class="btn btn-solid">Enter</a>
       <a href="paper.html" class="btn btn-outline">Skip straight to the paper</a>
       <span class="scroll-hint">~14 min read · by Ali Ahmad · Aug 2026</span>
     </div>
 
     <div class="stage">
-      <div class="mock mock-back">
+      <div class="mock mock-back reveal">
         <div class="mock-chrome">
           <span class="dot d1" aria-hidden="true"></span><span class="dot d2" aria-hidden="true"></span><span class="dot d3" aria-hidden="true"></span>
           <span class="mock-path">Section 5 · Results</span>
@@ -316,7 +331,7 @@
           <p>A feature ablation shows 8.90× lift from impressions in isolation — the two-feature score doesn't win.</p>
         </div>
       </div>
-      <div class="mock mock-front">
+      <div class="mock mock-front reveal reveal-delay-2">
         <div class="mock-chrome">
           <span class="dot d1" aria-hidden="true"></span><span class="dot d2" aria-hidden="true"></span><span class="dot d3" aria-hidden="true"></span>
           <span class="mock-path">Abstract · Key stats</span>
@@ -324,7 +339,7 @@
         </div>
         <div class="mock-body">
           <div class="stat-block">
-            <span class="stat-num">8.76×</span>
+            <span class="stat-num" data-count-to="8.76" data-suffix="×">8.76×</span>
             <span class="stat-lbl">Lift@500 vs.<br>7.18× baseline</span>
           </div>
           <div class="stat-block">
@@ -336,6 +351,48 @@
     </div>
   </main>
 </div>
+
+<script>
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    || window.matchMedia('print').matches;
+
+  if (!prefersReducedMotion) {
+    const revealTargets = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.1, rootMargin: '0px 0px -30px 0px'});
+    revealTargets.forEach(function(el){ revealObserver.observe(el); });
+
+    // Count-up on any stat carrying a data-count-to value.
+    document.querySelectorAll('[data-count-to]').forEach(function(el){
+      const target = parseFloat(el.dataset.countTo);
+      const suffix = el.dataset.suffix || '';
+      const countObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (!entry.isIntersecting) return;
+          countObserver.unobserve(entry.target);
+          const duration = 900;
+          const start = performance.now();
+          function tick(now){
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = (target * eased).toFixed(2) + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        });
+      }, {threshold: 0.5});
+      countObserver.observe(el);
+    });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in-view'); });
+  }
+</script>
 
 </body>
 </html>

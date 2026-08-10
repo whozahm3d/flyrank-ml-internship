@@ -341,6 +341,21 @@
     color:var(--ink-faint);
   }
 
+  /* ---- scroll-in reveal ---- */
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  .reveal-delay-1{transition-delay:.12s;}
+  .reveal-delay-2{transition-delay:.24s;}
+  .reveal-delay-3{transition-delay:.36s;}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
+  }
+
   @media (max-width:900px){
     h1{font-size:34px;}
     .nav-links{display:none;}
@@ -377,23 +392,23 @@
   </nav>
 
   <div class="hero" id="main-content">
-    <span class="eyebrow">FlyRank ML Engineering Internship · Capstone Research</span>
-    <h1>Which pages are worth <em>restructuring</em> for AI-referral traffic?</h1>
-    <p class="dek">A within-client normalized score ranks 266,175 real content pages by AI-referral opportunity — evaluated against a naive baseline, and reported with <em>an honest test</em> of whether the win is real.</p>
-    <div class="cta-row">
+    <span class="eyebrow reveal">FlyRank ML Engineering Internship · Capstone Research</span>
+    <h1 class="reveal reveal-delay-1">Which pages are worth <em>restructuring</em> for AI-referral traffic?</h1>
+    <p class="dek reveal reveal-delay-2">A within-client normalized score ranks 266,175 real content pages by AI-referral opportunity — evaluated against a naive baseline, and reported with <em>an honest test</em> of whether the win is real.</p>
+    <div class="cta-row reveal reveal-delay-3">
       <a href="paper.html" class="btn btn-solid">Read the Paper</a>
       <a href="paper.html#results" class="btn btn-outline">See the Ablation →</a>
     </div>
-    <p class="trust-note">~14 min read · Every number here is reproducible from the public dataset — see Section 8.</p>
+    <p class="trust-note reveal reveal-delay-3">~14 min read · Every number here is reproducible from the public dataset — see Section 8.</p>
 
-    <div class="stat-bar">
+    <div class="stat-bar reveal">
       <span class="say">In one pass —</span>
       <div class="stat-chip">
-        <span class="num">266,175</span>
+        <span class="num" data-count-to="266175" data-format="int">266,175</span>
         <span class="lbl">Pages ranked</span>
       </div>
       <div class="stat-chip">
-        <span class="num">8.76×</span>
+        <span class="num" data-count-to="8.76" data-suffix="×">8.76×</span>
         <span class="lbl">Lift@500</span>
       </div>
       <div class="stat-chip">
@@ -406,7 +421,7 @@
       </div>
     </div>
 
-    <div class="mockup">
+    <div class="mockup reveal">
       <div class="mockup-main">
         <div class="mockup-topbar">
           <span class="dot d1" aria-hidden="true"></span><span class="dot d2" aria-hidden="true"></span><span class="dot d3" aria-hidden="true"></span>
@@ -435,6 +450,52 @@
 </div>
 
 <footer>Ali Ahmad · AI Referral Opportunity Scoring · FlyRank ML Engineering Internship</footer>
+
+<script>
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    || window.matchMedia('print').matches;
+
+  if (!prefersReducedMotion) {
+    const revealTargets = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.1, rootMargin: '0px 0px -30px 0px'});
+    revealTargets.forEach(function(el){ revealObserver.observe(el); });
+
+    // Count-up on any stat carrying a data-count-to value.
+    document.querySelectorAll('[data-count-to]').forEach(function(el){
+      const target = parseFloat(el.dataset.countTo);
+      const suffix = el.dataset.suffix || '';
+      const isInt = el.dataset.format === 'int';
+      const countObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (!entry.isIntersecting) return;
+          countObserver.unobserve(entry.target);
+          const duration = 900;
+          const start = performance.now();
+          function tick(now){
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const val = target * eased;
+            el.textContent = isInt
+              ? Math.round(val).toLocaleString('en-US') + suffix
+              : val.toFixed(2) + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        });
+      }, {threshold: 0.5});
+      countObserver.observe(el);
+    });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in-view'); });
+  }
+</script>
 
 </body>
 </html>
