@@ -1285,10 +1285,9 @@
     .brand-credit{background:#000 !important;}
   }
 </style>
-<!-- Privacy-friendly analytics (disabled by default) — sign up at plausible.io,
-     swap in your own domain below, and uncomment to enable:
+<!-- Privacy-friendly analytics via Plausible — sign up free at plausible.io,
+     add "whozahm3d.github.io" as your site there, and it'll start tracking. -->
 <script defer data-domain="whozahm3d.github.io" src="https://plausible.io/js/script.js"></script>
--->
 </head>
 <body>
 
@@ -1707,7 +1706,7 @@
 
       <p><em class="lead-word">Recommendation:</em> don't score these 12 articles with the current within-client formula — there's no GSC-derived signal to score them on, and forcing a value would misrepresent confidence. Instead, flag them explicitly as a distinct "GSC-blind but AI-active" watchlist for manual review, and treat their existence as the strongest single argument in this paper for adding a GA4-native feature (e.g. a rolling AI-session count) in a future iteration, rather than continuing to score opportunity purely from search-console signals as done here.</p>
 
-      <p><strong>Threats to validity — confounding, not just sample size.</strong> Everything above concerns statistical power. A separate, untested concern is confounding: <code>word_count</code> and <code>gsc_impressions_sum</code> may both be downstream proxies for how much editorial investment a client already puts into a given page, rather than independent signals of genuine AI-referral fit. A client that writes longer, more thorough pages likely also promotes and internally links those same pages more, driving both higher impressions and higher word count together — in which case the score could simply be re-ranking by "which pages this client already cares about," which would still correlate with AI-referral pickup without the score capturing anything about <em>what makes a page AI-friendly</em>. This is not ruled out by anything in Section 4 or 5, and it's a materially different story from the one the score's framing implies. <span class="fill-in">Not yet tested — the direct check is to add page age and internal-link count as controls and see whether the lift survives; left as a future-work item (Section 7) rather than claimed here.</span></p>
+      <p><strong>Threats to validity — confounding, not just sample size.</strong> Everything above concerns statistical power. A separate, untested concern is confounding: <code>word_count</code> and <code>gsc_impressions_sum</code> may both be downstream proxies for how much editorial investment a client already puts into a given page, rather than independent signals of genuine AI-referral fit. A client that writes longer, more thorough pages likely also promotes and internally links those same pages more, driving both higher impressions and higher word count together — in which case the score could simply be re-ranking by "which pages this client already cares about," which would still correlate with AI-referral pickup without the score capturing anything about <em>what makes a page AI-friendly</em>. This is not ruled out by anything in Section 4 or 5, and it's a materially different story from the one the score's framing implies. <span class="fill-in-done">Checked and not testable with this data release: the warehouse schema (verified directly — <a href="#warehouse-schema">18 columns, listed in full in Section 8</a>) has no page-age proxy (no first-seen or publish-date field) and no internal-link-count metric of any kind. Both are typically SEO-crawler outputs (e.g. from Screaming Frog or Ahrefs) rather than something a GSC/GA4-style export would carry, and neither is present here. This confound therefore remains genuinely open — not ruled out, not testable with current data — and closing it would require a separate crawl-based data source, not further analysis of this release. Flagged here rather than quietly dropped.</span></p>
 
       <p style="color:var(--ink-soft);font-size:15px;">None of this is a reason to discard the work. The leakage check in Section 4 shows the evaluation pipeline correctly distinguishes a real signal from an artificially inflated one, and the within-client score is directionally promising and mechanistically sound — it fixes a real concentration problem, and it happens to also lead on precision. What it lacks is statistical confirmation at this sample size, which is itself a legitimate, reportable finding, not a failure of the method.</p>
     </section>
@@ -1718,7 +1717,7 @@
       <h2>Ranked recommendations</h2>
       <p>This is a <strong>candidate list for human review</strong>, not a validated prediction. Every recommendation below should be read as "worth a content strategist's attention," not "will generate AI-referral traffic."</p>
 
-      <p><strong>Who this is for:</strong> a content strategist deciding where to spend limited restructuring effort. <strong>What "recommended" means:</strong> an article that ranks highly on the within-client score — high search visibility relative to its own client's typical article, similar traits to articles that already receive AI-referral sessions — but currently has zero observed AI-referral activity, i.e. visible enough to be a plausible candidate, but not yet capturing that traffic.</p>
+      <p><strong>Who this is for:</strong> a content strategist deciding where to spend limited restructuring effort. <strong>What "recommended" means:</strong> an article that ranks highly on the within-client score — high search visibility relative to its own client's typical article, similar traits to articles that already receive AI-referral sessions — but currently has zero observed AI-referral activity, i.e. visible enough to be a plausible candidate, but not yet capturing that traffic. As Section 5's ablation shows, this ranking is driven almost entirely by relative impressions — word count adds no measurable signal — so read <code>high_opportunity</code> as "high relative impressions for this client," not a genuine two-factor judgment.</p>
 
       <p><strong>Where every eligible article lands:</strong></p>
       <div class="funnel">
@@ -1835,6 +1834,32 @@
         <span class="tag nuanced">Reproducibility note</span> <em class="italic-body">On Aug 9, 2026, re-running the notebook to add the Table 2b ablation cell changed the bootstrap CI and win-rate figures already published in Sections 5–6 — from [−4.60pp, +3.20pp] / 58.5% to [−4.0pp, +3.2pp] / 60.5% — despite the fixed seed.</em> The root cause: the train/test client split is built by calling <code>.unique()</code> on the client-ID column and then shuffling with the seeded RNG — but <code>.unique()</code> returns clients in whatever row-order the upstream DuckDB query happens to produce, and that order isn't pinned by an explicit <code>ORDER BY</code>. Shuffling an identically-seeded RNG over a differently-ordered array produces a different split, which cascades into different bootstrap resamples. The conclusion itself didn't change (the CI still spans zero either way), so this paper's numbers were updated to match the currently-committed outputs rather than silently kept stale — but the underlying non-determinism is a real gap, not yet fixed, and is now tracked as a data-pipeline TODO: add an explicit sort before the client list is deduplicated and shuffled, then confirm the split — and therefore these numbers — actually stabilizes across repeated runs.</div>
 
       <p><strong>Bootstrap methodology:</strong> confidence intervals in Section 5 are computed with a percentile bootstrap resampled at the <em>client</em> level, not the article level — for each of 1,000 iterations, the 8 test clients are resampled with replacement and precision@500 is recomputed across all articles belonging to the resampled clients, then the 2.5th and 97.5th percentiles of the resulting distribution form the reported 95% CI. Resampling at the client level (rather than pooling all articles and resampling individually) is what makes 8 the effective sample size driving CI width, not 40,631 — articles from the same client aren't independent observations for this purpose.<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup></p>
+
+      <p id="warehouse-schema"><strong>Feature-table schema, verified directly</strong> (all 18 columns on the <code>features</code> table backing every result in this paper — checked explicitly while investigating the confounding question raised in Section 6, since that check needed to confirm what does and doesn't exist rather than assume it):</p>
+      <table>
+        <caption>Table 4b. <span class="tbl-desc">Full column list, <code>features</code> table — no page-age or link-count field exists.</span></caption>
+        <thead><tr><th>Column</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td><code>content_hash_id</code></td><td>VARCHAR</td></tr>
+          <tr><td><code>client_hash_id</code></td><td>VARCHAR</td></tr>
+          <tr><td><code>gsc_impressions_sum</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>gsc_avg_position_mean</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>sessions_ai_window</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>word_count</code></td><td>BIGINT</td></tr>
+          <tr><td><code>has_word_count</code></td><td>BOOLEAN</td></tr>
+          <tr><td><code>label_ai</code></td><td>BIGINT</td></tr>
+          <tr><td><code>z_impressions</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>z_word_count</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>ai_opportunity_score</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>baseline_score</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>split</code></td><td>VARCHAR</td></tr>
+          <tr><td><code>z_impressions_within</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>z_word_count_within</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>ai_opportunity_score_within_client</code></td><td>DOUBLE</td></tr>
+          <tr><td><code>reason_code</code></td><td>VARCHAR</td></tr>
+          <tr><td><code>has_min_visibility</code></td><td>BOOLEAN</td></tr>
+        </tbody>
+      </table>
 
       <h3 style="font-family:'Fraunces',serif;font-weight:400;font-size:21px;margin:26px 0 10px;color:var(--ink);">Glossary</h3>
       <table>
