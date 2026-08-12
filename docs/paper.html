@@ -49,7 +49,7 @@
     "url": "https://flyrank.ai"
   },
   "datePublished": "2026-08-07",
-  "dateModified": "2026-08-08",
+  "dateModified": "2026-08-13",
   "image": "https://whozahm3d.github.io/flyrank-ml-internship/og-card.png",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -1305,9 +1305,11 @@
     <option value="#results">5 · Results</option>
     <option value="#limitations">6 · Limitations</option>
     <option value="#recommendations">7 · Recommendations</option>
-    <option value="#reproducibility">8 · Reproducibility</option>
-    <option value="#acknowledgments">9 · Acknowledgments</option>
-    <option value="#contacts">10 · Contacts</option>
+    <option value="#model-card">8 · Model &amp; data card</option>
+    <option value="#production">9 · Path to production</option>
+    <option value="#reproducibility">10 · Reproducibility</option>
+    <option value="#acknowledgments">11 · Acknowledgments</option>
+    <option value="#contacts">12 · Contacts</option>
   </select>
 </div>
 
@@ -1324,9 +1326,11 @@
       <li><a href="#results"><span class="n">05</span>Results</a></li>
       <li><a href="#limitations"><span class="n">06</span>Limitations</a></li>
       <li><a href="#recommendations"><span class="n">07</span>Recommendations</a></li>
-      <li><a href="#reproducibility"><span class="n">08</span>Reproducibility</a></li>
-      <li><a href="#acknowledgments"><span class="n">09</span>Acknowledgments</a></li>
-      <li><a href="#contacts"><span class="n">10</span>Contacts</a></li>
+      <li><a href="#model-card"><span class="n">08</span>Model &amp; data card</a></li>
+      <li><a href="#production"><span class="n">09</span>Path to production</a></li>
+      <li><a href="#reproducibility"><span class="n">10</span>Reproducibility</a></li>
+      <li><a href="#acknowledgments"><span class="n">11</span>Acknowledgments</a></li>
+      <li><a href="#contacts"><span class="n">12</span>Contacts</a></li>
     </ol>
   </nav>
 
@@ -1357,7 +1361,7 @@
       <span class="byline-sep">·</span>
       <span>Last updated Aug 9, 2026</span>
       <span class="byline-sep">·</span>
-      <span class="read-time">~14 min read</span>
+      <span class="read-time">~16 min read</span>
     </div>
 
     <div class="byline-meta">
@@ -1369,6 +1373,8 @@
 
     <p class="changelog"><em>Aug 8:</em> added PDF export, table captions, structured data, favicon set, and italic-accent typography pass.</p>
     <p class="changelog"><em>Aug 9:</em> added feature ablation (Table 2b), threats-to-validity and cost-framing discussion, related work and author sections; updated Section 5–6 bootstrap CI and win-rate figures after a split re-run.</p>
+
+    <p class="changelog"><em>Aug 13:</em> added a Model &amp; data card (Section 8) and a Path to production section (Section 9), consolidating scope, known biases, and operational guardrails already documented elsewhere in the paper; reproducibility, acknowledgments, and contacts renumbered accordingly.</p>
 
     <a class="repo-badge" href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">
       <img src="https://img.shields.io/github/last-commit/whozahm3d/flyrank-ml-internship?style=flat-square&amp;color=1F6F5C&amp;label=last%20commit&amp;labelColor=191D19" alt="GitHub last commit" width="150" height="20">
@@ -1618,7 +1624,7 @@
           <tr><td>Precision@500 without dominant client</td><td class="num">7.6%</td></tr>
         </tbody>
       </table>
-      <p class="table-version-note">Regenerated Aug 9, 2026 · commit <code>fa89853</code> · see the <a href="#repro-note">reproducibility note in Section 8</a> before citing these figures elsewhere.</p>
+      <p class="table-version-note">Regenerated Aug 9, 2026 · commit <code>fa89853</code> · see the <a href="#repro-note">reproducibility note in Section 10</a> before citing these figures elsewhere.</p>
 
       <p><strong>Analysis:</strong> the two headline precision figures overlap heavily in their individual 95% CIs (4.0–16.2% for within-client vs. 4.6–19.6% for naive), visually confirmed by Figure 7's overlapping intervals — but the paired bootstrap is the more informative test, since it holds the resample fixed and looks at the difference client-by-client rather than comparing two independent-looking intervals. That paired view shows the average edge is tiny: +0.40 percentage points, not the +2.2pp gap the single test-set snapshot suggests, and its own 95% CI still spans from a 4.0pp loss to a 3.2pp win. Only 60.5% of resamples favored the within-client score at all — barely better than a coin flip — and pulling the single most-represented client out of the test set drops within-client precision to 7.6%, below the naive baseline entirely. Together these numbers say the point-estimate win on the original test split likely owes more to which clients happened to land in the test group than to a robust property of the scoring method.</p>
 
@@ -1706,7 +1712,7 @@
 
       <p><em class="lead-word">Recommendation:</em> don't score these 12 articles with the current within-client formula — there's no GSC-derived signal to score them on, and forcing a value would misrepresent confidence. Instead, flag them explicitly as a distinct "GSC-blind but AI-active" watchlist for manual review, and treat their existence as the strongest single argument in this paper for adding a GA4-native feature (e.g. a rolling AI-session count) in a future iteration, rather than continuing to score opportunity purely from search-console signals as done here.</p>
 
-      <p><strong>Threats to validity — confounding, not just sample size.</strong> Everything above concerns statistical power. A separate, untested concern is confounding: <code>word_count</code> and <code>gsc_impressions_sum</code> may both be downstream proxies for how much editorial investment a client already puts into a given page, rather than independent signals of genuine AI-referral fit. A client that writes longer, more thorough pages likely also promotes and internally links those same pages more, driving both higher impressions and higher word count together — in which case the score could simply be re-ranking by "which pages this client already cares about," which would still correlate with AI-referral pickup without the score capturing anything about <em>what makes a page AI-friendly</em>. This is not ruled out by anything in Section 4 or 5, and it's a materially different story from the one the score's framing implies. <span class="fill-in-done">Checked and not testable with this data release: the warehouse schema (verified directly — <a href="#warehouse-schema">18 columns, listed in full in Section 8</a>) has no page-age proxy (no first-seen or publish-date field) and no internal-link-count metric of any kind. Both are typically SEO-crawler outputs (e.g. from Screaming Frog or Ahrefs) rather than something a GSC/GA4-style export would carry, and neither is present here. This confound therefore remains genuinely open — not ruled out, not testable with current data — and closing it would require a separate crawl-based data source, not further analysis of this release. Flagged here rather than quietly dropped.</span></p>
+      <p><strong>Threats to validity — confounding, not just sample size.</strong> Everything above concerns statistical power. A separate, untested concern is confounding: <code>word_count</code> and <code>gsc_impressions_sum</code> may both be downstream proxies for how much editorial investment a client already puts into a given page, rather than independent signals of genuine AI-referral fit. A client that writes longer, more thorough pages likely also promotes and internally links those same pages more, driving both higher impressions and higher word count together — in which case the score could simply be re-ranking by "which pages this client already cares about," which would still correlate with AI-referral pickup without the score capturing anything about <em>what makes a page AI-friendly</em>. This is not ruled out by anything in Section 4 or 5, and it's a materially different story from the one the score's framing implies. <span class="fill-in-done">Checked and not testable with this data release: the warehouse schema (verified directly — <a href="#warehouse-schema">18 columns, listed in full in Section 10</a>) has no page-age proxy (no first-seen or publish-date field) and no internal-link-count metric of any kind. Both are typically SEO-crawler outputs (e.g. from Screaming Frog or Ahrefs) rather than something a GSC/GA4-style export would carry, and neither is present here. This confound therefore remains genuinely open — not ruled out, not testable with current data — and closing it would require a separate crawl-based data source, not further analysis of this release. Flagged here rather than quietly dropped.</span></p>
 
       <p style="color:var(--ink-soft);font-size:15px;">None of this is a reason to discard the work. The leakage check in Section 4 shows the evaluation pipeline correctly distinguishes a real signal from an artificially inflated one, and the within-client score is directionally promising and mechanistically sound — it fixes a real concentration problem, and it happens to also lead on precision. What it lacks is statistical confirmation at this sample size, which is itself a legitimate, reportable finding, not a failure of the method.</p>
     </section>
@@ -1816,9 +1822,55 @@
       </ul>
     </div>
 
-    <!-- 8. REPRODUCIBILITY -->
-    <section id="reproducibility">
+    <!-- 8. MODEL & DATA CARD -->
+    <section id="model-card" class="wide">
       <span class="eyebrow">Section 8</span>
+      <h2>Model &amp; data card</h2>
+      <p>A standard summary of what this score is, what it isn't, and where its blind spots are — collected here in one place rather than left scattered across Sections 3–6, following common practice for documenting an ML artifact before any production use.</p>
+
+      <table>
+        <caption>Table 8. <span class="tbl-desc">Model &amp; data card — within-client AI-referral opportunity score.</span></caption>
+        <tbody>
+          <tr><td style="width:190px;"><strong>Model type</strong></td><td>Deterministic ranking/scoring formula (within-client z-scored composite) — <strong>not</strong> a trained classifier, and produces no probability estimate.</td></tr>
+          <tr><td><strong>Intended use</strong></td><td>Decision-support for FlyRank content strategists prioritizing which already-visible pages to review for AI-referral restructuring. Output is a ranked candidate list for human review, not an automated action.</td></tr>
+          <tr><td><strong>Out-of-scope uses</strong></td><td>Auto-restructuring without human review; any causal claim about why a page receives AI-referral traffic; any external-facing performance claim (Section 5); use on the 65 of 104 clients not represented in the eligible feature set (Section 6); use as a general SEO or organic-search prioritization tool.</td></tr>
+          <tr><td><strong>Training / scoring data</strong></td><td>FlyRank ML Internship warehouse, frozen snapshot 2026-07-03, Jan–Mar 2026 window. 266,175 eligible articles across 39 of 104 clients (37.5%).</td></tr>
+          <tr><td><strong>Inputs</strong></td><td><code>gsc_impressions_sum</code> and <code>word_count</code>, each z-scored within client. Position is computed but deliberately not scored (Section 4).</td></tr>
+          <tr><td><strong>Evaluation label</strong></td><td><code>sessions_ai_window</code> — at least one AI-referral session in the window (binary). Used only to evaluate the ranking, never as a score input.</td></tr>
+          <tr><td><strong>Known biases</strong></td><td>Dominant-client concentration (Section 6) — one client holds roughly half of all positive articles dataset-wide; removing it drops precision below the naive baseline. Confounding risk, unresolved: impressions and word count may both proxy editorial investment rather than genuine AI-referral fit (Section 6).</td></tr>
+          <tr><td><strong>Known blind spot</strong></td><td>12 articles carry real, measured AI-referral sessions with zero GSC signal (Section 6) — the current two features structurally cannot score these rows at all.</td></tr>
+          <tr><td><strong>Validation status</strong></td><td><span class="tag nuanced">Not confirmed</span> — beats the naive baseline on point estimate (8.76× vs. 7.18× lift@500), but the paired client-level bootstrap 95% CI on the win margin includes zero (Section 5). Directionally promising, not statistically proven.</td></tr>
+          <tr><td><strong>Update cadence</strong></td><td>None currently defined — this is a one-time static export against a frozen snapshot. See Section 9 for a proposed cadence.</td></tr>
+          <tr><td><strong>Human-in-the-loop</strong></td><td>Required. Every recommendation is explicitly framed as "worth a look," never "will lift traffic" (Section 7).</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 9. PATH TO PRODUCTION -->
+    <section id="production" class="wide">
+      <span class="eyebrow">Section 9</span>
+      <h2>Path to production</h2>
+      <p>This capstone ships as a static, one-time export (<code>capstone_ranked_recommendations.csv</code>), not a running system. If FlyRank were to operationalize it, three things would need to exist first that don't today.</p>
+
+      <p><strong>Refresh cadence.</strong> Proposed: re-run the full pipeline once per quarter, tied to each new warehouse snapshot — not incrementally, since the within-client normalization statistics (Section 4) are computed over the whole window and would drift if updated piecemeal. A quarterly cadence also matches the non-seasonal, 3-month window this paper already flags as a limitation (Section 6).</p>
+
+      <p><strong>Monitoring — what would tell you the score is drifting or breaking:</strong></p>
+      <ul>
+        <li>Re-run the client-level bootstrap CI (Section 5) at every refresh and re-check whether it still spans zero — a shrinking CI as more clients gain GSC/GA4 access (Section 6's largest lever) is the signal that would justify treating the score as confirmed rather than promising.</li>
+        <li>Watch <code>ga4_data_available</code> (Section 3) per client between refreshes — a client flipping from measured access to <code>NULL</code>/<code>False</code> mid-quarter means its label went stale, and it should be excluded from re-scoring rather than scored against an outdated label.</li>
+        <li>Watch the reason-code funnel (Section 7) shape quarter over quarter — a large jump in <code>insufficient_data</code> would flag a new GSC coverage gap like the one found in Section 3, not necessarily a real change in opportunity.</li>
+      </ul>
+
+      <div class="callout warn">
+        <span class="tag nuanced">Blocking issue</span> <em class="italic-body">The <code>.unique()</code> client-ordering non-determinism documented in Section 10's reproducibility note must be fixed — an explicit <code>ORDER BY</code> before the client list is deduplicated and shuffled — before any refresh cadence can be trusted.</em> Right now, two runs against the identical snapshot can produce different bootstrap figures despite a fixed seed.
+      </div>
+
+      <p><strong>Guardrails before any wider rollout:</strong> no auto-restructuring — output stays a human-reviewed candidate list (Section 7); no external performance claim without the significance caveat (Section 5); re-validate significance at every refresh rather than assuming Aug 2026's numbers still hold; and note that no ML engineering owner is currently assigned to maintain this score past the internship — an open gap, not a solved one.</p>
+    </section>
+
+    <!-- 10. REPRODUCIBILITY -->
+    <section id="reproducibility">
+      <span class="eyebrow">Section 10</span>
       <h2>Reproducibility</h2>
       <p>Everything above is built and verified in the capstone notebook, in the same 9-section order as this paper, in the project repository:</p>
       <ul>
@@ -1943,9 +1995,9 @@
       </div>
     </section>
 
-    <!-- 9. ACKNOWLEDGMENTS -->
+    <!-- 11. ACKNOWLEDGMENTS -->
     <section id="acknowledgments">
-      <span class="eyebrow">Section 9</span>
+      <span class="eyebrow">Section 11</span>
       <h2>Acknowledgments &amp; data credit</h2>
       <a href="https://flyrank.ai" target="_blank" rel="noopener" class="brand-credit">
         <img src="https://flyrank.ai/api/cdn/logos/flyrank-wordmark-onDark.svg" width="100" height="22" alt="FlyRank">
@@ -1954,9 +2006,9 @@
       <p>Thanks to the FlyRank ML track curriculum for structuring this work week by week, and to the internship warehouse release for making a real, large-scale search-intelligence dataset available for hands-on learning.</p>
     </section>
 
-    <!-- 10. CONTACTS -->
+    <!-- 12. CONTACTS -->
     <section id="contacts">
-      <span class="eyebrow">Section 10</span>
+      <span class="eyebrow">Section 12</span>
       <h2>Contacts</h2>
       <p>Questions, corrections, or collaboration inquiries about this paper are welcome through any of the channels below.</p>
 
