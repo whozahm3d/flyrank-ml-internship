@@ -2,6 +2,36 @@
 
 **Applied Search Intelligence: Google Search Ranking & Discoverability**
 
+> ✅ **Capstone complete.** This fork's internship work is finished — the sections below are
+> the original starter-repo instructions, kept for reference. If you're here for the actual
+> results, start with the box immediately below instead.
+
+## 📄 Capstone results — AI Referral Opportunity Scoring
+
+A within-client normalized score ranking 266,175 real content pages for AI-referral opportunity,
+built on the full internship warehouse (~79M rows). Evaluated against a naive baseline and
+reported honestly — including where the win isn't yet statistically confirmed, and where a
+feature ablation showed the two-feature composite doesn't beat its own best single component.
+
+**[→ Read the paper](https://whozahm3d.github.io/flyrank-ml-internship/paper.html)** ·
+**[→ Site overview](https://whozahm3d.github.io/flyrank-ml-internship/)** ·
+**[→ Download the PDF](https://whozahm3d.github.io/flyrank-ml-internship/ai-referral-opportunity-scoring.pdf)** ·
+**[→ Capstone notebook](work/notebooks/capstone.ipynb)** ·
+**[→ Findings summary](work/SUMMARY.md)**
+
+| | |
+|---|---|
+| **Scored** | 266,175 eligible articles across 39 of 104 clients |
+| **Result** | 8.76× lift@500 vs. 7.18× naive baseline (point estimate) |
+| **Statistical status** | Not yet confirmed — 95% bootstrap CI on the win margin includes zero |
+| **Ablation finding** | Impressions alone reaches 8.90× lift — the composite doesn't beat its best single component |
+| **Reproducibility** | One known non-determinism issue, disclosed and tracked — see Section 8 of the paper |
+
+Built by **Ali Ahmad** (BS Data Science, FAST NUCES Lahore) as the closing project of this
+internship's ML track, Aug 2026.
+
+---
+
 This is the starting point for the FlyRank ML Internship. You **clone it into your own public
 repo** (one click — *Use this template*), build everything there, and submit that repo URL on
 each assignment in your portal — it's your workspace, your submission, and your portfolio all
