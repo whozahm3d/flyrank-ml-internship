@@ -284,12 +284,50 @@
 
   @media (max-width:900px){
     h1{font-size:38px;}
-    .stage{display:none;}
     main{padding-top:80px;}
+
+    .stage{
+      position:static;
+      margin:56px 0 0;
+      padding-bottom:0;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+    .mock{
+      position:static;
+      width:100%;
+      max-width:100%;
+      transform:none !important;
+      box-shadow:0 20px 40px -18px rgba(0,0,0,0.5);
+    }
+    .mock-back, .mock-front{
+      width:100%;
+      top:auto;
+      left:auto;
+    }
+    .mock-chrome{flex-wrap:wrap;row-gap:6px;}
+    .mock-status{margin-left:0;}
+    .mock-back .mock-body{padding:22px 22px;}
+    .mock-back h2{font-size:19px;}
+    .mock-front .mock-body{
+      flex-direction:column;
+      gap:16px;
+      padding:20px 22px;
+    }
+    .stat-num{font-size:30px;}
+    .stat-block + .stat-block{
+      border-left:none;
+      padding-left:0;
+      border-top:1px solid #DCD3BC;
+      padding-top:16px;
+    }
   }
   @media (max-width:600px){
     header{flex-direction:column;align-items:flex-start;gap:10px;}
     .site-url{font-size:10.5px;}
+    .mock-back h2{font-size:18px;}
+    .mock-path{font-size:9.5px;}
   }
 </style>
 <!-- Privacy-friendly analytics via Plausible — sign up free at plausible.io,
