@@ -704,7 +704,26 @@
     width:100%;
     border-collapse:collapse;
     font-size:14.5px;
+    margin:0;
+  }
+  .table-scroll{
     margin:20px 0;
+    max-width:100%;
+  }
+  @media (max-width:640px){
+    .table-scroll{
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border:1px solid var(--rule);
+      border-radius:6px;
+    }
+    .table-scroll table{
+      min-width:560px;
+      margin:0;
+    }
+    .table-scroll table caption{
+      padding:12px 14px 4px;
+    }
   }
   th,td{
     text-align:left;
@@ -1462,7 +1481,7 @@
         <span class="tag newfind">New finding</span> <em class="italic-body">A gap in the eligibility filter let <strong>6 clients (42,734 article-rows)</strong> with zero search-console signal across their entire window pass through as "eligible," despite having no usable impressions or position data.</em> One of those six also carries a client-metadata start date that contradicts the complete absence of that data — a second, independently discovered instance of client-metadata staleness. These articles are kept in the feature table for transparency but explicitly labeled <code>insufficient_data</code> rather than scored (see Section 5).
       </div>
 
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 1. <span class="tbl-desc">Zero-GSC clients — row counts by client, three-month window.</span></caption>
         <thead><tr><th>Client</th><th class="num">Total impressions</th><th class="num">Rows w/ position data</th><th class="num">Rows in 3-mo. window</th></tr></thead>
         <tbody>
@@ -1474,7 +1493,7 @@
           <tr><td>client_80ee5b7…</td><td class="num">0</td><td class="num">0</td><td class="num">17,640</td></tr>
           <tr class="hl"><td>Total (6 clients)</td><td class="num">0</td><td class="num">0</td><td class="num">4,143,664</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
       <p><strong>Analysis:</strong> all six clients show exactly zero total search impressions and zero rows with position data across the full three-month window — not sparse signal, but a complete absence of it, which is what makes <code>insufficient_data</code> the honest label rather than treating these as low-opportunity pages. Two clients — client_625b643… and client_19b89ee… — account for the large majority of the affected daily-performance rows (2.87M and 584K respectively, versus under 20,000 each for the smallest two), meaning the 42,734-article gap above is concentrated in a small number of accounts rather than spread evenly, and a fix at those two clients alone would resolve most of the coverage gap.</p>
 
@@ -1533,7 +1552,7 @@
       <p><strong>Evaluated on:</strong> the test split only — 40,631 articles, 8 clients, 1.39% label rate. Train was used solely to build the normalization statistics; nothing about the test set's own scores or labels informed how the score was constructed.</p>
 
       <p>Three scores compared on the same split, same K — plus a random-ranking floor for scale: since lift is precision divided by the test split's own 1.39% base rate, a random ranking is mathematically guaranteed to land at 1.00× regardless of any model — it's a definitional anchor, not a fourth experiment.</p>
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 2. <span class="tbl-desc">Precision@500 and lift@500 by scoring method, test split.</span></caption>
         <thead><tr><th>Score</th><th class="num">Precision@500</th><th class="num">Lift@500</th></tr></thead>
         <tbody>
@@ -1542,7 +1561,7 @@
           <tr><td>Raw composite (cross-client)</td><td class="num">8.8%</td><td class="num">6.32×</td></tr>
           <tr class="hl"><td>Within-client normalized</td><td class="num">12.2%</td><td class="num">8.76×</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
       <figure>
         <img src="https://raw.githubusercontent.com/whozahm3d/flyrank-ml-internship/main/work/figures/capstone_lift_at_k.png" width="1184" height="731" alt="Lift at K chart comparing naive baseline, raw composite, and within-client scores">
@@ -1553,7 +1572,7 @@
 
       <p><strong>Feature ablation.</strong> The composite combines two features — <code>gsc_impressions_sum</code> and <code>word_count</code> — so the results above don't on their own show what each contributes individually. Isolating each feature and re-running the same test-set evaluation gives:</p>
 
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 2b. <span class="tbl-desc">Feature ablation — single-feature vs. combined within-client score, on the same held-out test split as Table 2.</span></caption>
         <thead><tr><th>Configuration</th><th class="num">Precision@500</th><th class="num">Lift@500</th></tr></thead>
         <tbody>
@@ -1562,7 +1581,7 @@
           <tr><td>Word count only (within-client z-score)</td><td class="num">1.8%</td><td class="num">1.29×</td></tr>
           <tr><td>Combined (reported score)</td><td class="num">12.2%</td><td class="num">8.76×</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
       <div class="callout warn standout-callout">
         <div class="standout-figure">
@@ -1580,7 +1599,7 @@
         <figcaption><span class="fig-num">Figure 6 —</span> <span class="read">Chart read:</span> within-client leads naive at every K from 100 to 2,000, with the largest gap at low K — the shape expected of a genuinely informative score.</figcaption>
       </figure>
 
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 3. <span class="tbl-desc">Lift by K (100–2,000), all three scoring methods.</span></caption>
         <thead><tr><th>K</th><th class="num">Naive baseline</th><th class="num">Raw composite</th><th class="num">Within-client</th></tr></thead>
         <tbody>
@@ -1592,7 +1611,7 @@
           <tr><td>1,500</td><td class="num">5.03×</td><td class="num">4.83×</td><td class="num">5.17×</td></tr>
           <tr><td>2,000</td><td class="num">4.49×</td><td class="num">4.24×</td><td class="num">4.45×</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
       <p><strong>Analysis:</strong> the within-client score leads naive at every K from 100 through 1,500, but the size of that lead collapses fast — a 4.3× gap at K=100 (12.20× vs. 7.90×) shrinks to under 1× by K=750 and effectively disappears by K=2,000, where within-client (4.45×) sits marginally below naive (4.49×), inside noise but notable given the score never wins there. The raw cross-client composite is the more erratic of the two: it beats naive at K=100 (10.77× vs. 7.90×) but underperforms it at every other K tested, the same client-concentration failure documented in Section 4 — without the within-client correction, a handful of high-volume clients dominate the ranking and drag mid-list precision down.</p>
 
@@ -1614,7 +1633,7 @@
         <figcaption><span class="fig-num">Figure 8 —</span> <span class="read">Chart read:</span> the orange bar (dominant client removed) falls below the naive baseline line — the win depends heavily on one client's volume.</figcaption>
       </figure>
 
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 4. <span class="tbl-desc">Bootstrap summary — precision, confidence intervals, and win margin.</span></caption>
         <thead><tr><th>Metric</th><th class="num">Value</th></tr></thead>
         <tbody>
@@ -1627,7 +1646,7 @@
           <tr><td>Resamples where within-client wins</td><td class="num">60.5%</td></tr>
           <tr><td>Precision@500 without dominant client</td><td class="num">7.6%</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p class="table-version-note">Regenerated Aug 9, 2026 · commit <code>fa89853</code> · see the <a href="#repro-note">reproducibility note in Section 10</a> before citing these figures elsewhere.</p>
 
       <p><strong>Analysis:</strong> the two headline precision figures overlap heavily in their individual 95% CIs (4.0–16.2% for within-client vs. 4.6–19.6% for naive), visually confirmed by Figure 7's overlapping intervals — but the paired bootstrap is the more informative test, since it holds the resample fixed and looks at the difference client-by-client rather than comparing two independent-looking intervals. That paired view shows the average edge is tiny: +0.40 percentage points, not the +2.2pp gap the single test-set snapshot suggests, and its own 95% CI still spans from a 4.0pp loss to a 3.2pp win. Only 60.5% of resamples favored the within-client score at all — barely better than a coin flip — and pulling the single most-represented client out of the test set drops within-client precision to 7.6%, below the naive baseline entirely. Together these numbers say the point-estimate win on the original test split likely owes more to which clients happened to land in the test group than to a robust property of the scoring method.</p>
@@ -1660,7 +1679,7 @@
         <figcaption><span class="fig-num">Figure 9 —</span> <span class="read">Chart read:</span> green segments are clients that reach the eligible feature set; red segments are excluded — most exclusion happens before any modeling choice, by access profile alone.</figcaption>
       </figure>
 
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 5. <span class="tbl-desc">Client representativeness by access profile.</span></caption>
         <thead><tr><th>Access profile</th><th class="num">Clients (of 104)</th><th class="num">Reaching fact table</th></tr></thead>
         <tbody>
@@ -1671,7 +1690,7 @@
           <tr><td>ga4_only</td><td class="num">1</td><td class="num">0</td></tr>
           <tr><td>Total</td><td class="num">104</td><td class="num">59</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
       <p><strong>Analysis:</strong> access profile alone explains most of the client attrition before any modeling choice is made — the 26 clients with no search or analytics access at all contribute only 3 to the fact table, and the single ga4_only client contributes none, since GSC data specifically is what this capstone's features require. Even the best-case gsc_and_ga4 profile, the segment most complete, only gets 42 of 53 clients into the fact table; the remaining 59-to-39 gap (from the exclusion rules above — deleted articles, sub-14-day history) then trims that pool further to the 39 eligible clients used throughout Section 5–Section 7.</p>
 
@@ -1692,7 +1711,7 @@
         <li>12 articles show real AI-referral activity despite zero measured search impressions — direct evidence the two search-derived features can't explain all AI-referral activity on their own.</li>
       </ul>
 
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 6. <span class="tbl-desc">Articles with AI-referral activity despite zero GSC signal.</span></caption>
         <thead><tr><th>Content</th><th>Client</th><th class="num">AI sessions</th><th class="num">Word count</th></tr></thead>
         <tbody>
@@ -1710,7 +1729,7 @@
           <tr><td>content_9c163f9…</td><td>client_625b643…</td><td class="num">2</td><td class="num">—</td></tr>
           <tr class="hl"><td>Total (12 articles)</td><td>2 clients</td><td class="num">19</td><td class="num">7 of 12 present</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
       <p><strong>Analysis:</strong> all 12 articles trace back to just two clients, and both are members of the same zero-GSC-signal group flagged in Section 3's New Finding callout — client_4a18d17… (7 of the 12 articles) and client_625b643… (5 of 12). That's not a coincidence: these are articles with real, measured AI-referral sessions (1–3 each, 19 total) sitting inside accounts this capstone's eligibility filter currently labels <code>insufficient_data</code> and excludes from scoring entirely, purely because their GSC impressions are structurally zero. Five of the twelve are also missing word_count, so for those rows neither of the two features this score relies on is available — yet the AI-referral activity is real and measured via GA4, independent of GSC. This is direct, if small-sample, evidence that the two GSC-derived features can't be the whole story behind AI-referral pickup, since here it's happening with no GSC signal behind it at all.</p>
 
@@ -1721,7 +1740,7 @@
       <p style="color:var(--ink-soft);font-size:15px;">None of this is a reason to discard the work. The leakage check in Section 4 shows the evaluation pipeline correctly distinguishes a real signal from an artificially inflated one, and the within-client score is directionally promising and mechanistically sound — it fixes a real concentration problem, and it happens to also lead on precision. What it lacks is statistical confirmation at this sample size, which is itself a legitimate, reportable finding, not a failure of the method.</p>
 
       <p><strong>Risk register — every threat above, in one place.</strong> Severity is scored against the headline claim (the 8.76× vs. 7.18× lift); likelihood reflects how confirmed each threat already is, not how it might resolve.</p>
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 6b. <span class="tbl-desc">Consolidated risk register — severity, likelihood, and current status.</span></caption>
         <thead><tr><th>Risk</th><th>Severity</th><th>Likelihood</th><th>Status</th></tr></thead>
         <tbody>
@@ -1762,7 +1781,7 @@
             <td>Open — needs a GA4-native feature (Section 7, Future work)</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
     </section>
 
     <!-- 7. RECOMMENDATIONS -->
@@ -1895,7 +1914,7 @@
       <h2>Model &amp; data card</h2>
       <p>A standard summary of what this score is, what it isn't, and where its blind spots are — collected here in one place rather than left scattered across Sections 3–6, following common practice for documenting an ML artifact before any production use.</p>
 
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 8. <span class="tbl-desc">Model &amp; data card — within-client AI-referral opportunity score.</span></caption>
         <tbody>
           <tr><td style="width:190px;"><strong>Model type</strong></td><td>Deterministic ranking/scoring formula (within-client z-scored composite) — <strong>not</strong> a trained classifier, and produces no probability estimate.</td></tr>
@@ -1910,7 +1929,7 @@
           <tr><td><strong>Update cadence</strong></td><td>None currently defined — this is a one-time static export against a frozen snapshot. See Section 9 for a proposed cadence.</td></tr>
           <tr><td><strong>Human-in-the-loop</strong></td><td>Required. Every recommendation is explicitly framed as "worth a look," never "will lift traffic" (Section 7).</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </section>
 
     <!-- 9. PATH TO PRODUCTION -->
@@ -1955,7 +1974,7 @@
       <p><strong>Bootstrap methodology:</strong> confidence intervals in Section 5 are computed with a percentile bootstrap resampled at the <em>client</em> level, not the article level — for each of 1,000 iterations, the 8 test clients are resampled with replacement and precision@500 is recomputed across all articles belonging to the resampled clients, then the 2.5th and 97.5th percentiles of the resulting distribution form the reported 95% CI. Resampling at the client level (rather than pooling all articles and resampling individually) is what makes 8 the effective sample size driving CI width, not 40,631 — articles from the same client aren't independent observations for this purpose.<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup></p>
 
       <p id="warehouse-schema"><strong>Feature-table schema, verified directly</strong> (all 18 columns on the <code>features</code> table backing every result in this paper — checked explicitly while investigating the confounding question raised in Section 6, since that check needed to confirm what does and doesn't exist rather than assume it):</p>
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 4b. <span class="tbl-desc">Full column list, <code>features</code> table — no page-age or link-count field exists.</span></caption>
         <thead><tr><th>Column</th><th>Type</th></tr></thead>
         <tbody>
@@ -1978,10 +1997,10 @@
           <tr><td><code>reason_code</code></td><td>VARCHAR</td></tr>
           <tr><td><code>has_min_visibility</code></td><td>BOOLEAN</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
       <h3 style="font-family:'Fraunces',serif;font-weight:400;font-size:21px;margin:26px 0 10px;color:var(--ink);">Glossary</h3>
-      <table>
+      <div class="table-scroll"><table>
         <tbody>
           <tr><td style="width:170px;"><strong>Precision@K</strong></td><td>Of the top K articles by score, the share that actually went on to receive real AI-referral sessions.</td></tr>
           <tr><td><strong>Lift@K</strong></td><td>Precision@K divided by the dataset's overall positive rate (2.20%) — how much better than random selection the score does at that K.</td></tr>
@@ -1990,10 +2009,10 @@
           <tr><td><strong>Within-client normalization</strong></td><td>Scoring each article relative to its own client's typical article, instead of comparing raw values across clients of very different size — the fix described in Section 4.</td></tr>
           <tr><td><strong>Leakage / leakage check</strong></td><td>When information from the future or from the label itself accidentally informs a score, inflating results; the leakage check in Section 5 deliberately injects a label-derived feature to confirm the pipeline catches it.</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
       <p><strong>Every raw output cited in this paper</strong>, linked to the number or chart it backs — all in <a href="https://github.com/whozahm3d/flyrank-ml-internship/tree/main/work/outputs" target="_blank" rel="noopener">work/outputs/</a>:</p>
-      <table>
+      <div class="table-scroll"><table>
         <caption>Table 7. <span class="tbl-desc">Reproducibility file index — each output CSV and what it backs.</span></caption>
         <thead><tr><th>File</th><th>Backs</th></tr></thead>
         <tbody>
@@ -2042,7 +2061,7 @@
             <td>Week-4 signal audit verdicts that shaped which features made it into the score (background context, not directly cited above)</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
       <p style="color:var(--ink-soft);font-size:14.5px;">Three more files in that folder — <code>w07_baseline_history.jsonl</code>, <code>w07_baseline_snapshot.json</code>, <code>w07_export_manifest.json</code> — belong to the separate content-decline lane described below, not this capstone.</p>
 
       <p><strong>This capstone builds directly on five earlier notebooks in the same repository</strong> — lane definition and starter-sample findings, the original opportunity-score composite, the warehouse data contract (including the first client-metadata staleness finding), and a dedicated leakage-detection pass.</p>
