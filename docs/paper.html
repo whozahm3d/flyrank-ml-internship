@@ -1359,7 +1359,7 @@
       <span class="byline-sep">·</span>
       <span>Published Aug 7, 2026</span>
       <span class="byline-sep">·</span>
-      <span>Last updated Aug 9, 2026</span>
+      <span>Last updated Aug 13, 2026</span>
       <span class="byline-sep">·</span>
       <span class="read-time">~16 min read</span>
     </div>
@@ -1368,13 +1368,15 @@
       <span class="scope-note">Independent internship capstone; not peer-reviewed; findings describe FlyRank's internal dataset only.</span>
       <span class="byline-sep">·</span>
       <a href="https://whozahm3d.github.io/flyrank-ml-internship/ai-referral-opportunity-scoring.pdf" target="_blank" rel="noopener">Download PDF</a>
+      <span class="byline-sep">·</span>
+      <a href="https://whozahm3d.github.io/flyrank-ml-internship/executive-summary.pdf" target="_blank" rel="noopener">1-page executive summary (PDF)</a>
     </div>
     <p class="changelog">Effort: <span class="fill-in-done">~12 weeks (ML-01–12 curriculum + capstone), roughly 10–15 hrs/week</span>, building on the week 1–4 starter-sample notebooks referenced in Section 2.</p>
 
     <p class="changelog"><em>Aug 8:</em> added PDF export, table captions, structured data, favicon set, and italic-accent typography pass.</p>
     <p class="changelog"><em>Aug 9:</em> added feature ablation (Table 2b), threats-to-validity and cost-framing discussion, related work and author sections; updated Section 5–6 bootstrap CI and win-rate figures after a split re-run.</p>
 
-    <p class="changelog"><em>Aug 13:</em> added a Model &amp; data card (Section 8) and a Path to production section (Section 9), consolidating scope, known biases, and operational guardrails already documented elsewhere in the paper; reproducibility, acknowledgments, and contacts renumbered accordingly.</p>
+    <p class="changelog"><em>Aug 13:</em> added a Model &amp; data card (Section 8) and a Path to production section (Section 9); consolidated Sections 5–6's threats into a risk register (Table 6b); added a random-ranking floor row to Tables 2 and 2b; added three article-level case studies to Section 7; added a downloadable 1-page executive summary PDF; added an archival-DOI note to "How to cite"; added <code>aria-describedby</code> to all glossary tooltips. Reproducibility, acknowledgments, and contacts renumbered to Sections 10–12 accordingly.</p>
 
     <a class="repo-badge" href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">
       <img src="https://img.shields.io/github/last-commit/whozahm3d/flyrank-ml-internship?style=flat-square&amp;color=1F6F5C&amp;label=last%20commit&amp;labelColor=191D19" alt="GitHub last commit" width="150" height="20">
@@ -1403,8 +1405,8 @@
     <section id="abstract">
       <span class="eyebrow">Section 1</span>
       <h2>Abstract</h2>
-      <p>This capstone asks which content pages, among those with strong organic search visibility, are plausible candidates for AI-referral traffic pickup — extending a lane first framed on a 30,000-row sample to FlyRank's full search-intelligence warehouse. Content teams at FlyRank have no existing tool to decide which visible pages are worth restructuring for AI-referral capture, and this is a first attempt at building one. A <span class="gloss-term" tabindex="0">within-client normalized composite score<span class="gloss-tip">Scoring each article relative to its own client's typical article, instead of comparing raw values across clients of very different size.</span></span>, built from two search-console-derived features (search impressions and word count), ranks 266,175 eligible articles and is evaluated against a naive impressions-only baseline on a <span class="gloss-term" tabindex="0">held-out, client-grouped test split<span class="gloss-tip">The test set is split by whole client accounts, not individual articles — so no client appears in both training and test data at once.</span></span>.</p>
-      <p>The scored approach outperforms the naive baseline at every K tested (8.76× lift at K=500 versus 7.18×), and a deliberate <span class="gloss-term" tabindex="0">leakage check<span class="gloss-tip">A deliberately injected label-derived feature used to confirm the evaluation pipeline correctly detects an artificially inflated result, rather than trusting it blindly.</span></span> confirms the evaluation pipeline correctly detects an artificially inflated result. However, a <span class="gloss-term" tabindex="0">paired bootstrap test<span class="gloss-tip">A confidence interval built by resampling the data thousands of times and taking the spread of results, rather than assuming a textbook distribution.</span></span> shows this margin is not statistically distinguishable from chance given the small number of independent test clients available. The result is reported as directionally promising and worth further validation on a larger client population — framed throughout as decision-support for human review, not a validated predictive model.</p>
+      <p>This capstone asks which content pages, among those with strong organic search visibility, are plausible candidates for AI-referral traffic pickup — extending a lane first framed on a 30,000-row sample to FlyRank's full search-intelligence warehouse. Content teams at FlyRank have no existing tool to decide which visible pages are worth restructuring for AI-referral capture, and this is a first attempt at building one. A <span class="gloss-term" tabindex="0" aria-describedby="gloss-tip-1">within-client normalized composite score<span class="gloss-tip" id="gloss-tip-1" role="tooltip">Scoring each article relative to its own client's typical article, instead of comparing raw values across clients of very different size.</span></span>, built from two search-console-derived features (search impressions and word count), ranks 266,175 eligible articles and is evaluated against a naive impressions-only baseline on a <span class="gloss-term" tabindex="0" aria-describedby="gloss-tip-2">held-out, client-grouped test split<span class="gloss-tip" id="gloss-tip-2" role="tooltip">The test set is split by whole client accounts, not individual articles — so no client appears in both training and test data at once.</span></span>.</p>
+      <p>The scored approach outperforms the naive baseline at every K tested (8.76× lift at K=500 versus 7.18×), and a deliberate <span class="gloss-term" tabindex="0" aria-describedby="gloss-tip-3">leakage check<span class="gloss-tip" id="gloss-tip-3" role="tooltip">A deliberately injected label-derived feature used to confirm the evaluation pipeline correctly detects an artificially inflated result, rather than trusting it blindly.</span></span> confirms the evaluation pipeline correctly detects an artificially inflated result. However, a <span class="gloss-term" tabindex="0" aria-describedby="gloss-tip-4">paired bootstrap test<span class="gloss-tip" id="gloss-tip-4" role="tooltip">A confidence interval built by resampling the data thousands of times and taking the spread of results, rather than assuming a textbook distribution.</span></span> shows this margin is not statistically distinguishable from chance given the small number of independent test clients available. The result is reported as directionally promising and worth further validation on a larger client population — framed throughout as decision-support for human review, not a validated predictive model.</p>
 
       <div class="pull-quote">
         <span class="quote-glyph" aria-hidden="true">&ldquo;</span>
@@ -1501,7 +1503,7 @@
         <figcaption><span class="fig-num">Figure 3 —</span> <span class="read">Chart read:</span> from the week-2 starter-sample exploration that first motivated these two features — pages with AI-referral sessions (orange) cluster at higher impressions and higher word counts than pages without (grey), with no equivalent separation by position. This is the pattern Section 4's within-client score is built to capture.</figcaption>
       </figure>
 
-      <p><strong>Score:</strong> a <span class="gloss-term" tabindex="0">z-scored composite<span class="gloss-tip">Each raw value is converted to "how many standard deviations from this client's own average" before combining — puts impressions and word count on the same comparable scale.</span></span> of impressions and word count, computed <em>within each client</em> rather than across the whole dataset. Position is computed and retained as a diagnostic column — but deliberately left out of the score, since AI-session pages don't skew toward top positions, contradicting the intuitive assumption that they would.</p>
+      <p><strong>Score:</strong> a <span class="gloss-term" tabindex="0" aria-describedby="gloss-tip-5">z-scored composite<span class="gloss-tip" id="gloss-tip-5" role="tooltip">Each raw value is converted to "how many standard deviations from this client's own average" before combining — puts impressions and word count on the same comparable scale.</span></span> of impressions and word count, computed <em>within each client</em> rather than across the whole dataset. Position is computed and retained as a diagnostic column — but deliberately left out of the score, since AI-session pages don't skew toward top positions, contradicting the intuitive assumption that they would.</p>
 
       <p><strong>Baseline:</strong> a naive rule — rank purely by total search impressions.</p>
 
@@ -1530,11 +1532,12 @@
       <h2>Results — model vs. baseline</h2>
       <p><strong>Evaluated on:</strong> the test split only — 40,631 articles, 8 clients, 1.39% label rate. Train was used solely to build the normalization statistics; nothing about the test set's own scores or labels informed how the score was constructed.</p>
 
-      <p>Three scores compared on the same split, same K:</p>
+      <p>Three scores compared on the same split, same K — plus a random-ranking floor for scale: since lift is precision divided by the test split's own 1.39% base rate, a random ranking is mathematically guaranteed to land at 1.00× regardless of any model — it's a definitional anchor, not a fourth experiment.</p>
       <table>
         <caption>Table 2. <span class="tbl-desc">Precision@500 and lift@500 by scoring method, test split.</span></caption>
         <thead><tr><th>Score</th><th class="num">Precision@500</th><th class="num">Lift@500</th></tr></thead>
         <tbody>
+          <tr style="color:var(--ink-faint);"><td>Random ranking (floor)</td><td class="num">1.39%</td><td class="num">1.00×</td></tr>
           <tr><td>Naive baseline (impressions only)</td><td class="num">10.0%</td><td class="num">7.18×</td></tr>
           <tr><td>Raw composite (cross-client)</td><td class="num">8.8%</td><td class="num">6.32×</td></tr>
           <tr class="hl"><td>Within-client normalized</td><td class="num">12.2%</td><td class="num">8.76×</td></tr>
@@ -1554,6 +1557,7 @@
         <caption>Table 2b. <span class="tbl-desc">Feature ablation — single-feature vs. combined within-client score, on the same held-out test split as Table 2.</span></caption>
         <thead><tr><th>Configuration</th><th class="num">Precision@500</th><th class="num">Lift@500</th></tr></thead>
         <tbody>
+          <tr style="color:var(--ink-faint);"><td>Random ranking (floor)</td><td class="num">1.39%</td><td class="num">1.00×</td></tr>
           <tr class="hl"><td>Impressions only (within-client z-score)</td><td class="num">12.4%</td><td class="num">8.90×</td></tr>
           <tr><td>Word count only (within-client z-score)</td><td class="num">1.8%</td><td class="num">1.29×</td></tr>
           <tr><td>Combined (reported score)</td><td class="num">12.2%</td><td class="num">8.76×</td></tr>
@@ -1715,6 +1719,50 @@
       <p><strong>Threats to validity — confounding, not just sample size.</strong> Everything above concerns statistical power. A separate, untested concern is confounding: <code>word_count</code> and <code>gsc_impressions_sum</code> may both be downstream proxies for how much editorial investment a client already puts into a given page, rather than independent signals of genuine AI-referral fit. A client that writes longer, more thorough pages likely also promotes and internally links those same pages more, driving both higher impressions and higher word count together — in which case the score could simply be re-ranking by "which pages this client already cares about," which would still correlate with AI-referral pickup without the score capturing anything about <em>what makes a page AI-friendly</em>. This is not ruled out by anything in Section 4 or 5, and it's a materially different story from the one the score's framing implies. <span class="fill-in-done">Checked and not testable with this data release: the warehouse schema (verified directly — <a href="#warehouse-schema">18 columns, listed in full in Section 10</a>) has no page-age proxy (no first-seen or publish-date field) and no internal-link-count metric of any kind. Both are typically SEO-crawler outputs (e.g. from Screaming Frog or Ahrefs) rather than something a GSC/GA4-style export would carry, and neither is present here. This confound therefore remains genuinely open — not ruled out, not testable with current data — and closing it would require a separate crawl-based data source, not further analysis of this release. Flagged here rather than quietly dropped.</span></p>
 
       <p style="color:var(--ink-soft);font-size:15px;">None of this is a reason to discard the work. The leakage check in Section 4 shows the evaluation pipeline correctly distinguishes a real signal from an artificially inflated one, and the within-client score is directionally promising and mechanistically sound — it fixes a real concentration problem, and it happens to also lead on precision. What it lacks is statistical confirmation at this sample size, which is itself a legitimate, reportable finding, not a failure of the method.</p>
+
+      <p><strong>Risk register — every threat above, in one place.</strong> Severity is scored against the headline claim (the 8.76× vs. 7.18× lift); likelihood reflects how confirmed each threat already is, not how it might resolve.</p>
+      <table>
+        <caption>Table 6b. <span class="tbl-desc">Consolidated risk register — severity, likelihood, and current status.</span></caption>
+        <thead><tr><th>Risk</th><th>Severity</th><th>Likelihood</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Win margin not statistically distinguishable from chance at 8 test clients (Section 5)</td>
+            <td style="color:var(--accent-dark);font-weight:600;">High</td>
+            <td>Confirmed</td>
+            <td>Open — needs ~980 test clients to close the CI (Section 6 footnote)</td>
+          </tr>
+          <tr>
+            <td>Result depends heavily on one dominant client (Section 5)</td>
+            <td style="color:var(--accent-dark);font-weight:600;">High</td>
+            <td>Confirmed</td>
+            <td>Open — structural, capped by only 39 eligible clients</td>
+          </tr>
+          <tr>
+            <td>Confounding — impressions/word count may proxy editorial investment, not AI fit (above)</td>
+            <td style="color:var(--gold);font-weight:600;">Medium</td>
+            <td>Plausible, untested</td>
+            <td>Open — not testable with current schema (no page-age or link-count field)</td>
+          </tr>
+          <tr>
+            <td>Zero-GSC client gap may be a pipeline failure, not a real business state (Section 3)</td>
+            <td style="color:var(--gold);font-weight:600;">Medium</td>
+            <td>Suspected — one client-metadata contradiction already found</td>
+            <td>Open — pending confirmation from FlyRank's data team</td>
+          </tr>
+          <tr>
+            <td><code>.unique()</code> split non-determinism changes reported figures run to run (Section 10)</td>
+            <td style="color:var(--gold);font-weight:600;">Medium</td>
+            <td>Confirmed, reproduced once</td>
+            <td>Open — tracked as a data-pipeline TODO, not yet fixed</td>
+          </tr>
+          <tr>
+            <td>12 GSC-blind, AI-active articles fall outside what either feature can score (above)</td>
+            <td style="color:var(--flag);font-weight:600;">Low</td>
+            <td>Confirmed</td>
+            <td>Open — needs a GA4-native feature (Section 7, Future work)</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- 7. RECOMMENDATIONS -->
@@ -1802,6 +1850,25 @@
       </ul>
 
       <p style="color:var(--ink-soft);font-size:15px;">What this list explicitly does not claim: that restructuring a <code>high_opportunity</code> article will increase its AI-referral sessions. It claims only that the article resembles, on the two features measured, articles that already do receive them — an association, not a mechanism.</p>
+
+      <p><strong>Case studies — three real rows, not aggregates.</strong> The tables and funnel above summarize 266,175 articles at once; these three specific rows, all already cited elsewhere in this paper, show what the score is actually doing at the article level.</p>
+
+      <div class="callout">
+        <span class="tag newfind">Case A — top of the queue</span>
+        <p style="margin-top:10px;"><code>client_3ffa763…</code> / <code>content_1e3fe8…</code>, rank 1 in the exported queue (Section 7 SERP list): 2,873 impressions, word count unavailable, score 51.08 — the highest within-client score in the entire release. This is what <code>high_opportunity</code> looks like in practice: strong search visibility relative to this client's own typical article, with zero observed AI-referral activity yet. Given Section 5's ablation, this rank is driven almost entirely by relative impressions — the missing word count costs it nothing here, since word count barely moves the score for any article.</p>
+      </div>
+
+      <div class="callout warn">
+        <span class="tag nuanced">Case B — the blind spot</span>
+        <p style="margin-top:10px;"><code>content_f4d79f4…</code> / <code>client_4a18d17…</code> (Table 6): 3 real, measured AI-referral sessions, 5,140 words, zero GSC impressions. This article is doing exactly what a <code>high_opportunity</code> flag is meant to catch — it's actively receiving AI-referral traffic — but the current score can't see it at all, because it has no search-console signal to compute a z-score from. It sits in the <code>insufficient_data</code> bucket, excluded from scoring entirely, alongside the article's own GA4-measured success. This single row is the clearest evidence in the paper that a GA4-native feature (Section 9's future work) would change what the score can find.</p>
+      </div>
+
+      <div class="callout">
+        <span class="tag todo">Case C — why insufficient_data exists</span>
+        <p style="margin-top:10px;"><code>client_625b643…</code> (Table 1): 2,869,830 daily-performance rows in the three-month window, zero total search impressions, zero rows with position data — not sparse signal, a complete absence of it. Every article under this client lands in <code>insufficient_data</code> by construction, not because the pages lack opportunity, but because there's nothing for either feature to compute. This is the single largest contributor to the 42,734-row eligibility-filter gap flagged in Section 3, and the reason that bucket needs a data-team answer (genuine disconnection vs. pipeline failure) before it can be scored at all.</p>
+      </div>
+
+      <p style="color:var(--ink-soft);font-size:14.5px;">A fourth reason code, <code>established_ai_source</code>, covers 5,839 articles already receiving AI-referral sessions — reference examples of what "already working" looks like for a given client (Section 7, "How to use this list"), rather than action items. No single row is singled out here since the useful signal in that bucket is the aggregate pattern, not any one article.</p>
 
       <p><strong>Cost framing, for a business reader.</strong> Reviewing all 335 exported candidates costs real editorial time before any lift is realized. At a rough <span class="fill-in-done">15 min/article</span> per manual review, that's approximately <span class="fill-in-done">84</span> hours of content-team time just to triage the list, before any restructuring work begins. Given Section 6's finding that the win margin isn't yet statistically confirmed, that cost should be weighed against the fact that a positive outcome is plausible but not guaranteed — this argues for reviewing the top 100 (where the lift is largest and most consistent, per Table 3) before committing to the full 335, not for skipping review entirely.</p>
 
@@ -1983,7 +2050,8 @@
       <p style="color:var(--ink-soft);font-size:15px;">A separate, unrelated curriculum track in the same repository (five additional notebooks, <span class="mono">work/notebooks/w04</span>–<span class="mono">w07</span>) developed a content-decline lane on the same 30,000-row starter dataset — a different research question, method, and label from AI-referral opportunity, with no component carried into this capstone's features, scoring, or findings.</p>
 
       <div class="callout">
-        <strong>How to cite this work:</strong> Ahmad, Ali. (2026). <em style="color:inherit;font-style:italic;">Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring.</em> FlyRank ML Engineering Internship Capstone Research Paper. <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">github.com/whozahm3d/flyrank-ml-internship</a>.
+        <strong>How to cite this work:</strong> Ahmad, Ali. (2026). <em style="color:inherit;font-style:italic;">Which pages are worth restructuring for AI-referral traffic? — AI Referral Opportunity Scoring.</em> FlyRank ML Engineering Internship Capstone Research Paper. <a href="https://github.com/whozahm3d/flyrank-ml-internship" target="_blank" rel="noopener">github.com/whozahm3d/flyrank-ml-internship</a>. <span class="tag todo" style="margin-left:4px;">DOI pending</span>
+        <p style="margin:10px 0 0;font-size:13.5px;color:var(--ink-faint);">This citation currently points at a GitHub URL, which can move or change. A permanent, versioned identifier is one archival step away: connect the repo at <a href="https://zenodo.org" target="_blank" rel="noopener">zenodo.org</a> (GitHub login → toggle the repo on → cut a GitHub release), which mints a citable DOI automatically and archives that exact release permanently. Not yet done — this note is a placeholder until it is.</p>
       </div>
 
       <div class="footnotes">
